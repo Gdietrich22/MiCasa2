@@ -2,7 +2,13 @@
     "name": "Node-Red-Mi-Casa",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-blynk-ws": "0.6.0",
+        "node-red-contrib-thingspeak42": "0.1.4",
+        "node-red-dashboard": "2.9.4",
+        "node-red-node-ping": "0.0.15",
+        "node-red-node-serialport": "0.6.7"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flow.json",
