@@ -7,13 +7,6 @@
         "info": ""
     },
     {
-        "id": "e6e33852.2495f8",
-        "type": "tab",
-        "label": "Medidor internet",
-        "disabled": true,
-        "info": ""
-    },
-    {
         "id": "3ce5b54a.127d6a",
         "type": "tab",
         "label": "Baterias/Alarma",
@@ -52,13 +45,6 @@
         "id": "a89e305a.c50bb",
         "type": "tab",
         "label": "Iluminacion Living",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "d1d22de5.be7d8",
-        "type": "tab",
-        "label": "backEstados",
         "disabled": false,
         "info": ""
     },
@@ -112,7 +98,7 @@
         "info": ""
     },
     {
-        "id": "4389508d.c57cc",
+        "id": "a43ba0fe.679e4",
         "type": "tab",
         "label": "Caldera",
         "disabled": false,
@@ -513,14 +499,6 @@
         "proxy_url": ""
     },
     {
-        "id": "57f54dcb.069894",
-        "type": "MySQLdatabase",
-        "host": "127.0.0.1",
-        "port": "3306",
-        "db": "casa",
-        "tz": "-3"
-    },
-    {
         "id": "32cfc6d9.2fc4aa",
         "type": "ui_tab",
         "name": "Salamandra",
@@ -554,390 +532,6 @@
         "disp": true,
         "width": "5",
         "collapse": false
-    },
-    {
-        "id": "4bb5fb58.83db84",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 580.7777404785156,
-        "y": 69,
-        "wires": []
-    },
-    {
-        "id": "f0069ce0.a32ee",
-        "type": "exec",
-        "z": "e6e33852.2495f8",
-        "command": " speedtest --share --server 10748",
-        "addpay": false,
-        "append": "",
-        "useSpawn": "true",
-        "timer": "",
-        "oldrc": true,
-        "name": "Server FastNet",
-        "x": 341.8888931274414,
-        "y": 126.77777767181396,
-        "wires": [
-            [
-                "40cbd7ce.d528d8",
-                "4bb5fb58.83db84"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "df0fdba0.2a4e58",
-        "type": "file",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/FastNet.txt",
-        "appendNewline": true,
-        "createDir": true,
-        "overwriteFile": "false",
-        "x": 790,
-        "y": 110,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9dc175d5.17a7e8",
-        "type": "file in",
-        "z": "e6e33852.2495f8",
-        "name": "lectura archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/Fibertel.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 596.3333282470703,
-        "y": 527.8888940811157,
-        "wires": [
-            [
-                "cd0a799.4e81988"
-            ]
-        ]
-    },
-    {
-        "id": "5a1b2f56.1eef7",
-        "type": "inject",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "repeat": "900",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 161.8888931274414,
-        "y": 121.22223472595215,
-        "wires": [
-            [
-                "f0069ce0.a32ee"
-            ]
-        ]
-    },
-    {
-        "id": "94219c12.04844",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 675.5555038452148,
-        "y": 326.88891220092773,
-        "wires": []
-    },
-    {
-        "id": "257593f1.ccf32c",
-        "type": "inject",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 188.5555648803711,
-        "y": 375.6666717529297,
-        "wires": [
-            [
-                "8f7d1150.7be34"
-            ]
-        ]
-    },
-    {
-        "id": "b8046fd8.4022b",
-        "type": "inject",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 161.33333587646484,
-        "y": 321.11111068725586,
-        "wires": [
-            [
-                "89e0166f.74bba8"
-            ]
-        ]
-    },
-    {
-        "id": "80065b77.186188",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "Fibertel",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 666.3333358764648,
-        "y": 294.55553817749023,
-        "wires": []
-    },
-    {
-        "id": "6f1ac0c9.21d27",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "FastNet",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 670.7777328491211,
-        "y": 150.11110591888428,
-        "wires": []
-    },
-    {
-        "id": "c3f2f383.ad5a7",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "FastNet",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 589.6666488647461,
-        "y": 474.55553817749023,
-        "wires": []
-    },
-    {
-        "id": "89e0166f.74bba8",
-        "type": "exec",
-        "z": "e6e33852.2495f8",
-        "command": " speedtest --share --server 18725",
-        "addpay": false,
-        "append": "",
-        "useSpawn": "true",
-        "timer": "",
-        "oldrc": true,
-        "name": "Server Bahia (Fibertel)",
-        "x": 430.7777633666992,
-        "y": 315.66665267944336,
-        "wires": [
-            [
-                "80065b77.186188",
-                "8f6bdb58.8e4158"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "40cbd7ce.d528d8",
-        "type": "function",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "func": "var payload = msg.payload;\nvar resultado;\n\nif(payload == \".\")payload = \"Realizando medicion\";\nnode.status({text: \"Estado actual: \" + msg.payload});\nif (payload.includes(\"Download\")){\n    global.set(\"DescargaFast\", parseFloat(payload.substring(payload.indexOf(\"Download: \")+10, payload.indexOf(\"Mbit/s\"))));\n    // msg = {topic: \"DescargaFast\", payload: context.descarga}; node.send([null, null, msg, null]);\n    // node.status({text: resultado});\n    }\n\nif (payload.includes(\"Upload\")){\n    global.set(\"SubidaFast\", parseFloat(payload.substring(payload.indexOf(\"Upload: \")+8, payload.indexOf(\"Mbit/s\"))));\n    // msg = {topic: \"SubidaFast\", payload: context.subida}; node.send([null, null, msg, null]);\n    // node.status({text: resultado});\n    }    \nif (payload.includes(\"Share results\")){\n    resultado = payload.substring(payload.indexOf(\"Share results\")+15);\n    node.status({text: resultado});\n    msg = {pin: 70, payload: context.descarga + \" -- \" + context.subida}; node.send([null, null, null, msg]);\n    msg.payload = global.get(\"fechaCompleta\") + \" -- \" + resultado; return msg;\n}\nif (payload.includes(\"error\") || payload.includes(\"Error\")){\n    msg.payload = global.get(\"fechaCompleta\") + \" -- \" + \"Falla de conexion\"; \n    node.send([msg, null]);\n    return ([null, msg])\n}\n",
-        "outputs": 4,
-        "noerr": 0,
-        "x": 494.1111136542426,
-        "y": 204.55555513170032,
-        "wires": [
-            [
-                "6f1ac0c9.21d27",
-                "89e0166f.74bba8",
-                "df0fdba0.2a4e58"
-            ],
-            [
-                "f0069ce0.a32ee"
-            ],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "cd0a799.4e81988",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "Fibertel",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 772.9999618530273,
-        "y": 533.4444236755371,
-        "wires": []
-    },
-    {
-        "id": "88336c7c.fb758",
-        "type": "inject",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 133,
-        "y": 582.3333549499512,
-        "wires": [
-            [
-                "a5dff34f.89fa6",
-                "41de7b73.054844"
-            ]
-        ]
-    },
-    {
-        "id": "d1094e09.0048f",
-        "type": "file",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/Fibertel.txt",
-        "appendNewline": true,
-        "createDir": true,
-        "overwriteFile": "false",
-        "x": 758.5555038452148,
-        "y": 354.55553817749023,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8f7d1150.7be34",
-        "type": "file in",
-        "z": "e6e33852.2495f8",
-        "name": "lectura archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/FastNet.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 391.88888931274414,
-        "y": 472.33331298828125,
-        "wires": [
-            [
-                "9dc175d5.17a7e8",
-                "c3f2f383.ad5a7"
-            ]
-        ]
-    },
-    {
-        "id": "a5dff34f.89fa6",
-        "type": "file",
-        "z": "e6e33852.2495f8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/FastNet.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 359.66665267944336,
-        "y": 560.111123085022,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8f6bdb58.8e4158",
-        "type": "function",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "func": "var payload = msg.payload;\nvar resultado;\ncontext.descarga = context.descarga || 0;\ncontext.subida = context.subida || 0;\n\nif(payload == \".\")payload = \"Realizando medicion\";\nnode.status({text: \"Estado actual: \" + msg.payload});\nif (payload.includes(\"Download\")){\n    context.descarga = parseFloat(payload.substring(payload.indexOf(\"Download: \")+10, payload.indexOf(\"Mbit/s\")));\n    // msg = {topic: \"DescargaFast\", payload: context.descarga}; node.send([null, null, msg, null]);\n    // node.status({text: resultado});\n    }\n\nif (payload.includes(\"Upload\")){\n    context.subida = parseFloat(payload.substring(payload.indexOf(\"Upload: \")+8, payload.indexOf(\"Mbit/s\")));\n    // msg = {topic: \"SubidaFast\", payload: context.subida}; node.send([null, null, msg, null]);\n    // node.status({text: resultado});\n    }    \nif (payload.includes(\"Share results\")){\n    resultado = payload.substring(payload.indexOf(\"Share results\")+15);\n    node.status({text: resultado});\n    msg = {pin: 70, payload: global.get(\"DescargaFast\") + \" -- \" + global.get(\"SubidaFast\")}; node.send([null, null, null, msg]);\n    msg = {pin: 71, payload: context.descarga + \" -- \" + context.subida}; node.send([null, null, null, msg]);\n    msg = {pin: 72, payload: global.get(\"DescargaFast\")}; node.send([null, null, null, msg]);\n    msg = {pin: 73, payload: global.get(\"SubidaFast\")}; node.send([null, null, null, msg]);\n    msg = {pin: 74, payload: context.descarga}; node.send([null, null, null, msg]);\n    msg = {pin: 75, payload: context.subida}; node.send([null, null, null, msg]);\n    msg = {topic: \"DescargaFast\", payload: global.get(\"DescargaFast\")}; node.send([null, null, msg, null]);\n    msg = {topic: \"SubidaFast\", payload: global.get(\"SubidaFast\")}; node.send([null, null, msg, null]);\n    msg = {topic: \"DescargaFiber\", payload: context.descarga}; node.send([null, null, msg, null]);\n    msg = {topic: \"SubidaFiber\", payload: context.subida}; node.send([null, null, msg, null]);\n    msg.payload = global.get(\"fechaCompleta\") + \" -- \" + resultado; return msg;\n}\nif (payload.includes(\"error\") || payload.includes(\"Error\")){\n    msg.payload = global.get(\"fechaCompleta\") + \" -- \" + \"Falla de conexion\"; \n    node.send([msg, null]);\n    return ([null, msg])\n}// return msg;",
-        "outputs": 4,
-        "noerr": 0,
-        "x": 497.44441986083984,
-        "y": 383.4444236755371,
-        "wires": [
-            [
-                "d1094e09.0048f",
-                "94219c12.04844"
-            ],
-            [
-                "89e0166f.74bba8"
-            ],
-            [
-                "6e949be8.c70644"
-            ],
-            [
-                "cfe8aa20.5a0e18",
-                "ba239006.7d4a6"
-            ]
-        ]
-    },
-    {
-        "id": "ba239006.7d4a6",
-        "type": "debug",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 680.2222518920898,
-        "y": 425.11111068725586,
-        "wires": []
-    },
-    {
-        "id": "16b67857.ba97a8",
-        "type": "function",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "func": "if (msg.payload == \"1\")return msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 323.0000025431316,
-        "y": 193.44444402058923,
-        "wires": [
-            [
-                "f0069ce0.a32ee"
-            ]
-        ]
-    },
-    {
-        "id": "41de7b73.054844",
-        "type": "file",
-        "z": "e6e33852.2495f8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/Fibertel.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 359.6666717529297,
-        "y": 597.888861656189,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "411b27cf.122ad8",
@@ -3726,7 +3320,7 @@
         "type": "file",
         "z": "3ce5b54a.127d6a",
         "name": "back datos termo",
-        "filename": "/home/gaston/BackUp-Node-Red/Baterias.txt",
+        "filename": "/home/pi/BackUp-Node-Red/Baterias.txt",
         "appendNewline": false,
         "createDir": false,
         "overwriteFile": "true",
@@ -8166,491 +7760,6 @@
         "complete": "false",
         "x": 890,
         "y": 280,
-        "wires": []
-    },
-    {
-        "id": "7d69f61f.a06188",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estLavadero.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "false",
-        "x": 670,
-        "y": 90,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "918ee468.cc1bd8",
-        "type": "function",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "func": "\nmsg.payload =  global.get(\"fechaCompleta\") + \" - Lavadero: \" + msg.payload;// + \"\\n\";\nreturn msg\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 120,
-        "wires": [
-            [
-                "7d69f61f.a06188"
-            ]
-        ]
-    },
-    {
-        "id": "f8b14028.b396d",
-        "type": "mqtt in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "ESP/Lavadero/Envio",
-        "qos": "2",
-        "broker": "c339edbf.39572",
-        "x": 190,
-        "y": 120,
-        "wires": [
-            [
-                "918ee468.cc1bd8",
-                "d02a82c9.c465c"
-            ]
-        ]
-    },
-    {
-        "id": "8e9af1cf.bc276",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 600,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "a18725af.b7d7c8",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 800,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "6c96d887.a99fa8",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 210,
-        "y": 180,
-        "wires": [
-            [
-                "f3ffda7d.e883a8"
-            ]
-        ]
-    },
-    {
-        "id": "f3ffda7d.e883a8",
-        "type": "file in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estLavadero.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 500,
-        "y": 180,
-        "wires": [
-            [
-                "a18725af.b7d7c8"
-            ]
-        ]
-    },
-    {
-        "id": "907d301e.987da",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/estLavadero.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 470,
-        "y": 230,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "249da08f.1a587",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 230,
-        "wires": [
-            [
-                "907d301e.987da"
-            ]
-        ]
-    },
-    {
-        "id": "d02a82c9.c465c",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 570,
-        "y": 50,
-        "wires": []
-    },
-    {
-        "id": "598e715b.18c47",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estLiving.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "false",
-        "x": 660,
-        "y": 340,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "656d4dda.2e87c4",
-        "type": "function",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "func": "\nmsg.payload =  global.get(\"fechaCompleta\") + \" - Living: \" + msg.payload;// + \"\\n\";\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 370,
-        "wires": [
-            [
-                "b7816c4.1b1ff9",
-                "598e715b.18c47",
-                "ab1635a6.44f758"
-            ]
-        ]
-    },
-    {
-        "id": "f862267.ba7aed8",
-        "type": "mqtt in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "ESP/living/Iluminacion/Envio",
-        "qos": "2",
-        "broker": "c339edbf.39572",
-        "x": 200,
-        "y": 320,
-        "wires": [
-            [
-                "8315fd97.1927e",
-                "656d4dda.2e87c4"
-            ]
-        ]
-    },
-    {
-        "id": "b7816c4.1b1ff9",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 600,
-        "y": 370,
-        "wires": []
-    },
-    {
-        "id": "420f8e8e.a1611",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 800,
-        "y": 430,
-        "wires": []
-    },
-    {
-        "id": "4f96000e.73e3d",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 210,
-        "y": 430,
-        "wires": [
-            [
-                "9c395b23.a56d98"
-            ]
-        ]
-    },
-    {
-        "id": "9c395b23.a56d98",
-        "type": "file in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estLiving.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 490,
-        "y": 430,
-        "wires": [
-            [
-                "420f8e8e.a1611"
-            ]
-        ]
-    },
-    {
-        "id": "62081ac.19465e4",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/estLiving.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 470,
-        "y": 480,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "a568a6ff.4bab08",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 480,
-        "wires": [
-            [
-                "62081ac.19465e4"
-            ]
-        ]
-    },
-    {
-        "id": "8315fd97.1927e",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 570,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "93167d6b.4353b",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/pi/BackUpNodeRed/estBano.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "false",
-        "x": 630,
-        "y": 600,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "74b25ac9.eef1c4",
-        "type": "function",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "func": "\nmsg.payload =  global.get(\"fechaCompleta\") + \" - Bano: \" + msg.payload + \"\\n\";\nreturn msg\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 380,
-        "y": 630,
-        "wires": [
-            [
-                "93167d6b.4353b",
-                "b422b62a.e109b8"
-            ]
-        ]
-    },
-    {
-        "id": "6d7f2316.496fcc",
-        "type": "mqtt in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "ESP/Bano/Envio",
-        "qos": "2",
-        "broker": "c339edbf.39572",
-        "x": 180,
-        "y": 630,
-        "wires": [
-            [
-                "74b25ac9.eef1c4"
-            ]
-        ]
-    },
-    {
-        "id": "2a9abc67.84f7c4",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 600,
-        "y": 630,
-        "wires": []
-    },
-    {
-        "id": "b74077e1.945658",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 800,
-        "y": 690,
-        "wires": []
-    },
-    {
-        "id": "b878d84b.8c4138",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 210,
-        "y": 690,
-        "wires": [
-            [
-                "bc00a366.b4165"
-            ]
-        ]
-    },
-    {
-        "id": "bc00a366.b4165",
-        "type": "file in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estBano.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 470,
-        "y": 690,
-        "wires": [
-            [
-                "b74077e1.945658"
-            ]
-        ]
-    },
-    {
-        "id": "551bb4a3.727f7c",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/estBano.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 470,
-        "y": 740,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f473c43a.dcdaf8",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 740,
-        "wires": [
-            [
-                "551bb4a3.727f7c"
-            ]
-        ]
-    },
-    {
-        "id": "b422b62a.e109b8",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 570,
-        "y": 560,
         "wires": []
     },
     {
@@ -13801,6 +12910,7 @@
         "x": 2839.8810119628906,
         "y": 178.285699571882,
         "wires": [
+            [],
             []
         ]
     },
@@ -13842,23 +12952,8 @@
         "x": 2855.0238723754883,
         "y": 221.16658374241422,
         "wires": [
+            [],
             []
-        ]
-    },
-    {
-        "id": "d9f5febb.e48e8",
-        "type": "blynk-ws-in-write",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "pin": "76",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 141.8888931274414,
-        "y": 195.66666221618652,
-        "wires": [
-            [
-                "16b67857.ba97a8"
-            ]
         ]
     },
     {
@@ -14585,18 +13680,6 @@
         ]
     },
     {
-        "id": "cfe8aa20.5a0e18",
-        "type": "blynk-ws-out-write",
-        "z": "e6e33852.2495f8",
-        "name": "",
-        "pin": 0,
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 876.3332977294922,
-        "y": 474.5555667877197,
-        "wires": []
-    },
-    {
         "id": "9f8c863a.5e4538",
         "type": "blynk-ws-out-write",
         "z": "e364a467.07a6a8",
@@ -14965,25 +14048,6 @@
         "wires": []
     },
     {
-        "id": "6e949be8.c70644",
-        "type": "thingspeak42",
-        "z": "e6e33852.2495f8",
-        "name": "BDX88EB6QMF2IKY0",
-        "delay": "5",
-        "topic1": "DescargaFast",
-        "topic2": "SubidaFast",
-        "topic3": "DescargaFiber",
-        "topic4": "SubidaFiber",
-        "topic5": "",
-        "topic6": "",
-        "topic7": "",
-        "topic8": "",
-        "endpoint": "https://thingspeak.com",
-        "x": 884.6666564941406,
-        "y": 425.66665029525757,
-        "wires": []
-    },
-    {
         "id": "1f5e6cad.b1cab3",
         "type": "thingspeak42",
         "z": "50119c6e.6ff584",
@@ -15304,9 +14368,7 @@
         "x": 331.5,
         "y": 1034,
         "wires": [
-            [
-                "32a74fc5.58978"
-            ]
+            []
         ]
     },
     {
@@ -15321,22 +14383,7 @@
         "y": 1156,
         "wires": [
             [
-                "32a74fc5.58978",
                 "be1e12a6.9a7f8"
-            ]
-        ]
-    },
-    {
-        "id": "32a74fc5.58978",
-        "type": "mysql",
-        "z": "65561250.4225fc",
-        "mydb": "57f54dcb.069894",
-        "name": "",
-        "x": 528.5,
-        "y": 1084,
-        "wires": [
-            [
-                "113481ef.252bee"
             ]
         ]
     },
@@ -15369,9 +14416,7 @@
         "x": 340.5,
         "y": 1076,
         "wires": [
-            [
-                "32a74fc5.58978"
-            ]
+            []
         ]
     },
     {
@@ -15389,9 +14434,7 @@
         "x": 322,
         "y": 1116,
         "wires": [
-            [
-                "32a74fc5.58978"
-            ]
+            []
         ]
     },
     {
@@ -15487,18 +14530,6 @@
         ]
     },
     {
-        "id": "ffdc7d32.9db9d",
-        "type": "mysql",
-        "z": "65561250.4225fc",
-        "mydb": "57f54dcb.069894",
-        "name": "",
-        "x": 1126.6666259765625,
-        "y": 568.8889379501343,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "52f9a6c1.0b7488",
         "type": "ui_chart",
         "z": "65561250.4225fc",
@@ -15536,6 +14567,7 @@
         "x": 1285.2221755981445,
         "y": 538.4444789886475,
         "wires": [
+            [],
             []
         ]
     },
@@ -15794,20 +14826,6 @@
         "complete": "false",
         "x": 580,
         "y": 275,
-        "wires": []
-    },
-    {
-        "id": "ab1635a6.44f758",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 789,
-        "y": 384,
         "wires": []
     },
     {
@@ -16853,21 +15871,8 @@
         "y": 680,
         "wires": [
             [
-                "f3977d9f.57e7d",
                 "876287ef.b44bf8"
             ]
-        ]
-    },
-    {
-        "id": "f3977d9f.57e7d",
-        "type": "mysql",
-        "z": "65561250.4225fc",
-        "mydb": "57f54dcb.069894",
-        "name": "",
-        "x": 1550.5,
-        "y": 681,
-        "wires": [
-            []
         ]
     },
     {
@@ -16886,20 +15891,6 @@
         "wires": []
     },
     {
-        "id": "403cd7a4.8f69f8",
-        "type": "mysql",
-        "z": "65561250.4225fc",
-        "mydb": "57f54dcb.069894",
-        "name": "",
-        "x": 1622,
-        "y": 807,
-        "wires": [
-            [
-                "5424076d.242268"
-            ]
-        ]
-    },
-    {
         "id": "93908c30.1973d",
         "type": "inject",
         "z": "65561250.4225fc",
@@ -16914,9 +15905,7 @@
         "x": 1469,
         "y": 805,
         "wires": [
-            [
-                "403cd7a4.8f69f8"
-            ]
+            []
         ]
     },
     {
@@ -19201,7 +18190,7 @@
         "type": "file",
         "z": "f682d492.22a758",
         "name": "estado PatioLuz",
-        "filename": "/home/gaston/BackUp-Node-Red/Estado_PatioLuz.txt",
+        "filename": "/home/pi/BackUp-Node-Red/Estado_PatioLuz.txt",
         "appendNewline": true,
         "createDir": true,
         "overwriteFile": "false",
@@ -20852,199 +19841,6 @@
         "wires": []
     },
     {
-        "id": "ef3e140b.b5f018",
-        "type": "mqtt in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "ESP/Cocina/Envio",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "c339edbf.39572",
-        "x": 128,
-        "y": 846,
-        "wires": [
-            [
-                "9fa6fce6.7c80e",
-                "4d79aa7c.757c44"
-            ]
-        ]
-    },
-    {
-        "id": "9fa6fce6.7c80e",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 528,
-        "y": 826,
-        "wires": []
-    },
-    {
-        "id": "4d79aa7c.757c44",
-        "type": "function",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "func": "\nmsg.payload =  global.get(\"fechaCompleta\") + \" - Cocina: \" + msg.payload + \"\\n\";\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 338,
-        "y": 896,
-        "wires": [
-            [
-                "20311be6.bc16e4",
-                "7c8d3624.0ed4e8",
-                "9906518b.db9dc",
-                "f181015a.6bd54"
-            ]
-        ]
-    },
-    {
-        "id": "20311be6.bc16e4",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 744,
-        "y": 783,
-        "wires": []
-    },
-    {
-        "id": "7c8d3624.0ed4e8",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estCocina.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "false",
-        "x": 618,
-        "y": 866,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9906518b.db9dc",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 747,
-        "y": 910,
-        "wires": []
-    },
-    {
-        "id": "ca141c36.00b64",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 327,
-        "y": 1007,
-        "wires": [
-            [
-                "5b6099e0.fa2348"
-            ]
-        ]
-    },
-    {
-        "id": "5b6099e0.fa2348",
-        "type": "file",
-        "z": "d1d22de5.be7d8",
-        "name": "borrar archivo",
-        "filename": "/home/gaston/BackUp-Node-Red/estCocina.txt",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 547,
-        "y": 1007,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6640e43c.c97bac",
-        "type": "file in",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "filename": "/home/gaston/BackUp-Node-Red/estCocina.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 405,
-        "y": 959,
-        "wires": [
-            [
-                "af3229d6.f85718",
-                "a61aa187.0e94c"
-            ]
-        ]
-    },
-    {
-        "id": "22212b75.ed2674",
-        "type": "inject",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 135,
-        "y": 959,
-        "wires": [
-            [
-                "6640e43c.c97bac"
-            ]
-        ]
-    },
-    {
-        "id": "af3229d6.f85718",
-        "type": "debug",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 725,
-        "y": 959,
-        "wires": []
-    },
-    {
-        "id": "f181015a.6bd54",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "notifyBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 732,
-        "y": 827,
-        "wires": []
-    },
-    {
         "id": "4a38cd91.3f1d44",
         "type": "blynk-ws-in-write",
         "z": "f682d492.22a758",
@@ -21593,51 +20389,6 @@
                 "ab21644b.e84768"
             ]
         ]
-    },
-    {
-        "id": "b6e0706d.d8d82",
-        "type": "blynk-ws-in-write",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "pin": "140",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 135.5,
-        "y": 1097,
-        "wires": [
-            [
-                "5c3a1f04.203a4"
-            ]
-        ]
-    },
-    {
-        "id": "5c3a1f04.203a4",
-        "type": "function",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "func": "if (msg.payload == \"1\")return msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 353.5,
-        "y": 1108,
-        "wires": [
-            [
-                "6640e43c.c97bac"
-            ]
-        ]
-    },
-    {
-        "id": "a61aa187.0e94c",
-        "type": "mqtt out",
-        "z": "d1d22de5.be7d8",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 761,
-        "y": 1048,
-        "wires": []
     },
     {
         "id": "76702958.bb4348",
@@ -22525,70 +21276,6 @@
         ]
     },
     {
-        "id": "f93bd42.92c7828",
-        "type": "blynk-ws-in-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "129",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 232,
-        "y": 194,
-        "wires": [
-            [
-                "2b59156b.1d525a"
-            ]
-        ]
-    },
-    {
-        "id": "2b59156b.1d525a",
-        "type": "function",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "func": "var dato;\nif (msg.topic == \"ESP/Caldera/Envio\"){\n    var dato = parseInt(msg.payload);\n    switch (dato){\n        case 1:\n            global.set(\"encendidoCaldera\", 1);\n            msg = {pin: 132, payload: \"Caldera en marcha\"}; node.send([msg, null]);\n            msg = {pin: 130, payload: global.get(\"encendidoCaldera\")};node.send([msg, null]);\n            msg = {pin: 150, payload: global.get(\"fechaCompleta\") + \" - Caldera en Marcha\\n\" };node.send([msg, null]);\n            controlTemp();\n            break;\n        case 2:\n            msg = {pin: 132, payload: \"Caldera en espera\"}; node.send([msg, null]);\n            msg = {pin: 150, payload: global.get(\"fechaCompleta\") + \" - Caldera en Espera\\n\"};node.send([msg, null]);\n            break;\n        case 3:\n            global.set(\"encendidoCaldera\", 0);\n            msg = {pin: 132, payload: \"Caldera apagada\"}; node.send([msg, null]);\n            msg = {pin: 130, payload: global.get(\"encendidoCaldera\")};node.send([msg, null]);\n            msg = {pin: 150, payload: global.get(\"fechaCompleta\") + \" - Caldera Apagada\\n\"};node.send([msg, null]);\n            break;\n        case 4:\n            msg = {pin: 132, payload: \"Caldera en Falla\"}; node.send([msg, null]);\n            msg = {pin: 150, payload: global.get(\"fechaCompleta\") + \" - Caldera en Falla\\n\"};node.send([msg, null]);\n            break;\n            \n    }\n    // dato = msg.payload.split(\"#\");\n    // global.set(\"encendidoCaldera\", parseInt(dato[0])); \n    // global.set(\"encendidoBombaCaldera\", parseInt(dato[1])); \n    // enviarBlynk();\n    return;\n}\n\nif (msg.topic == \"ESP/Lavadero/Temperatura\"){\n\tif (parseInt(global.get(\"calderaEncendida\")) === 1){controlTemp();}\n}\n\nif (msg.topic == \"ESP/Caldera/Inicio\"){\n    dato = \"conf\" + global.get(\"encendidoCaldera\") + \"#\" + global.get(\"tempCaldera\");\n    msg = {topic: \"ESP/Caldera/Recibo\", payload: mensaje};\n    node.send([null, msg]);\n    return;\n}\n\nswitch (parseInt(msg.pin)){\n    case 129:\n\t\ttablaTemp(msg.payload);\n        // global.set(\"tempCaldera\", msg.payload);\n        mensaje = \"tem\" + global.get(\"tempCaldera\");\n        msg = {topic: \"ESP/Caldera/Recibo\", payload: mensaje};\n        node.send([null, msg]);\n        return;\n    break;\n    \n    case 130:\n        global.set(\"encendidoCaldera\", msg.payload);\n        mensaje = \"enc\" + global.get(\"encendidoCaldera\");\n        mensaje = mensaje + \"#\" + global.get(\"tempCaldera\");\n        msg = {topic: \"ESP/Caldera/Recibo\", payload: mensaje};\n        node.send([null, msg]);\n        return;        \n    break;\n    case 131:\n        global.set(\"encendidoBombaCaldera\", msg.payload);\n        mensaje = \"bom\" + global.get(\"encendidoBombaCaldera\");\n        mensaje = mensaje + \"#\" + global.get(\"tempCaldera\");\n        msg = {topic: \"ESP/Caldera/Recibo\", payload: mensaje};\n        node.send([null, msg]);\n        return;           \n    break;\n    // enviarDatos();\n}\nreturn;\n\nfunction controlTemp(){\n\tvar contador1 = 0;\n\tif (parseInt(global.get(\"habilitacionRadLiving\")) === 1){\n\t\tif (parseInt(global.get(\"tempLiving\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t\tif (parseInt(global.get(\"tempLiving\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t}\n\t// if (parseInt(global.get(\"habilitacionRadComedor\")) === 1){\n\t// \tif (parseInt(global.get(\"tempComedor\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t// \tif (parseInt(global.get(\"tempComedor\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t// }\n\t// if (parseInt(global.get(\"habilitacionRadCocina\")) === 1){\n\t// \tif (parseInt(global.get(\"tempCocina\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t// \tif (parseInt(global.get(\"tempCocina\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t// }\n\t// if (parseInt(global.get(\"habilitacionRadPasillo\")) === 1){\n\t// \tif (parseInt(global.get(\"tempPasillo\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t// \tif (parseInt(global.get(\"tempPasillo\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t// }\n\tif (parseInt(global.get(\"habilitacionRadHabitacion1\")) === 1){\n\t\tif (parseInt(global.get(\"tempHabitacion1\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t\tif (parseInt(global.get(\"tempHabitacion1\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t}\n\t// if (parseInt(global.get(\"habilitacionRadHabitacion2\")) === 1){\n\t// \tif (parseInt(global.get(\"tempHabitacion2\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t// \tif (parseInt(global.get(\"tempHabitacion2\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t// }\n\t// if (parseInt(global.get(\"habilitacionRadLavadero\")) === 1){\n\t// \tif (parseInt(global.get(\"tempLavadero\")) < parseInt(global.get(\"tempMinimaCasa\"))){contador1 = contador1 + 1;}\n\t// \tif (parseInt(global.get(\"tempLavadero\")) > parseInt(global.get(\"tempMaximaCasa\"))){contador1 = contador1 - 1}\n\t// }\n\tif (parseInt(contador1) !== 0){\n\t\tmsg = {pin: 129, payload: 17}; node.send([msg, null]);\n\t\ttablaTemp(17);\n\t} \t\n\tif (parseInt(contador1) === 0){\n\t\tmsg = {pin: 129, payload: 24}; node.send([msg, null]);\n\t\ttablaTemp(24);\n\t}\n    mensaje = \"tem\" + global.get(\"tempCaldera\");\n    msg = {topic: \"ESP/Caldera/Recibo\", payload: mensaje};\n    node.send([null, msg]);\n    return;\t\n}\n\nfunction tablaTemp(dato){\n\tswitch(parseInt(dato)){\n\t\tcase 16:\n\t\t\tglobal.set(\"tempCaldera\", 340);\n\t\t\tbreak;\n\t\tcase 17:\n\t\t\tglobal.set(\"tempCaldera\", 360);\n\t\t\tbreak;\n\t\tcase 18:\n\t\t\tglobal.set(\"tempCaldera\", 375);\n\t\t\tbreak;\n\t\tcase 19:\n\t\t\tglobal.set(\"tempCaldera\", 385);\n\t\t\tbreak;\n\t\tcase 20:\n\t\t\tglobal.set(\"tempCaldera\", 400);\n\t\t\tbreak;\n\t\tcase 21:\n\t\t\tglobal.set(\"tempCaldera\", 420);\n\t\t\tbreak;\n\t\tcase 22:\n\t\t\tglobal.set(\"tempCaldera\", 430);\n\t\t\tbreak;\n\t\tcase 23:\n\t\t\tglobal.set(\"tempCaldera\", 450);\n\t\t\tbreak;\n\t\tcase 24:\n\t\t\tglobal.set(\"tempCaldera\", 475);\n\t\t\tbreak;\n\t\tcase 25:\n\t\t\tglobal.set(\"tempCaldera\", 490);\n\t\t\tbreak;\n\t\tcase 26:\n\t\t\tglobal.set(\"tempCaldera\", 505);\n\t\t\tbreak;\n\t}\n}\n\nfunction enviarBlynk(){\n    msg = {pin: 130, payload: global.get(\"encendidoCaldera\")}; node.send([msg, null]);\n    msg = {pin: 131, payload: global.get(\"encendidoBombaCaldera\")}; node.send([msg, null]);\n}\n\nfunction enviarMQTT(){\n    var mensaje = \"estado\" + msg.payload;\n    mensaje = mensaje + \"#\" + global.get(\"encendidoCaldera\");\n    mensaje = mensaje + \"#\" + global.get(\"encendidoBombaCaldera\");\n    msg = {topic: \"ESP_Caldera/Recibo\", payload: mensaje};\n    node.send([null, msg]);\n    return msg;\n}\n",
-        "outputs": 2,
-        "noerr": 0,
-        "x": 438.5,
-        "y": 188,
-        "wires": [
-            [
-                "b38866f8.498858",
-                "c65cdf37.ee8ec"
-            ],
-            [
-                "c3821eed.16ab7",
-                "ec41ca75.6cdfa8"
-            ]
-        ]
-    },
-    {
-        "id": "c3821eed.16ab7",
-        "type": "mqtt out",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 614.5,
-        "y": 281,
-        "wires": []
-    },
-    {
-        "id": "ec41ca75.6cdfa8",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 620.5,
-        "y": 225,
-        "wires": []
-    },
-    {
         "id": "9b14bdc1.d9555",
         "type": "mqtt in",
         "z": "1b403a13.0ec8c6",
@@ -22656,209 +21343,6 @@
         "wires": []
     },
     {
-        "id": "ab012ad9.e13628",
-        "type": "blynk-ws-in-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "130",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 232,
-        "y": 231,
-        "wires": [
-            [
-                "2b59156b.1d525a"
-            ]
-        ]
-    },
-    {
-        "id": "4789b035.5953",
-        "type": "mqtt in",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Caldera/Envio",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 237.5,
-        "y": 114,
-        "wires": [
-            [
-                "2b59156b.1d525a",
-                "9532d04b.d5b99"
-            ]
-        ]
-    },
-    {
-        "id": "c65cdf37.ee8ec",
-        "type": "blynk-ws-out-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "0",
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 782.5,
-        "y": 177,
-        "wires": []
-    },
-    {
-        "id": "9080b56e.422f88",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0#0",
-        "payloadType": "str",
-        "x": 212.5,
-        "y": 415,
-        "wires": [
-            [
-                "f018d46d.8c9e58"
-            ]
-        ]
-    },
-    {
-        "id": "f018d46d.8c9e58",
-        "type": "mqtt out",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Caldera/envio",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 549.5,
-        "y": 506,
-        "wires": []
-    },
-    {
-        "id": "ab86a8e3.9b8d58",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1#0",
-        "payloadType": "str",
-        "x": 219,
-        "y": 450,
-        "wires": [
-            [
-                "f018d46d.8c9e58"
-            ]
-        ]
-    },
-    {
-        "id": "486b2ea3.56b98",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0#1",
-        "payloadType": "str",
-        "x": 216,
-        "y": 486,
-        "wires": [
-            [
-                "f018d46d.8c9e58"
-            ]
-        ]
-    },
-    {
-        "id": "5141a366.0767dc",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1#1",
-        "payloadType": "str",
-        "x": 216,
-        "y": 523,
-        "wires": [
-            [
-                "f018d46d.8c9e58"
-            ]
-        ]
-    },
-    {
-        "id": "78b36729.4e21a8",
-        "type": "blynk-ws-in-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "131",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 234,
-        "y": 266,
-        "wires": [
-            [
-                "2b59156b.1d525a"
-            ]
-        ]
-    },
-    {
-        "id": "4dec43f5.c69d9c",
-        "type": "mqtt in",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Caldera/Inicio",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 242,
-        "y": 158,
-        "wires": [
-            [
-                "2b59156b.1d525a"
-            ]
-        ]
-    },
-    {
-        "id": "d5d0d095.82af7",
-        "type": "mqtt in",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Caldera/Debug",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 468.5,
-        "y": 419,
-        "wires": [
-            [
-                "960c7b99.e86f08"
-            ]
-        ]
-    },
-    {
-        "id": "960c7b99.e86f08",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 680,
-        "y": 418,
-        "wires": []
-    },
-    {
         "id": "c74f9237.4f812",
         "type": "inject",
         "z": "1b403a13.0ec8c6",
@@ -22905,46 +21389,6 @@
         "wires": [
             [
                 "5e8b6b82.b0bef4"
-            ]
-        ]
-    },
-    {
-        "id": "7ac34d5b.aa95a4",
-        "type": "mqtt in",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Lavadero/Temperatura",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 137,
-        "y": 62,
-        "wires": [
-            [
-                "6d726765.3eda58"
-            ]
-        ]
-    },
-    {
-        "id": "6d726765.3eda58",
-        "type": "delay",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 333.5,
-        "y": 62,
-        "wires": [
-            [
-                "2b59156b.1d525a"
             ]
         ]
     },
@@ -23061,250 +21505,6 @@
         "complete": "false",
         "x": 518.5,
         "y": 741,
-        "wires": []
-    },
-    {
-        "id": "9532d04b.d5b99",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 516.5,
-        "y": 75,
-        "wires": []
-    },
-    {
-        "id": "b38866f8.498858",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 712.5,
-        "y": 88,
-        "wires": []
-    },
-    {
-        "id": "246d18da.4acb18",
-        "type": "blynk-ws-out-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "133",
-        "pinmode": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 381.5,
-        "y": 311,
-        "wires": []
-    },
-    {
-        "id": "3c468bb7.8803e4",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1",
-        "payloadType": "str",
-        "x": 101.5,
-        "y": 308,
-        "wires": [
-            [
-                "246d18da.4acb18"
-            ]
-        ]
-    },
-    {
-        "id": "c0fee10.06c4f2",
-        "type": "blynk-ws-out-set-property",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": 132,
-        "pinmode": "0",
-        "prop": "onColor",
-        "client": "2c18e412.5f5cbc",
-        "x": 395,
-        "y": 359,
-        "wires": []
-    },
-    {
-        "id": "9a2022d4.0816e",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "200",
-        "payloadType": "num",
-        "x": 76.5,
-        "y": 351,
-        "wires": [
-            [
-                "c0fee10.06c4f2"
-            ]
-        ]
-    },
-    {
-        "id": "96ab7065.ae063",
-        "type": "blynk-ws-in-write",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "132",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 620.5,
-        "y": 334,
-        "wires": [
-            [
-                "d592bb4c.255cc8"
-            ]
-        ]
-    },
-    {
-        "id": "d592bb4c.255cc8",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 795,
-        "y": 351,
-        "wires": []
-    },
-    {
-        "id": "b1d4a6a0.ddd438",
-        "type": "blynk-ws-in-read",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "pin": "132",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 621.5,
-        "y": 371,
-        "wires": [
-            [
-                "d592bb4c.255cc8"
-            ]
-        ]
-    },
-    {
-        "id": "fdb831b4.ba645",
-        "type": "mqtt out",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "topic": "ESP/Caldera/Recibo",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 691.5,
-        "y": 32,
-        "wires": []
-    },
-    {
-        "id": "3935341c.269d5c",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "tem360",
-        "payloadType": "str",
-        "x": 452.5,
-        "y": 20,
-        "wires": [
-            [
-                "fdb831b4.ba645"
-            ]
-        ]
-    },
-    {
-        "id": "e3dbc684.67f1b8",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "tem700",
-        "payloadType": "str",
-        "x": 459,
-        "y": 57,
-        "wires": [
-            [
-                "fdb831b4.ba645"
-            ]
-        ]
-    },
-    {
-        "id": "b4d44ad4.64bb08",
-        "type": "inject",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 644.5,
-        "y": 133,
-        "wires": [
-            [
-                "9a386302.fc3f9"
-            ]
-        ]
-    },
-    {
-        "id": "9a386302.fc3f9",
-        "type": "function",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "func": "msg.payload = global.get(\"habilitacionRadLiving\") + \" - \" +global.get(\"habilitacionRadHabitacion1\")\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 779.5,
-        "y": 131,
-        "wires": [
-            [
-                "b62e2f31.cdf53"
-            ]
-        ]
-    },
-    {
-        "id": "b62e2f31.cdf53",
-        "type": "debug",
-        "z": "4389508d.c57cc",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 934.5,
-        "y": 114,
         "wires": []
     },
     {
@@ -25269,5 +23469,581 @@
         "x": 486,
         "y": 578,
         "wires": []
+    },
+    {
+        "id": "177ff9bb.9c1ec6",
+        "type": "blynk-ws-out-write",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "pin": "150",
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 700.5,
+        "y": 203,
+        "wires": []
+    },
+    {
+        "id": "fd21249c.cd27c8",
+        "type": "blynk-ws-in-write",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "pin": "132",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 544.5,
+        "y": 51,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f9232a27.01e0f8",
+        "type": "mqtt in",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "topic": "ESP/Gas/Envio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 177.5,
+        "y": 75,
+        "wires": [
+            [
+                "7cb36ef1.e6117",
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "7cb36ef1.e6117",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 430.5,
+        "y": 129,
+        "wires": []
+    },
+    {
+        "id": "4e5f8b98.50bb94",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "var date = new Date();\nvar payload = msg.payload;\ncontext.tiempoAnteriorQuemador = context.tiempoAnteriorQuemador || 0;\ncontext.tiempoAnteriorCaldera = context.tiempoAnteriorCaldera || 0;\ncontext.tiempoAnteriorTermo = context.tiempoAnteriorTermo || 0;\ncontext.estAnteriorQuemador = context.estAnteriorQuemador || null;\ncontext.estAnteriorCaldera = context.estAnteriorCaldera || null;\ncontext.diaAnterior = context.diaAnterior || null;\ncontext.avisoMail = context.avisoMail || 0;\nvar dia = date.getDate(); \nvar datos = 0;\n\n\nif (global.get(\"estQuemador\") === undefined || global.get(\"estQuemador\") == isNaN)global.set(\"estQuemador\", 0);\nif (global.get(\"estCaldera\") === undefined || global.get(\"estCaldera\") == isNaN)global.set(\"estCaldera\", 0);\nif (global.get(\"mtsCaldera\") === undefined || global.get(\"mtsCaldera\") == isNaN)global.set(\"mtsCaldera\", 0);\nif (global.get(\"mtsTermo\") === undefined || global.get(\"mtsTermo\") == isNaN)global.set(\"mtsTermo\", 0);\nif (global.get(\"mtsTotales\") === undefined || global.get(\"mtsTotales\") == isNaN)global.set(\"mtsTotales\", 0);\n\n\nif (global.get(\"mtsDiariosCaldera\") === undefined || global.get(\"mtsDiariosCaldera\") == isNaN)global.set(\"mtsDiariosCaldera\", 0);\nif (global.get(\"mtsDiariosTermo\") === undefined || global.get(\"mtsDiariosTermo\") == isNaN)global.set(\"mtsDiariosTermo\", 0);\nif (global.get(\"tiempoDiarioCaldera\") === undefined || global.get(\"tiempoDiarioCaldera\") == isNaN)global.set(\"tiempoDiarioCaldera\", 0);\nif (global.get(\"tiempoMarchaCaldera\") === undefined || global.get(\"tiempoMarchaCaldera\") == isNaN)global.set(\"tiempoMarchaCaldera\", 0);\n\nif (global.get(\"mtsControlCaldera\") === undefined || global.get(\"mtsControlCaldera\") == isNaN)global.set(\"mtsControlCaldera\", 0);\nif (global.get(\"tiempoControlCaldera\") === undefined || global.get(\"tiempoControlCaldera\") == isNaN)global.set(\"tiempoControlCaldera\", 0);\n\n\nvar enviarDatos = 0;\nvar tiempo = 0;\n\nif (msg.topic == \"timer\"){\n\tif (parseInt(context.diaAnterior) != parseInt(dia)){\n\t\tcontext.diaAnterior = dia;\n\t\tcontext.avisoMail = 0;\n\t}\t\n\tif (parseInt(date.getHours()) == 23 && parseInt(date.getMinutes()) == 59 && parseInt(context.avisoMail) === 0){\n\t\tcontext.avisoMail = 1;\n\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t// msg.payload = tiempo; node.send(msg);\n\t\ttiempo = tiempo / 3600000;\n\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\t\t\n\t\tglobal.set(\"tiempoEncCaldera\", date.getTime());\n\n\t\ttiempo = \"Consumo de gas del: \" + global.get(\"fechaQuinela\") + \":\\n\";\n\t\ttiempo += \"Caldera: \" + global.get(\"mtsDiariosCaldera\") + \" mts3.\\n\";\n\t\ttiempo += \"Termo: \" + global.get(\"mtsDiariosTermo\") + \" mts3.\\n\";\n\t\ttiempo += \"Totales Diarios: \" + parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\")) + \" mts3.\\n\";\n\t\ttiempo += \"Tiempo de caldera prendida: \" + global.get(\"tiempoDiarioCaldera\") + \" minutos\\n\";\n\n\t\tmsg.topic = \"Conumos de gas de casa\";\n    \tmsg.payload = tiempo;\t\n    \tnode.send([null, null, msg]);\n\n\t\tmsg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; node.send([null, msg]);\n\t\tmsg = {topic: \"mtsDiariosCaldera\", payload: global.get(\"mtsDiariosCaldera\")}; node.send([null, msg]);\n\t\tmsg = {topic: \"mtsDiariosTermo\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\"));\n\t\t\n\t\tmsg = {topic: \"mtsDiariosTotales\", payload: tiempo}; node.send([null, msg]);\n\t\tmsg = {topic: \"tiempoDiarioCaldera\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\tglobal.set(\"mtsDiariosCaldera\", 0); global.set(\"mtsDiariosTermo\", 0);\n\t\tglobal.set(\"mtsDiariosTotales\", 0); global.set(\"tiempoDiarioCaldera\", 0);\n\n    return ([null, msg]);\n\n\t}\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\treturn;\n}\n\n\n// if (msg.topic == \"ESP/Lavadero/Recibo\" && msg.payload == \"pedidoTemp\"){\n//     // var dato = parseFloat(global.get(\"mtsTotales\")) + parseFloat(global.get(\"mtsCaldera\")) + parseFloat(global.get(\"mtsTermo\"));\n//     // msg.payload = \"Dato:  \" + dato;node.send(msg);\n\n//     // msg.payload = global.get(\"mtsTotales\") + \"   caldera\" + global.get(\"mtsCaldera\") + \"   termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     // global.set(\"mtsTotales\", dato);\n//     // msg.payload = \"termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     msg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; \n//     return ([null, msg]);\n// }\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorQuemador) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorQuemador) + 2000){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorQuemador = date.getTime();\n\tcontext.estAnteriorQuemador = payload.substring(0,1);\n\tglobal.set(\"estQuemador\",payload.substring(0,1));\n\tif (parseInt(global.get(\"estQuemador\")) === 1){global.set(\"tiempoEncQuemador\", date.getTime());}\n\tif (parseInt(global.get(\"estQuemador\")) === 0){\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncQuemador\"));\n\n\t\tdatos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\ttiempo = tiempo / 1000; //  aca esta el tiempo en minutos\n\n\t\tvar tiempo2 = parseFloat(tiempo) + parseFloat(global.get(\"tiempoMarchaCaldera\")); global.set(\"tiempoMarchaCaldera\", tiempo2);\n\n\t\ttiempo = parseFloat(tiempo) * parseFloat(22.369); tiempo = parseFloat(tiempo) / parseFloat(50190.968); // 1mts3 en 2190 segundos (36.5min)\n\t\t// msg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\n\t\tdatos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\tvar tiempo3 = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo); global.set(\"mtsTotales\", tiempo3);\n\t\t\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosCaldera\")) + parseFloat(tiempo); tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosCaldera\", tiempo);\n\t\t// global.set(\"mtsCaldera\", tiempo);\n\t\t// tiempo = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo);\n\t\t// global.set(\"mtsTotales\", tiempo);\n\t\t// msg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n\t\t\n\t\t// msg.payload = \n\t}\n}\npayload = payload.substring(2);\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorCaldera) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorCaldera) + 2000){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorCaldera = date.getTime();\n\tcontext.estAnteriorCaldera = payload.substring(0,1);\n\tglobal.set(\"estCaldera\",payload.substring(0,1));\n\tif (parseInt(global.get(\"estCaldera\")) === 1)global.set(\"tiempoEncCaldera\", date.getTime());\n\tif (parseInt(global.get(\"estCaldera\")) === 0){\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t// msg.payload = tiempo; node.send(msg);\n\t\ttiempo = tiempo / 3600000;\n\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\n\t}\t\n}\npayload = payload.substring(2);\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.tiempoAnteriorTermo)){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorTermo = payload.substring(0,1);\n\tif (parseInt(payload.substring(0,1)) === 1)global.set(\"estTermo\", 0);\n\tif (parseInt(payload.substring(0,1)) === 0)global.set(\"estTermo\", 1);\n\tif (parseInt(global.get(\"estTermo\")) === 1){global.set(\"tiempoEncTermo\", date.getTime());}\n\tif (parseInt(global.get(\"estTermo\")) === 0){\n\t\t\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncTermo\"));\n\n\t\t// datos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\ttiempo = tiempo / 1000;//  aca esta el tiempo en minutos\n\t\tmsg.payload = \"tiempo en segundos: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\ttiempo = tiempo / 6920;// 1mts3 en 6920 segundos (115.33min)\n\n\t\t// datos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\tmsg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + tiempo; tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosTermo\", tiempo);\n\t\t// global.set(\"mtsTermo\", tiempo);\n\t\ttiempo = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo);\n\n\t\tglobal.set(\"mtsTotales\", tiempo);\n\n\t\t// global.set(\"mtsControlCaldera\")\n\n\t\tmsg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n\t}\t\t\n}\n\n\nif (parseInt(enviarDatos) === 1){\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\n\t// msg.payload = global.get(\"fechaCompleta\") + \" - Q: \" + global.get(\"estQuemador\");\n\t// msg.payload = msg.payload +  \" - BC: \" + global.get(\"estCaldera\");\n\t// msg.payload = msg.payload +  \" - T: \" + global.get(\"estTermo\") + \"\\n\";\n\nmsg.payload = \"\\nmts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\n\n\tmsg = {pin: 150, payload: msg.payload}; \n\t// node.send(msg);\n\t// msg.payload = \"mts totales: \" + parseFloat(global.get(\"mtsTotales\")).toFixed(3) + \"\\n\"\n\treturn msg;\n}\n\n\n\n\n// msg.payload = global.get(\"fechaCompleta\") + \" - \" + msg.payload + \"\\n\";\n// return msg;",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 428.5,
+        "y": 178,
+        "wires": [
+            [
+                "b7d65fc1.5ee4f",
+                "177ff9bb.9c1ec6"
+            ],
+            [
+                "f0e6b30c.ec7dc",
+                "2771a2f3.2517ae"
+            ],
+            [
+                "cc8cf82a.118428",
+                "1da74f12.719651"
+            ]
+        ]
+    },
+    {
+        "id": "1902a258.c3b9fe",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#1#0",
+        "payloadType": "str",
+        "x": 187.5,
+        "y": 110,
+        "wires": [
+            [
+                "4e5f8b98.50bb94",
+                "9aac0d0c.c647c",
+                "f2e9aef2.5cb47"
+            ]
+        ]
+    },
+    {
+        "id": "b7d65fc1.5ee4f",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 685,
+        "y": 127,
+        "wires": []
+    },
+    {
+        "id": "e981968e.c0f718",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "var payload = msg.payload;\n// node.send(msg);\nglobal.set(\"estCaldera\",payload.substring(0,1));\npayload = payload.substring(2);// msg.payload = payload; node.send(msg);\nglobal.set(\"estBomba\",payload.substring(0,1));\npayload = payload.substring(2);// msg.payload = payload; node.send(msg);\n// global.set(\"estTermo\",payload.substring(0,1));\n\nif (parseInt(payload.substring(0,1)) === 1)global.set(\"estTermo\", 0);\nif (parseInt(payload.substring(0,1)) === 0)global.set(\"estTermo\", 1);\n\nmsg = {pin: 129, payload: global.get(\"estCaldera\")}; node.send(msg);\nmsg = {pin: 130, payload: global.get(\"estBomba\")}; node.send(msg);\nmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\nmsg.payload = global.get(\"fechaCompleta\") + \" - Q: \" + global.get(\"estCaldera\");\nmsg.payload = msg.payload +  \" - BC: \" + global.get(\"estBomba\");\nmsg.payload = msg.payload +  \" - T: \" + global.get(\"estTermo\") + \"\\n\";\n\nmsg = {pin: 150, payload: msg.payload}; \n\n\n\nreturn msg;\n\n\n\n\n// msg.payload = global.get(\"fechaCompleta\") + \" - \" + msg.payload + \"\\n\";\n// return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 459,
+        "y": 244,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2771a2f3.2517ae",
+        "type": "thingspeak42",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "delay": "5",
+        "topic1": "metrosGas",
+        "topic2": "mtsDiariosCaldera",
+        "topic3": "mtsDiariosTermo",
+        "topic4": "mtsDiariosTotales",
+        "topic5": "tiempoDiarioCaldera",
+        "topic6": "",
+        "topic7": "",
+        "topic8": "",
+        "endpoint": "https://thingspeak.com",
+        "x": 684.5,
+        "y": 281,
+        "wires": []
+    },
+    {
+        "id": "bcef1ce4.81b0b",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#1#0",
+        "payloadType": "str",
+        "x": 183,
+        "y": 221,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "ca6726a4.294378",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Lavadero/Recibo",
+        "payload": "pedidoTemp",
+        "payloadType": "str",
+        "x": 222.5,
+        "y": 307,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "f0e6b30c.ec7dc",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 700,
+        "y": 333,
+        "wires": []
+    },
+    {
+        "id": "ade1cd2f.12aa2",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2098.218",
+        "payloadType": "num",
+        "x": 153.5,
+        "y": 24,
+        "wires": [
+            [
+                "737bfc5d.85dda4"
+            ]
+        ]
+    },
+    {
+        "id": "737bfc5d.85dda4",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "global.set(\"mtsTotales\", msg.payload);\nglobal.set(\"mtsCaldera\", 0);\nglobal.set(\"mtsTermo\", 0);\nglobal.set(\"mtsDiariosCaldera\", 0);\nglobal.set(\"mtsDiariosTermo\", 0);\nglobal.set(\"tiempoDiarioCaldera\", 0);\nglobal.set(\"tiempoMarchaCaldera\", 0);\nglobal.set(\"tiempoControlCaldera\", 0);\nglobal.set(\"mtsControlCaldera\", 0);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 323,
+        "y": 22,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e625c071.9916e",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2030.900",
+        "payloadType": "num",
+        "x": 166,
+        "y": 337,
+        "wires": [
+            [
+                "eb1b52fc.9f2d3"
+            ]
+        ]
+    },
+    {
+        "id": "eb1b52fc.9f2d3",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "msg.payload = \"\\nmts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 296.5,
+        "y": 340,
+        "wires": [
+            [
+                "b746541d.5a31c8"
+            ]
+        ]
+    },
+    {
+        "id": "3378ce7d.593bd2",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "15",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "timer",
+        "payload": "",
+        "payloadType": "str",
+        "x": 180,
+        "y": 185,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "cc8cf82a.118428",
+        "type": "e-mail",
+        "z": "a43ba0fe.679e4",
+        "server": "smtp.mail.yahoo.com",
+        "port": "465",
+        "secure": true,
+        "tls": false,
+        "name": "gdietrich22@yahoo.com.ar",
+        "dname": "rgrjrvcuhxdloine",
+        "x": 753,
+        "y": 418,
+        "wires": []
+    },
+    {
+        "id": "59ec634c.d6693c",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 428.5,
+        "y": 456,
+        "wires": [
+            [
+                "cc8cf82a.118428"
+            ]
+        ]
+    },
+    {
+        "id": "1da74f12.719651",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 715,
+        "y": 476,
+        "wires": []
+    },
+    {
+        "id": "61c04c4b.b4c414",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 114.5,
+        "y": 388,
+        "wires": [
+            [
+                "5d957444.86fcec"
+            ]
+        ]
+    },
+    {
+        "id": "5d957444.86fcec",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "msg.payload  = parseFloat(global.get(\"tiempoDiarioCaldera\"));\nnode.send(msg);\nmsg.payload  = parseFloat(global.get(\"tiempoDiarioCaldera\")) + 1000;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 266.5,
+        "y": 385,
+        "wires": [
+            [
+                "207f24cc.817a8c"
+            ]
+        ]
+    },
+    {
+        "id": "41090efb.77488",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#0#0",
+        "payloadType": "str",
+        "x": 193,
+        "y": 147,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "9aac0d0c.c647c",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "msg.payload = \"0#0#0\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370.5,
+        "y": 76,
+        "wires": [
+            [
+                "c0e93e36.d7b72"
+            ]
+        ]
+    },
+    {
+        "id": "c0e93e36.d7b72",
+        "type": "delay",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "117",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 532.5,
+        "y": 80,
+        "wires": [
+            [
+                "4b271a23.78e0f4"
+            ]
+        ]
+    },
+    {
+        "id": "4b271a23.78e0f4",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 733,
+        "y": 85,
+        "wires": []
+    },
+    {
+        "id": "f2e9aef2.5cb47",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 670,
+        "y": 169,
+        "wires": []
+    },
+    {
+        "id": "b746541d.5a31c8",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 452,
+        "y": 330,
+        "wires": []
+    },
+    {
+        "id": "207f24cc.817a8c",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 443,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "588c4fa0.125d6",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#1#0",
+        "payloadType": "str",
+        "x": 191,
+        "y": 280,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "751a981c.5e83a8",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#1#1",
+        "payloadType": "str",
+        "x": 194,
+        "y": 254,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "a86f7d0c.4b093",
+        "type": "function",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "func": "global.set(\"mtsTotales\", msg.payload);\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 258,
+        "y": 447,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6e94f768.5464c8",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2075.849",
+        "payloadType": "num",
+        "x": 88.5,
+        "y": 449,
+        "wires": [
+            [
+                "a86f7d0c.4b093"
+            ]
+        ]
     }
 ]
