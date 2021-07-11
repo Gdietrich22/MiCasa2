@@ -21,13 +21,6 @@
         "info": ""
     },
     {
-        "id": "1b403a13.0ec8c6",
-        "type": "tab",
-        "label": "Termo Solar",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "950c1426.ff4008",
         "type": "tab",
         "label": "Baño",
@@ -115,6 +108,13 @@
         "id": "71fbfc8a.29b834",
         "type": "tab",
         "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "17cadfaf.12d97",
+        "type": "tab",
+        "label": "Termo Solar",
         "disabled": false,
         "info": ""
     },
@@ -4628,1444 +4628,6 @@
         "wires": []
     },
     {
-        "id": "f6321491.61e598",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Debug",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 1130,
-        "y": 70,
-        "wires": [
-            [
-                "b657b0f0.50ad6",
-                "7e2f87a5.298818"
-            ]
-        ]
-    },
-    {
-        "id": "b8d4156f.274c28",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "",
-        "qos": "2",
-        "retain": "",
-        "broker": "900627dc.76e6a8",
-        "x": 1026,
-        "y": 194,
-        "wires": []
-    },
-    {
-        "id": "e6471751.5c1cc8",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "val. in. termo",
-        "func": "var dato = msg.payload.split(\"#\");\nglobal.set(\"autoBomba\", dato[0]);\nglobal.set(\"autoResistencia\", dato[1]);\nglobal.set(\"autoToldo\", dato[2]);\nglobal.set(\"pedBomba\", dato[3]);\nglobal.set(\"pedResistencia\", dato[4]);\nglobal.set(\"pedToldo\", dato[5]);\nglobal.set(\"tempMaximaTermo\", dato[6]);\nglobal.set(\"tempMaxResistencia\", dato[7]);\nglobal.set(\"tempMaxResistenciaManual\", dato[8]);\nglobal.set(\"tempMinimaResistencia\", dato[9]);\n// global.set(\"valorDia\", dato[10]);\n// global.set(\"valorNoche\", dato[11]);\n// global.set(\"segundosMarchaBomba\", dato[12]);\n// global.set(\"offsetDia\", dato[13]);\n// global.set(\"offsetNoche\", dato[14]);\n\nglobal.set(\"estBomba\", 0);\nglobal.set(\"estResistencia\", 0);\nglobal.set(\"estToldo\", 0);\nglobal.set(\"tempTermoFin\", 0);\nglobal.set(\"tempExteriorFin\", 0);\nglobal.set(\"sensorCrep\", 0);\nglobal.set(\"comienzoLlenado\", 0);\nglobal.set(\"tiempoLlenado\", 0);\nmsg = {topic: \"ESP/TermoSolar/pedido\", payload: 1}; node.send(msg);//ESP/TermoSolar/Recibo\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1750,
-        "y": 600,
-        "wires": [
-            [
-                "58ccdacc.e6a2d4"
-            ]
-        ]
-    },
-    {
-        "id": "938efd9a.a812a",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Envio",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 210,
-        "y": 260,
-        "wires": [
-            [
-                "e78455a.6986ca8",
-                "e05432b5.73a34",
-                "8d279b21.01ad38"
-            ]
-        ]
-    },
-    {
-        "id": "54bd2c43.953b64",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Inicio",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 346,
-        "y": 146,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "cfbdcbb4.4ab528",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "4",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 1340,
-        "y": 580,
-        "wires": [
-            [
-                "6b0b04ae.498c7c",
-                "347ec7b.6595338"
-            ]
-        ]
-    },
-    {
-        "id": "ab21644b.e84768",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "    // Sal1  thingspeak\n    // Sal2  mqtt\n    // Sal3  blynk\n    // Sal4  mysql\n    //global.get(\"tempMinExt\")\n\n    context.llenandoTermo = context.llenandoTermo || 0;\n    context.encendidoResistencia = context.encendidoResistencia || 0;\n    context.estAnteriorResistencia = context.estAnteriorResistencia || 0;\n    context.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\n    context.manualPorAlarma = context.manualPorAlarma || 0;\n    context.tiempo = context.tiempo || 0;\n\n    var topic = msg.topic;\n    var payload = msg.payload;\n    var comienzoLlenado;\n    var terminoLlenado;\n    var valorDia = global.get(\"valorDia\");\n    var valorNoche = global.get(\"valorNoche\");\n    var pin = parseInt(msg.pin);\n    var date = new Date();\n    var tiempo = 0\n\n    if (topic == \"timer\"){\n       if (parseFloat(global.get(\"tempMinExt\")) < 2){tiempo = 12;}else{tiempo = 9;}\n       if (parseInt(global.get(\"mes\")) !== parseInt(global.get(\"mesAnt\"))){\n            global.set(\"mesAnt\", global.get(\"mes\"));\n            global.set(\"tiempoEncResis\", 0);\n            global.set(\"potenciaResistencia\", 0);\n       }\n       if (parseInt(global.get(\"hh\")) === parseInt(tiempo) && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n          msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por hora (9:00 \\n\"}; node.send([null, null, msg]);\n          if (parseInt(global.get(\"nivTanque\")) > 150){global.set(\"autoBomba\", 1); }\n          // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n            msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- Apago bomb termo\" + \"\\n\"};\n            node.send([null, null, msg]);\n          enviarBlynk();\n          enviarMQTT();\n       }\n    }\n\n    // PONGO BOMBA EN AUTO UNA VEZ QUE SE APAGO Y PASARON 2' DESDE QUE SE APAGO PRESURIZADORA\n    if (date.getTime() > context.tiempo && parseInt(context.manualPorAlarma) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n    //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a MANUAL bomba termo por activarse alarma casa o apagarse bomba agua caliente\\n\"}; node.send([null, null, msg]);\n      context.manualPorAlarma = 0;\n      // global.set(\"autoBomba\", 0);   \n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/Lavadero/AguaCaliente\"){\n      if (msg.payload.substring(0, 19) == \"BombaAguaCalienteSI\" && parseInt(global.get(\"nivTanque\")) > 100){\n        context.manualPorAlarma = 0; \n        global.set(\"autoBomba\", 1);\n        context.manualPorAlarma = 1; \n        context.tiempo = date.getTime() + 1800000;\n        msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- prend bomb termo\" + \"\\n\"};\n        node.send([null, null, msg]);\n    \n      // if (msg.payload.substring(0, 19) == \"BombaAguaCalienteNO\"){context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; return;}\n\t\tpayload = global.get(\"autoBomba\");\n\t\tpayload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; \n\t\tpayload += global.get(\"tempMaximaTermo\") + \"#\";\n\t\tpayload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n\t\tmsg.payload = payload;  \n\t\tmsg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, null, null, msg]); \n\n        payload = \"0#1#\";\n        payload += global.get(\"pedResistencia\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n\n      enviarBlynk();\n      return; \n      }  \n    }\n\n    if (topic == \"aviso/Alarma\" && parseInt(global.get(\"estadoAlarma\") === 0 && parseInt(global.get(\"nivTanque\")) > 150) === 0 && parseInt(global.get(\"hh\")) > 6){\n      global.set(\"autoBomba\", 1);   \n      context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n    //   context.manualPorAlarma = 1;  context.tiempo = date.getTime() + 120000;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 1) return;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 0 && parseInt(global.get(\"hh\")) > 6){\n    //     msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por desactivarse alarma casa \\n\"}; node.send([null, null, msg]);\n    //     global.set(\"autoBomba\", 1);       a\n      enviarBlynk();\n      enviarMQTT();\n    //   }\n    } \n\n    switch (pin){\n      case 101:\n        if (parseInt(payload) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 3600000;\n          global.set(\"pedBomba\", 0); }\n         // if(parseInt(global.get(\"nivTanque\") > 150))\n        global.set(\"autoBomba\", parseInt(payload)); \n        enviarBlynk();\n        enviarMQTT();\n      break;\n\n      case 102:\n        if (parseInt(global.get(\"autoBomba\")) === 0){\n          global.set(\"pedBomba\", payload); \n          enviarMQTT();\n        }\n      break;\n\n      case 103:\n        if (parseInt(payload) === 0){global.set(\"pedResistencia\", 0);}\n        global.set(\"autoResistencia\", payload); \n        controlResistencia();   \n        enviarBlynk();\n        enviarMQTT();\n      break;\n      case 104:\n        if (parseInt(global.get(\"autoResistencia\")) === 0){\n            global.set(\"pedResistencia\", payload); \n            controlResistencia();\n            enviarBlynk();\n            enviarMQTT();}\n      break;\n    }\n\n    if (topic == \"ESP/TermoSolar/controlResistencia\"){\n        controlResistencia();\n        enviarBlynk();\n        enviarMQTT(); \n        return;\n        }\n\n    if (topic == \"ESP/TermoSolar/Envio\"){\n      //0#0#0#15.55#25.55#1020\n        var dato = payload.split(\"#\");\n        global.set(\"estBomba\", parseInt(dato[0])); \n        global.set(\"estResistencia\", parseInt(dato[1])); \n        // global.set(\"estToldo\", parseInt(dato[2]));  \n        if (parseInt(dato[2]) !== 0) global.set(\"tempTermoFin\", parseFloat(dato[2]).toFixed(1)); \n        if (parseInt(dato[3]) !== 0)global.set(\"tempExterior\", parseFloat(dato[3]).toFixed(1)); \n        global.set(\"sensorCrep\", parseInt(dato[4])); \n\n      msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null]);\n      msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null]);\n      msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null]);\n      msg= {topic: \"TanqueAgua\", payload: global.get(\"nivTanque\")}; node.send([msg, null, null]); \n      msg= {topic: \"horasDia\", payload: global.get(\"horasDia\")}; node.send([msg, null, null]); \n\n\n    controlResistencia();\n    enviarBlynk();\n    enviarMQTT(); \n\n     //  if(parseInt(global.get(\"autoResistencia\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) === 0){\n     //         global.set(\"pedResistencia\", 1);\n     //         controlResistencia();\n        //  enviarBlynk();\n        //  enviarMQTT();   \n     //  }\n\n     //  if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) == 1){\n     //     global.set(\"pedResistencia\", 0);\n     //     controlResistencia();\n        // enviarBlynk();\n        // enviarMQTT();\n        // // return;\n        // }\n        // enviarBlynk();\n    }\n      \n\n    if (topic == \"ESP/TermoSolar/EstadoBomba\"){\n      if (payload.substring(0, 11) == \"bombaMarcha\"){\n        global.set(\"estBomba\", parseInt(payload.substring(11)));\n        if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n        msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        controlBomba();\n      }\n    }\n\n    // var status = new Date().getTime() - global.get(\"comienzoLlenado\")\n    // node.status({text: global.get(\"estBomba\") + \" -- \" + status}) ; \n\n    // PARADA BOMBA POR ERROR DE MARCHA\n    if (global.get(\"estBomba\") === 1 && new Date().getTime() - global.get(\"comienzoLlenado\") > 240000){\n      // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // global.set(\"autoBomba\", 0);\n      global.set(\"pedBomba\", 0);\n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/TermoSolar/Inicio\"){\n        var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n        global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n        global.set(\"tipoFallaIlLiving\", msg.payload); \n        enviarMQTT();\n    }\n\n    if (topic == \"crepMQTT\"){\n        if (parseInt(global.get(\"Dia\")) === 0 && parseInt(global.get(\"pedResistencia\")) === 0 && parseInt(global.get(\"tempTermoFin\")) > 45 && parseInt(global.get(\"tempTermoFin\")) <  parseInt(global.get(\"tempMaxResistenciaAuto\"))){\n        global.set(\"pedResistencia\", 1);\n        controlResistencia();\n        enviarBlynk();\n        enviarMQTT();\n        }\n    }\n\n    function controlResistencia(){\n\n      if(parseInt(global.get(\"habilitacionResistenciaTermo\")) === 0){\n        global.set(\"pedResistencia\", 0);\n     //     enviarBlynk();\n        // enviarMQTT();\n        return;\n      }\n      if(parseInt(global.get(\"autoResistencia\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) === 0){\n            global.set(\"pedResistencia\", 1);\n        }\n\n      if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) == 1){\n        global.set(\"pedResistencia\", 0);\n        }\n\n\n      if(parseInt(global.get(\"pedResistencia\")) === 1 && parseInt(context.estAnteriorResistencia) === 0){\n          context.estAnteriorResistencia = 1;\n          context.tiempoInicioResistencia = new Date().getTime();//}\n          msg = {topic: \"borrar\", payload: context.tiempoInicioResistencia}; node.send([null, msg, null]);\n      }\n\n      if (parseInt(global.get(\"pedResistencia\")) === 0 && parseInt(context.estAnteriorResistencia) === 1){// && context.encendidoResistencia === 1){            \n          context.estAnteriorResistencia = 0;\n          var tiempo = (new Date().getTime() - parseInt(context.tiempoInicioResistencia)) / 3600000;\n          \n          // tiempo = parseFloat(tiempo);\n          var potencia = (1.9 * parseFloat(tiempo)).toFixed(5);\n\n          potencia = parseFloat(potencia) + parseFloat(global.get(\"potenciaResistencia\"));\n          // tiempo = parseFloat(tiempo) + parseFloat(global.get(\"tiempoEncResis\", tiempo));   \n\n          // global.set(\"tiempoEncResis\", tiempo);\n          global.set(\"potenciaResistencia\", parseFloat(potencia).toFixed(2));\n\n          msg= {topic: \"potenciaResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null]); \n          msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        }       \n    }\n\n\n    function controlBomba(){\n      msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null]);\n      if (parseInt(global.get(\"estBomba\")) === 1 && parseInt(context.llenandoTermo) === 0){\n        context.llenandoTermo = 1;\n        global.set(\"comienzoLlenado\", new Date().getTime());}\n      if (parseInt(global.get(\"estBomba\")) === 0 && parseInt(context.llenandoTermo) === 1){\n        context.llenandoTermo = 0;\n        var tiempo = parseInt(new Date().getTime()) - parseInt(global.get(\"comienzoLlenado\"));\n        tiempo = parseFloat(tiempo / 1000).toFixed(2);\n        global.set(\"tiempoLlenado\", tiempo);\n        msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null]);\n        enviarBlynk();\n      } \n    }    \n\n    function enviarBlynk(){\n        msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 104, payload: global.get(\"pedResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \" - \" + global.get(\"tempExterior\") + \" - \" + global.get(\"sensorCrep\")}; node.send([null, null, msg]);  \n        msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg]);\n        msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg]);\n        msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg]);\n        // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg]);\n    }\n\n    // function enviarMQTT(){   \n    //     payload = global.get(\"autoBomba\");\n    //     // payload =\"0\";    \n    //     payload += \"#\"; payload += global.get(\"autoResistencia\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    //     payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; //payload += global.get(\"pedToldo\") + \"#\"; \n    //     payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    //     payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    //     payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    //     // payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    //     msg.payload = payload;  \n    //     msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    // }\n\n    function enviarMQTT(){   \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    }",
-        "outputs": 4,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 580,
-        "y": 250,
-        "wires": [
-            [
-                "2f25b814.9dc9c8",
-                "41555cf2.768874"
-            ],
-            [
-                "8168c2be.1f1e8",
-                "b8d4156f.274c28"
-            ],
-            [
-                "f0d50320.3b07c",
-                "3ab2d3e0.c8ea8c",
-                "aefbe126.ba102"
-            ],
-            [
-                "26d4a422.c99a4c",
-                "c5428d42.a2211"
-            ]
-        ]
-    },
-    {
-        "id": "f0d50320.3b07c",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 770,
-        "y": 350,
-        "wires": []
-    },
-    {
-        "id": "621c21a8.3a2ba",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "Crepuscular",
-        "topic": "ESP/TermoSolar/Crepuscular",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 260,
-        "y": 600,
-        "wires": [
-            [
-                "918b4e96.a03c1",
-                "62ab658a.106c0c"
-            ]
-        ]
-    },
-    {
-        "id": "c40e9cad.cbe",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "noche",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Crepuscular",
-        "payload": "0",
-        "payloadType": "str",
-        "x": 270,
-        "y": 520,
-        "wires": [
-            [
-                "62ab658a.106c0c"
-            ]
-        ]
-    },
-    {
-        "id": "62ab658a.106c0c",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "var payload = parseInt(msg.payload);\ncontext.inicioDia = context.inicioDia || 0;\nvar date = new Date();\n\nif (payload === 1){// payload == valor analogico dia/noche\n\tcontext.inicioDia = date.getTime();\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAmanecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de dia \" + global.get(\"hsAmanecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\n// \tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de dia\\n\"}; node.send(msg);\n\tglobal.set(\"avisoMail\", \" se hizo de dia:  \" + global.get(\"hsAmanecer\"));\n}\nif (payload === 0){\n\tvar finDia = date.getTime() - context.inicioDia;\n\tfinDia = finDia / 1000;\n\tvar hhFinDia = parseFloat(finDia / 3600);\n\tvar mmFinDia = parseInt((finDia - hhFinDia) * 60);\n\tvar horasDia = parseInt(hhFinDia) + \".\" + parseInt(mmFinDia);\n\tglobal.set(\"horasDia\",horasDia);\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAnochecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de noche \" + global.get(\"hsAnochecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\t\n// \tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de noche defasaje termo 3hs\\n\"}; node.send(msg);\n\tglobal.set(\"avisoMail\", \" se hizo de noche:  \" + global.get(\"hsAnochecer\"));\n}\nif (global.get(\"Dia\") === 1)node.status({text: \"amanecio: \" + global.get(\"hsAmanecer\")})\n\tif (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n\n// if (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 420,
-        "y": 550,
-        "wires": [
-            [
-                "3348a52a.b2afaa",
-                "6f9ea193.06795"
-            ]
-        ]
-    },
-    {
-        "id": "6f9ea193.06795",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "",
-        "qos": "2",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 570,
-        "y": 490,
-        "wires": []
-    },
-    {
-        "id": "3a9f7070.1ac67",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "dia",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Crepuscular",
-        "payload": "1",
-        "payloadType": "str",
-        "x": 270,
-        "y": 560,
-        "wires": [
-            [
-                "62ab658a.106c0c"
-            ]
-        ]
-    },
-    {
-        "id": "1bb30aa.73dc7f5",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1010,
-        "y": 610,
-        "wires": []
-    },
-    {
-        "id": "803cd776.b0d768",
-        "type": "e-mail",
-        "z": "1b403a13.0ec8c6",
-        "server": "smtp.mail.yahoo.com",
-        "port": "465",
-        "secure": true,
-        "tls": false,
-        "name": "gdietrich22@yahoo.com.ar",
-        "dname": "gd28722563",
-        "x": 1010,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "783330d.01a52d",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "crepMQTT",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 730,
-        "y": 550,
-        "wires": [
-            [
-                "eca2840c.d24698",
-                "36314470.a4bb7c"
-            ]
-        ]
-    },
-    {
-        "id": "ed7eb6d5.94a428",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "2",
-        "payloadType": "global",
-        "x": 740,
-        "y": 600,
-        "wires": [
-            [
-                "eca2840c.d24698"
-            ]
-        ]
-    },
-    {
-        "id": "eca2840c.d24698",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.payload = \"cambio en sensor crepuscular\" + global.get(\"avisoMail\") + \" valor sensor: \" + global.get(\"sensorCrep\");\nif (parseInt(global.get(\"Dia\")) === 1){\n    msg.payload = msg.payload + \",  Potencia Resistencia termo acumulado mes: \" + global.get(\"potenciaResistencia\") + \" Kw\";\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 870,
-        "y": 600,
-        "wires": [
-            [
-                "803cd776.b0d768",
-                "1bb30aa.73dc7f5"
-            ]
-        ]
-    },
-    {
-        "id": "36314470.a4bb7c",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 990,
-        "y": 520,
-        "wires": []
-    },
-    {
-        "id": "918b4e96.a03c1",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 440,
-        "y": 600,
-        "wires": []
-    },
-    {
-        "id": "3348a52a.b2afaa",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 550,
-        "y": 550,
-        "wires": []
-    },
-    {
-        "id": "e78455a.6986ca8",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "100mS",
-        "pauseType": "delay",
-        "timeout": "100",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 390,
-        "y": 260,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "a2044f3e.c75f5",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "timer",
-        "repeat": "24",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "timer",
-        "payload": "1",
-        "payloadType": "str",
-        "x": 399,
-        "y": 48,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "7e2f87a5.298818",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- \" + msg.payload + \"\\n\"};\n// if (msg.payload.includes(\"bomba\") )return msg;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1370,
-        "y": 120,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "52c5ffa0.bffc3",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "EstadoBomba",
-        "topic": "ESP/TermoSolar/EstadoBomba",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 1160,
-        "y": 160,
-        "wires": [
-            [
-                "7e2f87a5.298818",
-                "96988fbf.aede9"
-            ]
-        ]
-    },
-    {
-        "id": "8eee94e.8744668",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "sin debug",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Recibo",
-        "payload": "debug0",
-        "payloadType": "str",
-        "x": 1270,
-        "y": 210,
-        "wires": [
-            [
-                "a71fc5d.4fddb38"
-            ]
-        ]
-    },
-    {
-        "id": "2cb220ee.0584",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "con debug",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Recibo",
-        "payload": "debug1",
-        "payloadType": "str",
-        "x": 1270,
-        "y": 250,
-        "wires": [
-            [
-                "a71fc5d.4fddb38"
-            ]
-        ]
-    },
-    {
-        "id": "a71fc5d.4fddb38",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1410,
-        "y": 230,
-        "wires": []
-    },
-    {
-        "id": "2f25b814.9dc9c8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 844,
-        "y": 104,
-        "wires": []
-    },
-    {
-        "id": "11f6ca6a.334236",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "pruea timer",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Recibo",
-        "payload": "prueba30",
-        "payloadType": "str",
-        "x": 1270,
-        "y": 290,
-        "wires": [
-            [
-                "a71fc5d.4fddb38"
-            ]
-        ]
-    },
-    {
-        "id": "58ccdacc.e6a2d4",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "pedido",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1910,
-        "y": 550,
-        "wires": []
-    },
-    {
-        "id": "96988fbf.aede9",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "debug",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "x": 1370,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "b657b0f0.50ad6",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1360,
-        "y": 70,
-        "wires": []
-    },
-    {
-        "id": "8b86e157.0815c",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"prueba40\"}; node.send(msg);",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1650,
-        "y": 550,
-        "wires": [
-            [
-                "58ccdacc.e6a2d4",
-                "bf1e07b9.dc63d8"
-            ]
-        ]
-    },
-    {
-        "id": "6b0b04ae.498c7c",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 1510,
-        "y": 550,
-        "wires": [
-            [
-                "8b86e157.0815c",
-                "424b25d7.2c62cc"
-            ]
-        ]
-    },
-    {
-        "id": "5578996c.94a0f8",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Config",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1230,
-        "y": 650,
-        "wires": [
-            [
-                "c835e0e7.94e71",
-                "c031c992.88fc38"
-            ]
-        ]
-    },
-    {
-        "id": "347ec7b.6595338",
-        "type": "file in",
-        "z": "1b403a13.0ec8c6",
-        "name": "recover datos termo",
-        "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 1560,
-        "y": 600,
-        "wires": [
-            [
-                "e6471751.5c1cc8",
-                "e1724aed.64bca8"
-            ]
-        ]
-    },
-    {
-        "id": "6756c263.6be20c",
-        "type": "file",
-        "z": "1b403a13.0ec8c6",
-        "name": "back datos termo",
-        "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
-        "appendNewline": false,
-        "createDir": false,
-        "overwriteFile": "true",
-        "x": 1580,
-        "y": 650,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "48534c2.23cc5b4",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0#0#0#0#0#0#80#55#50#40#650#500#60000",
-        "payloadType": "str",
-        "x": 1390,
-        "y": 690,
-        "wires": [
-            [
-                "6756c263.6be20c"
-            ]
-        ]
-    },
-    {
-        "id": "bf1e07b9.dc63d8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1900,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "c835e0e7.94e71",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1560,
-        "y": 690,
-        "wires": []
-    },
-    {
-        "id": "66e1d024.2d37e",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "15",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 1740,
-        "y": 110,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "d47448fc.6209e8",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "if (global.get(\"rociadorToldo\") === undefined)global.set(\"rociadorToldo\", 0);\ncontext.contador = context.contador || 0;\ncontext.manual = context.manual || 0;\nvar topic = msg.topic;\n\nif (parseInt(global.get(\"hh\")) === 0 && context.manual === 1)context.manual = 0;\n\nif (topic == \"reset\"){\n  global.set(\"rociadorToldo\", 0);\n    msg.payload = \"reset\"; node.send([msg, null]);\n    context.manual = 0; return;}\n\nif (parseInt(global.get(\"hh\")) >= 10 && parseInt(global.get(\"hh\")) < 20 && global.get(\"tempExterior\") > 28 && global.get(\"rociadorToldo\") === 0 && context.manual === 0){\n    context.contador = 1;\n    global.set(\"rociadorToldo\", 1);\n    msg = {pin: 99, payload: 1}; node.send([null, msg]);\n    msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n    msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n}\n\nif (global.get(\"rociadorToldo\") === 1){\n  if (parseInt(global.get(\"hh\")) >= 20 || global.get(\"tempExterior\") < 20){\n      context.contador = 0;\n      global.set(\"rociadorToldo\", 0);\n      msg = {pin: 99, payload: 0}; node.send([null, msg]);\n      msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n      // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n  }\n}\n\nif (global.get(\"rociadorToldo\") === 1)context.contador++;\n\nif (context.contador === 240 && global.get(\"rociadorToldo\") === 1){\n    context.contador = 0;\n    msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n    msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n}\n\nif (context.contador === 4 && global.get(\"rociadorToldo\") === 1){\n    msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n    // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n}\n\nif (msg.pin == \"99\"){\n  if (parseInt(msg.payload) === 0)context.manual = 1;\n    global.set(\"rociadorToldo\", parseInt(msg.payload)); msg.payload = global.get(\"rociadorToldo\"); node.send([msg, null]);\n    context.contador = 0;\n    if (global.get(\"rociadorToldo\") === 0) {\n        msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n        // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n    }\n    if (global.get(\"rociadorToldo\") === 1)  {\n        msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n    }\n}\nnode.status({text: global.get(\"rociadorToldo\") + \" --- \" + context.contador + \"   11\"});\n",
-        "outputs": 2,
-        "noerr": 0,
-        "x": 1920,
-        "y": 110,
-        "wires": [
-            [
-                "7e927e56.df184",
-                "bc335887.16ed48"
-            ],
-            [
-                "e26cc241.b89f1",
-                "826e0b7f.79a788"
-            ]
-        ]
-    },
-    {
-        "id": "81c8c932.e335b8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 1890,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "7e927e56.df184",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "",
-        "qos": "2",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 2100,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "bc335887.16ed48",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 2100,
-        "y": 50,
-        "wires": []
-    },
-    {
-        "id": "859f6258.0956b",
-        "type": "template",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "debug{{payload}}",
-        "output": "str",
-        "x": 1610,
-        "y": 460,
-        "wires": [
-            [
-                "2ce345cb.64bb4a"
-            ]
-        ]
-    },
-    {
-        "id": "2ce345cb.64bb4a",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "debug",
-        "topic": "ESP/TermoSolar/Recibo",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1740,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "424b25d7.2c62cc",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 1510,
-        "y": 500,
-        "wires": [
-            [
-                "4eaafc40.b6ab34"
-            ]
-        ]
-    },
-    {
-        "id": "4eaafc40.b6ab34",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"debug0\"}; node.send(msg);",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1650,
-        "y": 500,
-        "wires": [
-            [
-                "58ccdacc.e6a2d4"
-            ]
-        ]
-    },
-    {
-        "id": "64b8c0d1.4d858",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/pedido",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1380,
-        "y": 730,
-        "wires": [
-            [
-                "e8032584.3a14d8"
-            ]
-        ]
-    },
-    {
-        "id": "e8032584.3a14d8",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 1560,
-        "y": 730,
-        "wires": [
-            [
-                "b5ee5872.f60828"
-            ]
-        ]
-    },
-    {
-        "id": "b5ee5872.f60828",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"debug0\"}; node.send(msg);",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1690,
-        "y": 730,
-        "wires": [
-            [
-                "45b56431.6ab8cc"
-            ]
-        ]
-    },
-    {
-        "id": "45b56431.6ab8cc",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "pedido",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1810,
-        "y": 730,
-        "wires": []
-    },
-    {
-        "id": "78a57b12.83d954",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "reset",
-        "payload": "1",
-        "payloadType": "str",
-        "x": 1750,
-        "y": 50,
-        "wires": [
-            [
-                "d47448fc.6209e8"
-            ]
-        ]
-    },
-    {
-        "id": "826e0b7f.79a788",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 2070,
-        "y": 170,
-        "wires": []
-    },
-    {
-        "id": "48dd7364.e41f1c",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "estadoBomba",
-        "topic": "ESP/TermoSolar/EstadoBomba",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 240,
-        "y": 220,
-        "wires": [
-            [
-                "8586171e.8702d8"
-            ]
-        ]
-    },
-    {
-        "id": "aefbe126.ba102",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "50",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 897,
-        "y": 312,
-        "wires": [
-            [
-                "63fd5113.ae3c2"
-            ]
-        ]
-    },
-    {
-        "id": "c031c992.88fc38",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "if (msg.payload.substring(0,6) == \"Manual\")return;\nif (msg.payload.includes(\"undefined\"))return;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1410,
-        "y": 650,
-        "wires": [
-            [
-                "6756c263.6be20c"
-            ]
-        ]
-    },
-    {
-        "id": "a0774f9d.da29a",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "ModoBomba",
-        "topic": "ESP/TermoSolar/ModoBomba",
-        "qos": "2",
-        "broker": "900627dc.76e6a8",
-        "x": 1160,
-        "y": 110,
-        "wires": [
-            [
-                "7e2f87a5.298818"
-            ]
-        ]
-    },
-    {
-        "id": "aaf71995.b86808",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "// Sal1  thingspeak\n// Sal2  mqtt\n// Sal3  blynk\n// Sal4  mysql\n\ncontext.llenandoTermo = context.llenandoTermo || 0;\ncontext.encendidoResistencia = context.encendidoResistencia || 0;\ncontext.estAnteriorResistencia = context.estAnteriorResistencia || 0;\ncontext.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\ncontext.bombaAutoAnulada = context.bombaAutoAnulada || 1;\n\nvar topic = msg.topic;\nvar payload = msg.payload;\nvar comienzoLlenado;\nvar terminoLlenado;\nvar valorDia = global.get(\"valorDia\");\nvar valorNoche = global.get(\"valorNoche\");\n\nif (topic == \"crepMQTT\" && payload == \"1\"){\n  global.set(\"millisDia\", new Date().getTime() + 1000 * 60 * 60); \n  msg = {pin: 127, payload: global.get(\"hsCpu\") + \", se hizo de dia defasaje 1hs \\n\"};\n  return([null, null, msg, null]);\n}\nnode.status({text: global.get(\"hh\") + \" -- \" + global.get(\"autoBomba\") + \" -- \" + global.get(\"estBomba\")})\n\nif (topic == \"timer\"){\n if (parseInt(global.get(\"hh\")) === 22 && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a manual bomba termo \\n\"}; node.send([null, null, msg, null]);\n   global.set(\"autoBomba\", 0);\n   global.set(\"pedBomba\", 0);\n   enviarBlynk();\n   enviarMQTT();\n }\n // if (new Date().getTime() > parseInt(global.get(\"millisDia\")) && parseInt(global.get(\"autoBomba\") === 0)){\n //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a automatico bomba termo por offset dia \\n\"}; node.send([null, null, msg, null]);\n //   global.set(\"autoBomba\", 1); \n //   enviarMQTT();\n // }\n if (parseInt(global.get(\"hh\")) === 9 && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a automatico bomba termo por hora \\n\"}; node.send([null, null, msg, null]);\n   context.bombaAutoAnulada = 0;\n   global.set(\"autoBomba\", 1); \n   // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n   enviarBlynk();\n   enviarMQTT();\n } \n return;\n}\n\n\nif (topic == \"bombaAuto\"){\t\n  if (parseInt(payload) === 0){\n    global.set(\"bombaAutoAnulada\", 0);\n    global.set(\"pedBomba\", 0); }\n    // context.bombaAutoAnulada = 1;} \n  if (parseInt(payload) === 1){\n    global.set(\"bombaAutoAnulada\", 1);}\n    // context.bombaAutoAnulada = 0;}\n  global.set(\"autoBomba\", payload); enviarMQTT();}\n\n// if (topic == \"forzarManual\"){\n//  if (parseInt(payload) === 0){//habilitada\n//    // global.set(\"bombaAutoAnulada\", 1);\n//    global.set(\"autoBomba\", 0); \n//    msg = \"Manual0\";\n//  }\n//    // context.bombaAutoAnulada = 1;} \n//  if (parseInt(payload) === 1){//anulada\n//    // global.set(\"bombaAutoAnulada\", 0);\n//    msg = \"Manual1\";}\n//    // context.bombaAutoAnulada = 0;}\n//  global.set(\"autoBomba\", payload); \n//  msg = {topic:\"ESP/TermoSolar/Config\", payload: msg};\n//     node.send([null, msg, null, null]);\n\n//  // enviarMQTT();}  \n// }\n\nif (topic == \"marchaBomba\" && global.get(\"autoBomba\") === 0){\n  global.set(\"pedBomba\", payload); enviarMQTT();}\n  \nif (topic == \"resistenciaAuto\"){\n  if (parseInt(payload) === 0)global.set(\"pedResistencia\", 0);\n  global.set(\"autoResistencia\", payload); enviarMQTT();}//encendidoResistencia\n\nif (topic == \"encendidoResistencia\" && global.get(\"autoResistencia\") === 0){\n  global.set(\"pedResistencia\", payload); enviarMQTT();}\n\nif (topic == \"ESP/TermoSolar/Envio\"){\n  //0#0#0#15.55#25.55#1020\n  var dato = payload.split(\"#\");\n  global.set(\"estBomba\", parseInt(dato[0])); \n  global.set(\"estResistencia\", parseInt(dato[1])); \n  global.set(\"estToldo\", parseInt(dato[2]));  \n  global.set(\"tempTermoFin\", dato[3]); \n  global.set(\"tempExterior\", dato[4]); \n  global.set(\"sensorCrep\", parseInt(dato[5])); //msg.payload = dato[5]; node.send(msg);\n\n  // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 104, payload: global.get(\"estResistencia\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 110, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n\n\n  msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \"  --  \" + global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n\n  msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n\n  msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);  //estBomba\n\n  // msg= {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null, null]);\n  // msg= {topic: \"estResistencia\", payload: global.get(\"estResistencia\")}; node.send([msg, null, null, null]);\n\n//  controlCrepuscular();\n  // controlBomba();\n\n    if(global.get(\"estResistencia\") === 1){\n        if (context.estAnteriorResistencia === 0){\n        context.encendidoResistencia = 1;\n        context.estAnteriorResistencia = 1;\n        // global.set(\"resistenciaEncendida\", new Date().getTime());\n        context.tiempoInicioResistencia = new Date().getTime();}\n\n        var tiempo = (new Date().getTime() - context.tiempoInicioResistencia) / 60000;\n        var potencia = ((1.5/60) * tiempo).toFixed(5);\n        global.set(\"potenciaResistencia\", potencia);\n    // msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null, null]);\n    }\n\n    if (global.get(\"estResistencia\") === 0 && context.encendidoResistencia === 1){\n        context.estAnteriorResistencia = 0;\n        context.encendidoResistencia = 0;\n        var tiempo = (new Date().getTime() - context.tiempoInicioResistencia) / 60000;\n        var potencia = ((1.5/60) * tiempo).toFixed(5);\n        tiempo = parseFloat(tiempo).toFixed(2);\n        global.set(\"tiempoEncResis\", tiempo);\n        global.set(\"potenciaResistencia\", potencia);\n\n\n\n        // msg = {topic: \"tiempoEncResis\", payload: global.get(\"tiempoEncResis\")}; node.send([msg, null, null, null]);\n        // msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null, null]);\n        // global.set(\"potenciaResistencia\",0);\n    }\n    // if (global.get(\"estResistencia\") === \"0\" && context.encendidoResistencia == \"0\"){\n    //  msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; \n    //  node.send([msg, null, null, null]);}\n    enviarBlynk();\n}\n\n// if (topic == \"ESP/TermoSolar/ModoBomba\"){\n//  if (payload.substring(0, 9) == \"bombaAuto\"){\n//  // if (payload.includes(\"bombaAuto0\") || payload.includes(\"bombaAuto1\")){\n//    global.set(\"autoBomba\", parseInt(payload.substring(9)));\n//    if (global.get(\"autoBomba\") === 0)global.set(\"pedBomba\", 0);\n//    if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n//    msg = {pin: 102, label: estadoBomba, payload: global.get(\"pedBomba\")}; node.send([null, null, msg, null]);    \n//    // enviarMQTT();\n//    // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);    \n//  }\n// }\nif (topic == \"ESP/TermoSolar/EstadoBomba\"){//  bombaMarcha1\n  if (payload.substring(0, 11) == \"bombaMarcha\"){// || payload.substring(0, 12) == \"bombaM+archa\"){\n  // if (payload.includes(\"bombaMarcha0\") || payload.includes(\"bombaMarcha1\")){\n    global.set(\"estBomba\", parseInt(payload.substring(11)));\n    if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n    msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    // if (global.get(\"estBomba\") === 0)global.set(\"pedBomba\", 0);\n    // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    // enviarMQTT();\n    controlBomba();\n  }\n\n  // global.set(\"estBomba\", parseInt(payload));\n  // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n  // controlBomba();\n}\n\nif (topic == \"ESP/TermoSolar/pedido\"){\n    var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n    global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n    global.set(\"tipoFallaIlLiving\", msg.payload); \n    enviarMQTT();}\n\nfunction controlBomba(){\n  msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null, null]);\n  if (global.get(\"estBomba\")=== 1 && context.llenandoTermo === 0){\n    context.llenandoTermo = 1;\n    global.set(\"comienzoLlenado\", new Date().getTime());}\n  if (global.get(\"estBomba\") === 0 && context.llenandoTermo === 1){\n    context.llenandoTermo = 0;\n    var tiempo = new Date().getTime() - global.get(\"comienzoLlenado\");\n    tiempo = parseFloat(tiempo / 1000).toFixed(2);\n    global.set(\"tiempoLlenado\", tiempo);\n    msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null, null]);\n    enviarBlynk();\n    // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n    // msg = {pin: 105, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n  } \n}    \n\n// function controlCrepuscular(){\n//  if (global.get(\"sensorCrep\") > valorDia && global.get(\"Dia\") === 0){global.set(\"Dia\", 1); msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);}\n//  if (global.get(\"sensorCrep\") < valorNoche && global.get(\"Dia\") === 1){global.set(\"Dia\", 0); msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);}\n//  // msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);\n// }\n\nfunction enviarBlynk(){\n    msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n    msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    msg = {pin: 104, payload: global.get(\"estResistencia\")}; node.send([null, null, msg, null]);\n    msg = {pin: 105, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n    msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \"  --  \" + global.get(\"tempExterior\")}; node.send([null, null, msg, null]);  \n    msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n    msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n    msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n    msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n}\n\nfunction enviarMQTT(){   \n  // msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n  // var estadoBomba;\n  // if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n  // msg = {pin: 102, label: estadoBomba, payload: global.get(\"pedBomba\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 104, payload: global.get(\"pedResistencia\")}; node.send([null, null, msg, null]);\n  // if (topic == \"ESP/TermoSolar/Bomba\")return;\n    // msg.payload = topic; node.send([null, msg, null, null]); \n    payload = global.get(\"autoBomba\") + \"#\"; payload += global.get(\"autoResistencia\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    payload += global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; payload += global.get(\"pedToldo\") + \"#\"; \n    payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    // payload += \"#\" + global.get(\"bombaAutoAnulada\");\n    msg.payload = payload;  \n    msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null, null]);\n}",
-        "outputs": 4,
-        "noerr": 0,
-        "x": 170,
-        "y": 130,
-        "wires": [
-            [],
-            [],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "8586171e.8702d8",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "100mS",
-        "pauseType": "delay",
-        "timeout": "100",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 390,
-        "y": 220,
-        "wires": [
-            [
-                "ab21644b.e84768",
-                "932c6575.0ec8e8",
-                "249cc871.8bc848"
-            ]
-        ]
-    },
-    {
-        "id": "714074bc.f19adc",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/Lavadero/Presurizadora",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1810,
-        "y": 230,
-        "wires": [
-            [
-                "1efdc9d5.58a246",
-                "2cfcf6cd.bcf37a"
-            ]
-        ]
-    },
-    {
-        "id": "1efdc9d5.58a246",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "if (msg.payload === \"0\") msg.payload = global.get(\"fechaCompleta\") + \" - Sin Rociar\\n\";\nif (msg.payload === \"1\") msg.payload = global.get(\"fechaCompleta\") + \" - Rociando\\n\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 2000,
-        "y": 230,
-        "wires": [
-            [
-                "5475e278.3c5b9c"
-            ]
-        ]
-    },
-    {
-        "id": "5475e278.3c5b9c",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 2160,
-        "y": 230,
-        "wires": []
-    },
-    {
-        "id": "2cfcf6cd.bcf37a",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 2020,
-        "y": 270,
-        "wires": []
-    },
-    {
-        "id": "7ff991b6.a5e4",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/Lavadero/Presurizadora",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 2280,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "207131b0.1d8eee",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "aviso/Alarma",
-        "qos": "2",
-        "broker": "6b36e4a.1d30b1c",
-        "x": 210,
-        "y": 180,
-        "wires": [
-            [
-                "bae3486e.dfcff8"
-            ]
-        ]
-    },
-    {
-        "id": "6991b26c.c8e9bc",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0",
-        "payloadType": "num",
-        "x": 560,
-        "y": 110,
-        "wires": [
-            [
-                "8176684.e76be98"
-            ]
-        ]
-    },
-    {
-        "id": "8176684.e76be98",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.pin = 101;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 690,
-        "y": 90,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "c278ff48.39bdd",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1",
-        "payloadType": "num",
-        "x": 560,
-        "y": 70,
-        "wires": [
-            [
-                "8176684.e76be98"
-            ]
-        ]
-    },
-    {
-        "id": "50158935.a4d658",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/Lavadero/AguaCaliente",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 325,
-        "y": 114,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "d4c1348d.835678",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 680,
-        "wires": [
-            [
-                "f6be1ee4.df03e"
-            ]
-        ]
-    },
-    {
-        "id": "f6be1ee4.df03e",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.payload = global.get(\"hsCpu\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 310,
-        "y": 680,
-        "wires": [
-            [
-                "616f0886.bef8c8"
-            ]
-        ]
-    },
-    {
-        "id": "616f0886.bef8c8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 500,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "e1724aed.64bca8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1800,
-        "y": 630,
-        "wires": []
-    },
-    {
-        "id": "24526277.28ed5e",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1",
-        "payloadType": "num",
-        "x": 2060,
-        "y": 310,
-        "wires": [
-            [
-                "7ff991b6.a5e4"
-            ]
-        ]
-    },
-    {
-        "id": "aeadf4ea.43d888",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0",
-        "payloadType": "num",
-        "x": 2060,
-        "y": 370,
-        "wires": [
-            [
-                "7ff991b6.a5e4"
-            ]
-        ]
-    },
-    {
-        "id": "f38030c.80697d",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/Lavadero/AguaFria",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 2000,
-        "y": 400,
-        "wires": [
-            [
-                "a8d1fe12.dfe07"
-            ]
-        ]
-    },
-    {
-        "id": "a8d1fe12.dfe07",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "var dato = msg.payload;\nif (dato.substring(0, 15) == \"BombaAguaFriaSI\")msg.payload = 1;\nif (dato.substring(0, 15) == \"BombaAguaFriaNO\")msg.payload = 0;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 2180,
-        "y": 400,
-        "wires": [
-            [
-                "257fa906.068fd6"
-            ]
-        ]
-    },
-    {
-        "id": "bae3486e.dfcff8",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "100mS",
-        "pauseType": "delay",
-        "timeout": "100",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 390,
-        "y": 180,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "52c7b36.5c7ef4c",
-        "type": "link in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "links": [
-            "744f52d5.ad8ecc"
-        ],
-        "x": 885,
-        "y": 560,
-        "wires": [
-            [
-                "803cd776.b0d768"
-            ]
-        ]
-    },
-    {
-        "id": "fe798083.6f5ef",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 660,
-        "y": 430,
-        "wires": [
-            [
-                "5b8c1bdb.1402c4"
-            ]
-        ]
-    },
-    {
-        "id": "5b8c1bdb.1402c4",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg= {topic: \"horasDia\", payload: \"1.5\"};\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 820,
-        "y": 440,
-        "wires": [
-            [
-                "48c20767.e64078"
-            ]
-        ]
-    },
-    {
         "id": "ecc24e7c.a4bec",
         "type": "function",
         "z": "950c1426.ff4008",
@@ -9711,50 +8273,6 @@
         ]
     },
     {
-        "id": "156d91dc.8dc6ce",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "USBin",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1500,
-        "y": 920,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "27246e94.692872",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "if (msg.payload.substring(0, 9) == \"Resultado\"){\n    msg = {topic: \"terminalBlynk\", payload: msg.payload};\n    return msg;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1700,
-        "y": 920,
-        "wires": [
-            [
-                "4bc2da12.2c62d4"
-            ]
-        ]
-    },
-    {
-        "id": "4bc2da12.2c62d4",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "pedido",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1840,
-        "y": 910,
-        "wires": []
-    },
-    {
         "id": "2b6e7641.a45dfa",
         "type": "mqtt out",
         "z": "3ce5b54a.127d6a",
@@ -13135,103 +11653,6 @@
         ]
     },
     {
-        "id": "d86d70ac.fb902",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "bomba man/auto",
-        "pin": "101",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 370,
-        "y": 300,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "b9342d19.8889d",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "marcha bomba",
-        "pin": "102",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 370,
-        "y": 350,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "21c78482.1c0bdc",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "resistencia man/auto",
-        "pin": "103",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 360,
-        "y": 400,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "410759b4.a87158",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "encendido resistencia",
-        "pin": "104",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 350,
-        "y": 450,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "cc8ef2c4.e89bf",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "Rociador 99",
-        "pin": "99",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 1740,
-        "y": 160,
-        "wires": [
-            [
-                "d47448fc.6209e8",
-                "81c8c932.e335b8"
-            ]
-        ]
-    },
-    {
-        "id": "8817dbe1.b5ce48",
-        "type": "blynk-ws-in-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": "98",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 2010,
-        "y": 340,
-        "wires": [
-            [
-                "7ff991b6.a5e4"
-            ]
-        ]
-    },
-    {
         "id": "a1bcce76.9236b",
         "type": "blynk-ws-in-write",
         "z": "950c1426.ff4008",
@@ -13767,54 +12188,6 @@
         "wires": []
     },
     {
-        "id": "63fd5113.ae3c2",
-        "type": "blynk-ws-out-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": 0,
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 1077,
-        "y": 305,
-        "wires": []
-    },
-    {
-        "id": "fce35841.951a48",
-        "type": "blynk-ws-out-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": 0,
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 1550,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "e26cc241.b89f1",
-        "type": "blynk-ws-out-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": 0,
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 2100,
-        "y": 130,
-        "wires": []
-    },
-    {
-        "id": "257fa906.068fd6",
-        "type": "blynk-ws-out-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": "98",
-        "pinmode": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 2330,
-        "y": 400,
-        "wires": []
-    },
-    {
         "id": "812daebc.b64d6",
         "type": "blynk-ws-out-write",
         "z": "950c1426.ff4008",
@@ -13962,19 +12335,6 @@
         "wires": []
     },
     {
-        "id": "3ab2d3e0.c8ea8c",
-        "type": "blynk-ws-out-set-property",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": 0,
-        "pinmode": "1",
-        "prop": "bycode",
-        "client": "2c18e412.5f5cbc",
-        "x": 840,
-        "y": 270,
-        "wires": []
-    },
-    {
         "id": "ad5fc954.82ae08",
         "type": "blynk-ws-out-set-property",
         "z": "950c1426.ff4008",
@@ -14108,44 +12468,6 @@
         "wires": []
     },
     {
-        "id": "41555cf2.768874",
-        "type": "thingspeak42",
-        "z": "1b403a13.0ec8c6",
-        "name": "4EICHLJL446HHU1Z",
-        "delay": "15",
-        "topic1": "temperaturaTermo",
-        "topic2": "temperaturaExterior",
-        "topic3": "crepuscular",
-        "topic4": "estBomba",
-        "topic5": "tiempoLlenado",
-        "topic6": "TanqueAgua",
-        "topic7": "potenciaResistencia",
-        "topic8": "horasDia",
-        "endpoint": "https://thingspeak.com",
-        "x": 880,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "48c20767.e64078",
-        "type": "thingspeak42",
-        "z": "1b403a13.0ec8c6",
-        "name": "4EICHLJL446HHU1Z",
-        "delay": "1",
-        "topic1": "temperaturaTermo",
-        "topic2": "temperaturaExterior",
-        "topic3": "crepuscular",
-        "topic4": "estBomba",
-        "topic5": "tiempoLlenado",
-        "topic6": "estResistencia",
-        "topic7": "potenciaResistencia",
-        "topic8": "horasDia",
-        "endpoint": "https://thingspeak.com",
-        "x": 1050,
-        "y": 420,
-        "wires": []
-    },
-    {
         "id": "b77070fe.51184",
         "type": "thingspeak42",
         "z": "f682d492.22a758",
@@ -14181,20 +12503,6 @@
         "endpoint": "https://thingspeak.com",
         "x": 770,
         "y": 250,
-        "wires": []
-    },
-    {
-        "id": "e05432b5.73a34",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 582.7777777777777,
-        "y": 355.55555555555554,
         "wires": []
     },
     {
@@ -16059,39 +14367,6 @@
         "targetType": "full",
         "x": 922.142857142857,
         "y": 1115.7142857142856,
-        "wires": []
-    },
-    {
-        "id": "e74f2ba6.057988",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "Reset",
-        "payloadType": "str",
-        "x": 1230.7143173217773,
-        "y": 341.428560256958,
-        "wires": [
-            [
-                "8013b199.fbd79"
-            ]
-        ]
-    },
-    {
-        "id": "8013b199.fbd79",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Config",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1460.714210510254,
-        "y": 341.4285659790039,
         "wires": []
     },
     {
@@ -20311,26 +18586,6 @@
         ]
     },
     {
-        "id": "c3d575b9.d175a8",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Inicio",
-        "payload": "",
-        "payloadType": "date",
-        "x": 259.16666666666663,
-        "y": 783.3333333333333,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
         "id": "76702958.bb4348",
         "type": "mqtt in",
         "z": "9c63fd61.9908c",
@@ -20909,45 +19164,6 @@
         ]
     },
     {
-        "id": "db4552e4.06486",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 809,
-        "y": 389,
-        "wires": []
-    },
-    {
-        "id": "249cc871.8bc848",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.payload = msg.payload;// + \"/n\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 566.5,
-        "y": 309,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "932c6575.0ec8e8",
-        "type": "blynk-ws-out-write",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pin": "105",
-        "pinmode": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 617.5,
-        "y": 205,
-        "wires": []
-    },
-    {
         "id": "dbdf2ccf.6fa97",
         "type": "inject",
         "z": "65561250.4225fc",
@@ -21041,198 +19257,6 @@
         ]
     },
     {
-        "id": "a84e6bdc.49bac8",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "crepMQTT",
-        "qos": "2",
-        "broker": "6b36e4a.1d30b1c",
-        "x": 228,
-        "y": 20,
-        "wires": [
-            [
-                "cab2d6e1.105e98"
-            ]
-        ]
-    },
-    {
-        "id": "cab2d6e1.105e98",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "20",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 380,
-        "y": 20,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "fa0cea4a.ecfb18",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.payload = global.get(\"autoResistencia\") + \"#\" + global.get(\"tempTermoFin\") + \"#\" + global.get(\"tempMinimaResistenciaAuto\") + \"#\" + global.get(\"tempMaxResistenciaAuto\")  + \"#\" + global.get(\"pedResistencia\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 769.5,
-        "y": 41,
-        "wires": [
-            [
-                "f70400e6.356a3"
-            ]
-        ]
-    },
-    {
-        "id": "8d279b21.01ad38",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 627.5,
-        "y": 35,
-        "wires": [
-            [
-                "fa0cea4a.ecfb18"
-            ]
-        ]
-    },
-    {
-        "id": "ca44f940.3997f8",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 834.5,
-        "y": 81,
-        "wires": [
-            [
-                "50c43d45.045d54"
-            ]
-        ]
-    },
-    {
-        "id": "50c43d45.045d54",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1128.5,
-        "y": 27,
-        "wires": [
-            [
-                "59c990e2.85e21"
-            ]
-        ]
-    },
-    {
-        "id": "59c990e2.85e21",
-        "type": "mqtt out",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 1251.5,
-        "y": 29,
-        "wires": []
-    },
-    {
-        "id": "f70400e6.356a3",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 936.5,
-        "y": 16,
-        "wires": []
-    },
-    {
-        "id": "8246de34.6a911",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 788.5,
-        "y": 480,
-        "wires": [
-            [
-                "1c5c9391.f49c1c"
-            ]
-        ]
-    },
-    {
-        "id": "1c5c9391.f49c1c",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "global.set(\"tiempoEncResis\", 0);\n\t      global.set(\"potenciaResistencia\", 0);",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 934.5,
-        "y": 478,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9b14bdc1.d9555",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/controlResistencia",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 304,
-        "y": 80,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
         "id": "a5bd85f3.485068",
         "type": "inject",
         "z": "9c63fd61.9908c",
@@ -21281,56 +19305,6 @@
         "x": 392.5,
         "y": 250,
         "wires": []
-    },
-    {
-        "id": "c74f9237.4f812",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 77.5,
-        "y": 349,
-        "wires": [
-            [
-                "29794562.5266fa"
-            ]
-        ]
-    },
-    {
-        "id": "5e8b6b82.b0bef4",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 77.5,
-        "y": 458,
-        "wires": []
-    },
-    {
-        "id": "29794562.5266fa",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "msg.payload = global.get(\"potenciaResistencia\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 104.5,
-        "y": 391,
-        "wires": [
-            [
-                "5e8b6b82.b0bef4"
-            ]
-        ]
     },
     {
         "id": "c11e0b47.578438",
@@ -21984,37 +19958,6 @@
         ]
     },
     {
-        "id": "aaefc418.e19248",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 830.5,
-        "y": 173,
-        "wires": []
-    },
-    {
-        "id": "a048a9c9.e236a8",
-        "type": "mqtt in",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "topic": "ESP/TermoSolar/Config",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 642.5,
-        "y": 178,
-        "wires": [
-            [
-                "aaefc418.e19248"
-            ]
-        ]
-    },
-    {
         "id": "cbd358e1.9edbe8",
         "type": "mqtt in",
         "z": "9c63fd61.9908c",
@@ -22311,92 +20254,6 @@
         ]
     },
     {
-        "id": "26d4a422.c99a4c",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1078,
-        "y": 247,
-        "wires": []
-    },
-    {
-        "id": "8168c2be.1f1e8",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1036,
-        "y": 143,
-        "wires": []
-    },
-    {
-        "id": "63b55de1.439804",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/Lavadero/AguaCaliente",
-        "payload": "BombaAguaCalienteSI",
-        "payloadType": "str",
-        "x": 627.5,
-        "y": 144,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "c5428d42.a2211",
-        "type": "delay",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "2",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 826.5,
-        "y": 227,
-        "wires": [
-            [
-                "6c4e466c.f10088",
-                "b8d4156f.274c28"
-            ]
-        ]
-    },
-    {
-        "id": "6c4e466c.f10088",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1041,
-        "y": 233,
-        "wires": []
-    },
-    {
         "id": "f8f43f80.c0535",
         "type": "inject",
         "z": "73083520.75304c",
@@ -22579,94 +20436,6 @@
         "complete": "false",
         "x": 674.5,
         "y": 392,
-        "wires": []
-    },
-    {
-        "id": "5a407b4c.4f8134",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "ESP/TermoSolar/Inicio",
-        "payload": "",
-        "payloadType": "date",
-        "x": 116.5,
-        "y": 63,
-        "wires": [
-            [
-                "ab21644b.e84768"
-            ]
-        ]
-    },
-    {
-        "id": "8acb9678.dbc198",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "3600",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "1",
-        "payloadType": "num",
-        "x": 217.5,
-        "y": 496,
-        "wires": [
-            [
-                "9f8a7ccd.0130c",
-                "a39fd6c5.9df478"
-            ]
-        ]
-    },
-    {
-        "id": "9f8a7ccd.0130c",
-        "type": "function",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "func": "if (parseInt(global.get(\"hh\")) > 7){\n    msg = {pin: 101, payload: 1};\n    return msg;\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 379.5,
-        "y": 497,
-        "wires": [
-            [
-                "ab21644b.e84768",
-                "8b3363c1.b3357"
-            ]
-        ]
-    },
-    {
-        "id": "a39fd6c5.9df478",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 602.5,
-        "y": 466,
-        "wires": []
-    },
-    {
-        "id": "8b3363c1.b3357",
-        "type": "debug",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 599,
-        "y": 393,
         "wires": []
     },
     {
@@ -23126,26 +20895,6 @@
         "x": 709.5,
         "y": 27,
         "wires": []
-    },
-    {
-        "id": "4cb8a55a.a3715c",
-        "type": "inject",
-        "z": "1b403a13.0ec8c6",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 781.5,
-        "y": 698,
-        "wires": [
-            [
-                "803cd776.b0d768"
-            ]
-        ]
     },
     {
         "id": "b8bcf3d1.0b22",
@@ -23938,5 +21687,2239 @@
                 "a86f7d0c.4b093"
             ]
         ]
+    },
+    {
+        "id": "6e73e687.fa8748",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Debug",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 1130,
+        "y": 70,
+        "wires": [
+            [
+                "27bbd744.d36ef8",
+                "ab778c13.7c613"
+            ]
+        ]
+    },
+    {
+        "id": "f5332d19.1f1eb",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "val. in. termo",
+        "func": "var dato = msg.payload.split(\"#\");\nglobal.set(\"autoBomba\", dato[0]);\nglobal.set(\"autoResistencia\", dato[1]);\nglobal.set(\"autoToldo\", dato[2]);\nglobal.set(\"pedBomba\", dato[3]);\nglobal.set(\"pedResistencia\", dato[4]);\nglobal.set(\"pedToldo\", dato[5]);\nglobal.set(\"tempMaximaTermo\", dato[6]);\nglobal.set(\"tempMaxResistencia\", dato[7]);\nglobal.set(\"tempMaxResistenciaManual\", dato[8]);\nglobal.set(\"tempMinimaResistencia\", dato[9]);\n// global.set(\"valorDia\", dato[10]);\n// global.set(\"valorNoche\", dato[11]);\n// global.set(\"segundosMarchaBomba\", dato[12]);\n// global.set(\"offsetDia\", dato[13]);\n// global.set(\"offsetNoche\", dato[14]);\n\nglobal.set(\"estBomba\", 0);\nglobal.set(\"estResistencia\", 0);\nglobal.set(\"estToldo\", 0);\nglobal.set(\"tempTermoFin\", 0);\nglobal.set(\"tempExteriorFin\", 0);\nglobal.set(\"sensorCrep\", 0);\nglobal.set(\"comienzoLlenado\", 0);\nglobal.set(\"tiempoLlenado\", 0);\nmsg = {topic: \"ESP/TermoSolar/pedido\", payload: 1}; node.send(msg);//ESP/TermoSolar/Recibo\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1750,
+        "y": 600,
+        "wires": [
+            [
+                "68fd1dd.08d60e4"
+            ]
+        ]
+    },
+    {
+        "id": "927c7612.e763a8",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Envio",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 210,
+        "y": 260,
+        "wires": [
+            [
+                "cb4da61.1e50058",
+                "fe494e9c.4bae6",
+                "cad48753.a12eb8"
+            ]
+        ]
+    },
+    {
+        "id": "a454def9.7104b",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Inicio",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 346,
+        "y": 146,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "d4988eef.48c12",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "4",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1340,
+        "y": 580,
+        "wires": [
+            [
+                "770d32e7.2f07dc",
+                "9bf7b0a0.67d4d"
+            ]
+        ]
+    },
+    {
+        "id": "175128d0.232fe7",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "    // Sal1  thingspeak\n    // Sal2  mqtt\n    // Sal3  blynk\n    // Sal4  mysql\n    //global.get(\"tempMinExt\")\n\n    context.llenandoTermo = context.llenandoTermo || 0;\n    context.encendidoResistencia = context.encendidoResistencia || 0;\n    context.estAnteriorResistencia = context.estAnteriorResistencia || 0;\n    context.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\n    context.manualPorAlarma = context.manualPorAlarma || 0;\n    context.tiempo = context.tiempo || 0;\n\n    var topic = msg.topic;\n    var payload = msg.payload;\n    var comienzoLlenado;\n    var terminoLlenado;\n    var valorDia = global.get(\"valorDia\");\n    var valorNoche = global.get(\"valorNoche\");\n    var pin = parseInt(msg.pin);\n    var date = new Date();\n    var tiempo = 0\n\n    if (topic == \"timer\"){\n       if (parseFloat(global.get(\"tempMinExt\")) < 2){tiempo = 12;}else{tiempo = 9;}\n       if (parseInt(global.get(\"mes\")) !== parseInt(global.get(\"mesAnt\"))){\n            global.set(\"mesAnt\", global.get(\"mes\"));\n            global.set(\"tiempoEncResis\", 0);\n            global.set(\"potenciaResistencia\", 0);\n       }\n       if (parseInt(global.get(\"hh\")) === parseInt(tiempo) && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n          msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por hora (9:00 \\n\"}; node.send([null, null, msg]);\n          if (parseInt(global.get(\"nivTanque\")) > 150){global.set(\"autoBomba\", 1); }\n          // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n            msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- Apago bomb termo\" + \"\\n\"};\n            node.send([null, null, msg]);\n          enviarBlynk();\n          enviarMQTT();\n       }\n    }\n\n    // PONGO BOMBA EN AUTO UNA VEZ QUE SE APAGO Y PASARON 2' DESDE QUE SE APAGO PRESURIZADORA\n    if (date.getTime() > context.tiempo && parseInt(context.manualPorAlarma) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n    //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a MANUAL bomba termo por activarse alarma casa o apagarse bomba agua caliente\\n\"}; node.send([null, null, msg]);\n      context.manualPorAlarma = 0;\n      // global.set(\"autoBomba\", 0);   \n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/Lavadero/AguaCaliente\"){\n      if (msg.payload.substring(0, 19) == \"BombaAguaCalienteSI\" && parseInt(global.get(\"nivTanque\")) > 100){\n        context.manualPorAlarma = 0; \n        global.set(\"autoBomba\", 1);\n        context.manualPorAlarma = 1; \n        context.tiempo = date.getTime() + 1800000;\n        msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- prend bomb termo\" + \"\\n\"};\n        node.send([null, null, msg]);\n    \n      // if (msg.payload.substring(0, 19) == \"BombaAguaCalienteNO\"){context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; return;}\n\t\tpayload = global.get(\"autoBomba\");\n\t\tpayload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; \n\t\tpayload += global.get(\"tempMaximaTermo\") + \"#\";\n\t\tpayload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n\t\tmsg.payload = payload;  \n\t\tmsg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, null, null, msg]); \n\n        payload = \"0#1#\";\n        payload += global.get(\"pedResistencia\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n\n      enviarBlynk();\n      return; \n      }  \n    }\n\n    if (topic == \"aviso/Alarma\" && parseInt(global.get(\"estadoAlarma\") === 0 && parseInt(global.get(\"nivTanque\")) > 150) === 0 && parseInt(global.get(\"hh\")) > 6){\n      global.set(\"autoBomba\", 1);   \n      context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n    //   context.manualPorAlarma = 1;  context.tiempo = date.getTime() + 120000;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 1) return;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 0 && parseInt(global.get(\"hh\")) > 6){\n    //     msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por desactivarse alarma casa \\n\"}; node.send([null, null, msg]);\n    //     global.set(\"autoBomba\", 1);       a\n      enviarBlynk();\n      enviarMQTT();\n    //   }\n    } \n\n    switch (pin){\n      case 101:\n        if (parseInt(payload) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 3600000;\n          global.set(\"pedBomba\", 0); }\n         // if(parseInt(global.get(\"nivTanque\") > 150))\n        global.set(\"autoBomba\", parseInt(payload)); \n\n        if (parseInt(payload) === 1){\n\t\t\tpayload = global.get(\"autoBomba\");\n\t\t\tpayload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; \n\t\t\tpayload += global.get(\"tempMaximaTermo\") + \"#\";\n\t\t\tpayload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n\t\t\tmsg.payload = payload;  \n\t\t\tmsg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, null, null, msg]); \n\n\t        payload = \"0#1#\";\n\t        payload += global.get(\"pedResistencia\") + \"#\"; \n\t        payload += global.get(\"tempMaximaTermo\") + \"#\";\n\t        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n\t        msg.payload = payload;  \n\t        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n\t    }\n\t    else{\n\t    \tenviarMQTT();\n\t    }\n\n\n        enviarBlynk();\n        // enviarMQTT();\n      break;\n\n      case 102:\n        if (parseInt(global.get(\"autoBomba\")) === 0){\n          global.set(\"pedBomba\", payload); \n          enviarMQTT();\n        }\n      break;\n\n      case 103:\n        if (parseInt(payload) === 0){global.set(\"pedResistencia\", 0);}\n        global.set(\"autoResistencia\", payload); \n        controlResistencia();   \n        enviarBlynk();\n        enviarMQTT();\n      break;\n      case 104:\n        if (parseInt(global.get(\"autoResistencia\")) === 0){\n            global.set(\"pedResistencia\", payload); \n            controlResistencia();\n            enviarBlynk();\n            enviarMQTT();}\n      break;\n    }\n\n    if (topic == \"ESP/TermoSolar/controlResistencia\"){\n        controlResistencia();\n        enviarBlynk();\n        enviarMQTT(); \n        return;\n        }\n\n    if (topic == \"ESP/TermoSolar/Envio\"){\n      //0#0#0#15.55#25.55#1020\n        var dato = payload.split(\"#\");\n        global.set(\"estBomba\", parseInt(dato[0])); \n        global.set(\"estResistencia\", parseInt(dato[1])); \n        // global.set(\"estToldo\", parseInt(dato[2]));  \n        if (parseInt(dato[2]) !== 0) global.set(\"tempTermoFin\", parseFloat(dato[2]).toFixed(1)); \n        if (parseInt(dato[3]) !== 0)global.set(\"tempExterior\", parseFloat(dato[3]).toFixed(1)); \n        global.set(\"sensorCrep\", parseInt(dato[4])); \n\n      msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null]);\n      msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null]);\n      msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null]);\n      msg= {topic: \"TanqueAgua\", payload: global.get(\"nivTanque\")}; node.send([msg, null, null]); \n      msg= {topic: \"horasDia\", payload: global.get(\"horasDia\")}; node.send([msg, null, null]); \n\n    controlResistencia();\n    enviarBlynk();\n    enviarMQTT(); \n\n     //  if(parseInt(global.get(\"autoResistencia\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) === 0){\n     //         global.set(\"pedResistencia\", 1);\n     //         controlResistencia();\n        //  enviarBlynk();\n        //  enviarMQTT();   \n     //  }\n\n     //  if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) == 1){\n     //     global.set(\"pedResistencia\", 0);\n     //     controlResistencia();\n        // enviarBlynk();\n        // enviarMQTT();\n        // // return;\n        // }\n        // enviarBlynk();\n    }\n      \n\n    if (topic == \"ESP/TermoSolar/EstadoBomba\"){\n      if (payload.substring(0, 11) == \"bombaMarcha\"){\n        global.set(\"estBomba\", parseInt(payload.substring(11)));\n        if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n        msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        controlBomba();\n      }\n    }\n\n    // var status = new Date().getTime() - global.get(\"comienzoLlenado\")\n    // node.status({text: global.get(\"estBomba\") + \" -- \" + status}) ; \n\n    // PARADA BOMBA POR ERROR DE MARCHA\n    if (global.get(\"estBomba\") === 1 && new Date().getTime() - global.get(\"comienzoLlenado\") > 240000){\n      // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // global.set(\"autoBomba\", 0);\n      global.set(\"pedBomba\", 0);\n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/TermoSolar/Inicio\"){\n        var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n        global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n        global.set(\"tipoFallaIlLiving\", msg.payload); \n        enviarMQTT();\n    }\n\n    if (topic == \"crepMQTT\"){\n        if (parseInt(global.get(\"Dia\")) === 0 && parseInt(global.get(\"pedResistencia\")) === 0 && parseInt(global.get(\"tempTermoFin\")) > 45 && parseInt(global.get(\"tempTermoFin\")) <  parseInt(global.get(\"tempMaxResistenciaAuto\"))){\n        global.set(\"pedResistencia\", 1);\n        controlResistencia();\n        enviarBlynk();\n        enviarMQTT();\n        }\n    }\n\n    function controlResistencia(){\n\n      if(parseInt(global.get(\"habilitacionResistenciaTermo\")) === 0){\n        global.set(\"pedResistencia\", 0);\n     //     enviarBlynk();\n        // enviarMQTT();\n        return;\n      }\n      if(parseInt(global.get(\"autoResistencia\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) === 0){\n            global.set(\"pedResistencia\", 1);\n        }\n\n      if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"pedResistencia\")) == 1){\n        global.set(\"pedResistencia\", 0);\n        }\n\n\n      if(parseInt(global.get(\"pedResistencia\")) === 1 && parseInt(context.estAnteriorResistencia) === 0){\n          context.estAnteriorResistencia = 1;\n          context.tiempoInicioResistencia = new Date().getTime();//}\n          msg = {topic: \"borrar\", payload: context.tiempoInicioResistencia}; node.send([null, msg, null]);\n      }\n\n      if (parseInt(global.get(\"pedResistencia\")) === 0 && parseInt(context.estAnteriorResistencia) === 1){// && context.encendidoResistencia === 1){            \n          context.estAnteriorResistencia = 0;\n          var tiempo = (new Date().getTime() - parseInt(context.tiempoInicioResistencia)) / 3600000;\n          \n          // tiempo = parseFloat(tiempo);\n          var potencia = (1.9 * parseFloat(tiempo)).toFixed(5);\n\n          potencia = parseFloat(potencia) + parseFloat(global.get(\"potenciaResistencia\"));\n          // tiempo = parseFloat(tiempo) + parseFloat(global.get(\"tiempoEncResis\", tiempo));   \n\n          // global.set(\"tiempoEncResis\", tiempo);\n          global.set(\"potenciaResistencia\", parseFloat(potencia).toFixed(2));\n\n          msg= {topic: \"potenciaResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null]); \n          msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        }       \n    }\n\n\n    function controlBomba(){\n      msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null]);\n      if (parseInt(global.get(\"estBomba\")) === 1 && parseInt(context.llenandoTermo) === 0){\n        context.llenandoTermo = 1;\n        global.set(\"comienzoLlenado\", new Date().getTime());}\n      if (parseInt(global.get(\"estBomba\")) === 0 && parseInt(context.llenandoTermo) === 1){\n        context.llenandoTermo = 0;\n        var tiempo = parseInt(new Date().getTime()) - parseInt(global.get(\"comienzoLlenado\"));\n        tiempo = parseFloat(tiempo / 1000).toFixed(2);\n        global.set(\"tiempoLlenado\", tiempo);\n        msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null]);\n        enviarBlynk();\n      } \n    }    \n\n    function enviarBlynk(){\n        msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 104, payload: global.get(\"pedResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \" - \" + global.get(\"tempExterior\") + \" - \" + global.get(\"sensorCrep\")}; node.send([null, null, msg]);  \n        msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg]);\n        msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg]);\n        msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg]);\n        // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg]);\n    }\n\n    // function enviarMQTT(){   \n    //     payload = global.get(\"autoBomba\");\n    //     // payload =\"0\";    \n    //     payload += \"#\"; payload += global.get(\"autoResistencia\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    //     payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; //payload += global.get(\"pedToldo\") + \"#\"; \n    //     payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    //     payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    //     payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    //     // payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    //     msg.payload = payload;  \n    //     msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    // }\n\n    function enviarMQTT(){   \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    }",
+        "outputs": 4,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 250,
+        "wires": [
+            [
+                "15717c5b.f83144",
+                "120619c7.7050b6"
+            ],
+            [
+                "312a5097.1c8b1",
+                "d0080f49.7007d"
+            ],
+            [
+                "a5813ecc.ec70d",
+                "fee66478.1c6498",
+                "d0f59087.1467a"
+            ],
+            [
+                "a128744.8711a88",
+                "459d8d1a.e6a354"
+            ]
+        ]
+    },
+    {
+        "id": "a5813ecc.ec70d",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 770,
+        "y": 350,
+        "wires": []
+    },
+    {
+        "id": "612c01a8.9771c",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "Crepuscular",
+        "topic": "ESP/TermoSolar/Crepuscular",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 260,
+        "y": 600,
+        "wires": [
+            [
+                "39a95d5a.ea8d72",
+                "6fea480e.9f5238"
+            ]
+        ]
+    },
+    {
+        "id": "9c1e39b.cfbb8c8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "noche",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Crepuscular",
+        "payload": "0",
+        "payloadType": "str",
+        "x": 270,
+        "y": 520,
+        "wires": [
+            [
+                "6fea480e.9f5238"
+            ]
+        ]
+    },
+    {
+        "id": "6fea480e.9f5238",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "var payload = parseInt(msg.payload);\ncontext.inicioDia = context.inicioDia || 0;\nvar date = new Date();\n\nif (payload === 1){// payload == valor analogico dia/noche\n\tcontext.inicioDia = date.getTime();\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAmanecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de dia \" + global.get(\"hsAmanecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\n// \tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de dia\\n\"}; node.send(msg);\n\tglobal.set(\"avisoMail\", \" se hizo de dia:  \" + global.get(\"hsAmanecer\"));\n}\nif (payload === 0){\n\tvar finDia = date.getTime() - context.inicioDia;\n\tfinDia = finDia / 1000;\n\tvar hhFinDia = parseFloat(finDia / 3600);\n\tvar mmFinDia = parseInt((finDia - hhFinDia) * 60);\n\tvar horasDia = parseInt(hhFinDia) + \".\" + parseInt(mmFinDia);\n\tglobal.set(\"horasDia\",horasDia);\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAnochecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de noche \" + global.get(\"hsAnochecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\t\n// \tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de noche defasaje termo 3hs\\n\"}; node.send(msg);\n\tglobal.set(\"avisoMail\", \" se hizo de noche:  \" + global.get(\"hsAnochecer\"));\n}\nif (global.get(\"Dia\") === 1)node.status({text: \"amanecio: \" + global.get(\"hsAmanecer\")})\n\tif (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n\n// if (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 420,
+        "y": 550,
+        "wires": [
+            [
+                "5081b1d.d33755",
+                "8bd8d7dc.5ac5a8"
+            ]
+        ]
+    },
+    {
+        "id": "8bd8d7dc.5ac5a8",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 570,
+        "y": 490,
+        "wires": []
+    },
+    {
+        "id": "20cddd8a.dd92e2",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "dia",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Crepuscular",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 270,
+        "y": 560,
+        "wires": [
+            [
+                "6fea480e.9f5238"
+            ]
+        ]
+    },
+    {
+        "id": "180c2f67.1ad531",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1010,
+        "y": 610,
+        "wires": []
+    },
+    {
+        "id": "c5b789fb.271758",
+        "type": "e-mail",
+        "z": "17cadfaf.12d97",
+        "server": "smtp.mail.yahoo.com",
+        "port": "465",
+        "secure": true,
+        "tls": false,
+        "name": "gdietrich22@yahoo.com.ar",
+        "dname": "gd28722563",
+        "x": 1010,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "927132a0.0384a",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "crepMQTT",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 730,
+        "y": 550,
+        "wires": [
+            [
+                "26761002.5cee4",
+                "b2cd1c41.48c08"
+            ]
+        ]
+    },
+    {
+        "id": "b4c683c6.4b604",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "global",
+        "x": 740,
+        "y": 600,
+        "wires": [
+            [
+                "26761002.5cee4"
+            ]
+        ]
+    },
+    {
+        "id": "26761002.5cee4",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.payload = \"cambio en sensor crepuscular\" + global.get(\"avisoMail\") + \" valor sensor: \" + global.get(\"sensorCrep\");\nif (parseInt(global.get(\"Dia\")) === 1){\n    msg.payload = msg.payload + \",  Potencia Resistencia termo acumulado mes: \" + global.get(\"potenciaResistencia\") + \" Kw\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 870,
+        "y": 600,
+        "wires": [
+            [
+                "c5b789fb.271758",
+                "180c2f67.1ad531"
+            ]
+        ]
+    },
+    {
+        "id": "b2cd1c41.48c08",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 990,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "39a95d5a.ea8d72",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 440,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "5081b1d.d33755",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 550,
+        "y": 550,
+        "wires": []
+    },
+    {
+        "id": "cb4da61.1e50058",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "100mS",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 390,
+        "y": 260,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "ae50eb50.2a0ce8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "timer",
+        "repeat": "24",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "timer",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 399,
+        "y": 48,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "ab778c13.7c613",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- \" + msg.payload + \"\\n\"};\n// if (msg.payload.includes(\"bomba\") )return msg;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1370,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c145ef89.03cee",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "EstadoBomba",
+        "topic": "ESP/TermoSolar/EstadoBomba",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 1160,
+        "y": 160,
+        "wires": [
+            [
+                "ab778c13.7c613",
+                "80c9d0f7.fd656"
+            ]
+        ]
+    },
+    {
+        "id": "9cfd21ee.01f19",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "sin debug",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Recibo",
+        "payload": "debug0",
+        "payloadType": "str",
+        "x": 1270,
+        "y": 210,
+        "wires": [
+            [
+                "6f2aaf48.a6bfb"
+            ]
+        ]
+    },
+    {
+        "id": "57dd1e15.741ff",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "con debug",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Recibo",
+        "payload": "debug1",
+        "payloadType": "str",
+        "x": 1270,
+        "y": 250,
+        "wires": [
+            [
+                "6f2aaf48.a6bfb"
+            ]
+        ]
+    },
+    {
+        "id": "6f2aaf48.a6bfb",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1410,
+        "y": 230,
+        "wires": []
+    },
+    {
+        "id": "15717c5b.f83144",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 844,
+        "y": 104,
+        "wires": []
+    },
+    {
+        "id": "fdf96b0f.4710f8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "pruea timer",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Recibo",
+        "payload": "prueba30",
+        "payloadType": "str",
+        "x": 1270,
+        "y": 290,
+        "wires": [
+            [
+                "6f2aaf48.a6bfb"
+            ]
+        ]
+    },
+    {
+        "id": "68fd1dd.08d60e4",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "pedido",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1910,
+        "y": 550,
+        "wires": []
+    },
+    {
+        "id": "80c9d0f7.fd656",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 1370,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "27bbd744.d36ef8",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1360,
+        "y": 70,
+        "wires": []
+    },
+    {
+        "id": "23e5ed0a.0b8c22",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"prueba40\"}; node.send(msg);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1650,
+        "y": 550,
+        "wires": [
+            [
+                "68fd1dd.08d60e4",
+                "ba2104c9.2aca68"
+            ]
+        ]
+    },
+    {
+        "id": "770d32e7.2f07dc",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1510,
+        "y": 550,
+        "wires": [
+            [
+                "23e5ed0a.0b8c22",
+                "cf3a4a8f.8b0a08"
+            ]
+        ]
+    },
+    {
+        "id": "bcfb01d0.6aeda",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Config",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1230,
+        "y": 650,
+        "wires": [
+            [
+                "55917ae0.aa0d84",
+                "be2e8445.84d608"
+            ]
+        ]
+    },
+    {
+        "id": "9bf7b0a0.67d4d",
+        "type": "file in",
+        "z": "17cadfaf.12d97",
+        "name": "recover datos termo",
+        "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 1560,
+        "y": 600,
+        "wires": [
+            [
+                "f5332d19.1f1eb",
+                "cb9ae3b9.f7e66"
+            ]
+        ]
+    },
+    {
+        "id": "5e1cb2f2.c2038c",
+        "type": "file",
+        "z": "17cadfaf.12d97",
+        "name": "back datos termo",
+        "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 1580,
+        "y": 650,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "804fac8b.c948c",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0#0#0#0#0#0#80#55#50#40#650#500#30000",
+        "payloadType": "str",
+        "x": 1390,
+        "y": 690,
+        "wires": [
+            [
+                "5e1cb2f2.c2038c"
+            ]
+        ]
+    },
+    {
+        "id": "ba2104c9.2aca68",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1900,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "55917ae0.aa0d84",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1560,
+        "y": 690,
+        "wires": []
+    },
+    {
+        "id": "fed9ea22.d4ee08",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "15",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1740,
+        "y": 110,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5b9f8de2.52f174",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "if (global.get(\"rociadorToldo\") === undefined)global.set(\"rociadorToldo\", 0);\ncontext.contador = context.contador || 0;\ncontext.manual = context.manual || 0;\nvar topic = msg.topic;\n\nif (parseInt(global.get(\"hh\")) === 0 && context.manual === 1)context.manual = 0;\n\nif (topic == \"reset\"){\n  global.set(\"rociadorToldo\", 0);\n    msg.payload = \"reset\"; node.send([msg, null]);\n    context.manual = 0; return;}\n\nif (parseInt(global.get(\"hh\")) >= 10 && parseInt(global.get(\"hh\")) < 20 && global.get(\"tempExterior\") > 28 && global.get(\"rociadorToldo\") === 0 && context.manual === 0){\n    context.contador = 1;\n    global.set(\"rociadorToldo\", 1);\n    msg = {pin: 99, payload: 1}; node.send([null, msg]);\n    msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n    msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n}\n\nif (global.get(\"rociadorToldo\") === 1){\n  if (parseInt(global.get(\"hh\")) >= 20 || global.get(\"tempExterior\") < 20){\n      context.contador = 0;\n      global.set(\"rociadorToldo\", 0);\n      msg = {pin: 99, payload: 0}; node.send([null, msg]);\n      msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n      // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n  }\n}\n\nif (global.get(\"rociadorToldo\") === 1)context.contador++;\n\nif (context.contador === 240 && global.get(\"rociadorToldo\") === 1){\n    context.contador = 0;\n    msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n    msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n}\n\nif (context.contador === 4 && global.get(\"rociadorToldo\") === 1){\n    msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n    // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n}\n\nif (msg.pin == \"99\"){\n  if (parseInt(msg.payload) === 0)context.manual = 1;\n    global.set(\"rociadorToldo\", parseInt(msg.payload)); msg.payload = global.get(\"rociadorToldo\"); node.send([msg, null]);\n    context.contador = 0;\n    if (global.get(\"rociadorToldo\") === 0) {\n        msg = {topic: \"USBout\", payload: \"rociar0\"}; node.send([msg, null]);\n        // msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 0}; node.send([msg, null]);\n    }\n    if (global.get(\"rociadorToldo\") === 1)  {\n        msg = {topic: \"USBout\", payload: \"rociar1\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: 1}; node.send([msg, null]);\n    }\n}\nnode.status({text: global.get(\"rociadorToldo\") + \" --- \" + context.contador + \"   11\"});\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1920,
+        "y": 110,
+        "wires": [
+            [
+                "e8047439.0b5f38",
+                "3a5ea4fc.37238c"
+            ],
+            [
+                "cd4a8ec4.61e4c",
+                "dffdaf36.90e1a"
+            ]
+        ]
+    },
+    {
+        "id": "afe23215.982c9",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1890,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e8047439.0b5f38",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2100,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3a5ea4fc.37238c",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2100,
+        "y": 50,
+        "wires": []
+    },
+    {
+        "id": "78525ac.b7b36a4",
+        "type": "template",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "debug{{payload}}",
+        "output": "str",
+        "x": 1610,
+        "y": 460,
+        "wires": [
+            [
+                "8f120966.041ba8"
+            ]
+        ]
+    },
+    {
+        "id": "8f120966.041ba8",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "debug",
+        "topic": "ESP/TermoSolar/Recibo",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1740,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "cf3a4a8f.8b0a08",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1510,
+        "y": 500,
+        "wires": [
+            [
+                "d0bfad21.5ede2"
+            ]
+        ]
+    },
+    {
+        "id": "d0bfad21.5ede2",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"debug0\"}; node.send(msg);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1650,
+        "y": 500,
+        "wires": [
+            [
+                "68fd1dd.08d60e4"
+            ]
+        ]
+    },
+    {
+        "id": "968c6712.7c9228",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/pedido",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1380,
+        "y": 730,
+        "wires": [
+            [
+                "8e96a791.bc0688"
+            ]
+        ]
+    },
+    {
+        "id": "8e96a791.bc0688",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1560,
+        "y": 730,
+        "wires": [
+            [
+                "6ec2b2ee.4239cc"
+            ]
+        ]
+    },
+    {
+        "id": "6ec2b2ee.4239cc",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: \"debug0\"}; node.send(msg);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1690,
+        "y": 730,
+        "wires": [
+            [
+                "a83b9091.37b02"
+            ]
+        ]
+    },
+    {
+        "id": "a83b9091.37b02",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "pedido",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1810,
+        "y": 730,
+        "wires": []
+    },
+    {
+        "id": "ecfe7254.21688",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "reset",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 1750,
+        "y": 50,
+        "wires": [
+            [
+                "5b9f8de2.52f174"
+            ]
+        ]
+    },
+    {
+        "id": "dffdaf36.90e1a",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2070,
+        "y": 170,
+        "wires": []
+    },
+    {
+        "id": "4c7ad8ff.a5bd78",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "estadoBomba",
+        "topic": "ESP/TermoSolar/EstadoBomba",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 240,
+        "y": 220,
+        "wires": [
+            [
+                "eff3a752.de3518"
+            ]
+        ]
+    },
+    {
+        "id": "d0f59087.1467a",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "50",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 897,
+        "y": 312,
+        "wires": [
+            [
+                "48ced2fe.e09f6c"
+            ]
+        ]
+    },
+    {
+        "id": "be2e8445.84d608",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "if (msg.payload.substring(0,6) == \"Manual\")return;\nif (msg.payload.includes(\"undefined\"))return;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1410,
+        "y": 650,
+        "wires": [
+            [
+                "5e1cb2f2.c2038c"
+            ]
+        ]
+    },
+    {
+        "id": "b5d03fb6.60682",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "ModoBomba",
+        "topic": "ESP/TermoSolar/ModoBomba",
+        "qos": "2",
+        "broker": "900627dc.76e6a8",
+        "x": 1160,
+        "y": 110,
+        "wires": [
+            [
+                "ab778c13.7c613"
+            ]
+        ]
+    },
+    {
+        "id": "f344aff1.80def",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "// Sal1  thingspeak\n// Sal2  mqtt\n// Sal3  blynk\n// Sal4  mysql\n\ncontext.llenandoTermo = context.llenandoTermo || 0;\ncontext.encendidoResistencia = context.encendidoResistencia || 0;\ncontext.estAnteriorResistencia = context.estAnteriorResistencia || 0;\ncontext.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\ncontext.bombaAutoAnulada = context.bombaAutoAnulada || 1;\n\nvar topic = msg.topic;\nvar payload = msg.payload;\nvar comienzoLlenado;\nvar terminoLlenado;\nvar valorDia = global.get(\"valorDia\");\nvar valorNoche = global.get(\"valorNoche\");\n\nif (topic == \"crepMQTT\" && payload == \"1\"){\n  global.set(\"millisDia\", new Date().getTime() + 1000 * 60 * 60); \n  msg = {pin: 127, payload: global.get(\"hsCpu\") + \", se hizo de dia defasaje 1hs \\n\"};\n  return([null, null, msg, null]);\n}\nnode.status({text: global.get(\"hh\") + \" -- \" + global.get(\"autoBomba\") + \" -- \" + global.get(\"estBomba\")})\n\nif (topic == \"timer\"){\n if (parseInt(global.get(\"hh\")) === 22 && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a manual bomba termo \\n\"}; node.send([null, null, msg, null]);\n   global.set(\"autoBomba\", 0);\n   global.set(\"pedBomba\", 0);\n   enviarBlynk();\n   enviarMQTT();\n }\n // if (new Date().getTime() > parseInt(global.get(\"millisDia\")) && parseInt(global.get(\"autoBomba\") === 0)){\n //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a automatico bomba termo por offset dia \\n\"}; node.send([null, null, msg, null]);\n //   global.set(\"autoBomba\", 1); \n //   enviarMQTT();\n // }\n if (parseInt(global.get(\"hh\")) === 9 && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a automatico bomba termo por hora \\n\"}; node.send([null, null, msg, null]);\n   context.bombaAutoAnulada = 0;\n   global.set(\"autoBomba\", 1); \n   // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n   enviarBlynk();\n   enviarMQTT();\n } \n return;\n}\n\n\nif (topic == \"bombaAuto\"){\t\n  if (parseInt(payload) === 0){\n    global.set(\"bombaAutoAnulada\", 0);\n    global.set(\"pedBomba\", 0); }\n    // context.bombaAutoAnulada = 1;} \n  if (parseInt(payload) === 1){\n    global.set(\"bombaAutoAnulada\", 1);}\n    // context.bombaAutoAnulada = 0;}\n  global.set(\"autoBomba\", payload); enviarMQTT();}\n\n// if (topic == \"forzarManual\"){\n//  if (parseInt(payload) === 0){//habilitada\n//    // global.set(\"bombaAutoAnulada\", 1);\n//    global.set(\"autoBomba\", 0); \n//    msg = \"Manual0\";\n//  }\n//    // context.bombaAutoAnulada = 1;} \n//  if (parseInt(payload) === 1){//anulada\n//    // global.set(\"bombaAutoAnulada\", 0);\n//    msg = \"Manual1\";}\n//    // context.bombaAutoAnulada = 0;}\n//  global.set(\"autoBomba\", payload); \n//  msg = {topic:\"ESP/TermoSolar/Config\", payload: msg};\n//     node.send([null, msg, null, null]);\n\n//  // enviarMQTT();}  \n// }\n\nif (topic == \"marchaBomba\" && global.get(\"autoBomba\") === 0){\n  global.set(\"pedBomba\", payload); enviarMQTT();}\n  \nif (topic == \"resistenciaAuto\"){\n  if (parseInt(payload) === 0)global.set(\"pedResistencia\", 0);\n  global.set(\"autoResistencia\", payload); enviarMQTT();}//encendidoResistencia\n\nif (topic == \"encendidoResistencia\" && global.get(\"autoResistencia\") === 0){\n  global.set(\"pedResistencia\", payload); enviarMQTT();}\n\nif (topic == \"ESP/TermoSolar/Envio\"){\n  //0#0#0#15.55#25.55#1020\n  var dato = payload.split(\"#\");\n  global.set(\"estBomba\", parseInt(dato[0])); \n  global.set(\"estResistencia\", parseInt(dato[1])); \n  global.set(\"estToldo\", parseInt(dato[2]));  \n  global.set(\"tempTermoFin\", dato[3]); \n  global.set(\"tempExterior\", dato[4]); \n  global.set(\"sensorCrep\", parseInt(dato[5])); //msg.payload = dato[5]; node.send(msg);\n\n  // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 104, payload: global.get(\"estResistencia\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 110, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n\n\n  msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \"  --  \" + global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n\n  msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n\n  msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null, null]);\n  // msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);  //estBomba\n\n  // msg= {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null, null]);\n  // msg= {topic: \"estResistencia\", payload: global.get(\"estResistencia\")}; node.send([msg, null, null, null]);\n\n//  controlCrepuscular();\n  // controlBomba();\n\n    if(global.get(\"estResistencia\") === 1){\n        if (context.estAnteriorResistencia === 0){\n        context.encendidoResistencia = 1;\n        context.estAnteriorResistencia = 1;\n        // global.set(\"resistenciaEncendida\", new Date().getTime());\n        context.tiempoInicioResistencia = new Date().getTime();}\n\n        var tiempo = (new Date().getTime() - context.tiempoInicioResistencia) / 60000;\n        var potencia = ((1.5/60) * tiempo).toFixed(5);\n        global.set(\"potenciaResistencia\", potencia);\n    // msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null, null]);\n    }\n\n    if (global.get(\"estResistencia\") === 0 && context.encendidoResistencia === 1){\n        context.estAnteriorResistencia = 0;\n        context.encendidoResistencia = 0;\n        var tiempo = (new Date().getTime() - context.tiempoInicioResistencia) / 60000;\n        var potencia = ((1.5/60) * tiempo).toFixed(5);\n        tiempo = parseFloat(tiempo).toFixed(2);\n        global.set(\"tiempoEncResis\", tiempo);\n        global.set(\"potenciaResistencia\", potencia);\n\n\n\n        // msg = {topic: \"tiempoEncResis\", payload: global.get(\"tiempoEncResis\")}; node.send([msg, null, null, null]);\n        // msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null, null]);\n        // global.set(\"potenciaResistencia\",0);\n    }\n    // if (global.get(\"estResistencia\") === \"0\" && context.encendidoResistencia == \"0\"){\n    //  msg = {topic: \"potResistencia\", payload: global.get(\"potenciaResistencia\")}; \n    //  node.send([msg, null, null, null]);}\n    enviarBlynk();\n}\n\n// if (topic == \"ESP/TermoSolar/ModoBomba\"){\n//  if (payload.substring(0, 9) == \"bombaAuto\"){\n//  // if (payload.includes(\"bombaAuto0\") || payload.includes(\"bombaAuto1\")){\n//    global.set(\"autoBomba\", parseInt(payload.substring(9)));\n//    if (global.get(\"autoBomba\") === 0)global.set(\"pedBomba\", 0);\n//    if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n//    msg = {pin: 102, label: estadoBomba, payload: global.get(\"pedBomba\")}; node.send([null, null, msg, null]);    \n//    // enviarMQTT();\n//    // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);    \n//  }\n// }\nif (topic == \"ESP/TermoSolar/EstadoBomba\"){//  bombaMarcha1\n  if (payload.substring(0, 11) == \"bombaMarcha\"){// || payload.substring(0, 12) == \"bombaM+archa\"){\n  // if (payload.includes(\"bombaMarcha0\") || payload.includes(\"bombaMarcha1\")){\n    global.set(\"estBomba\", parseInt(payload.substring(11)));\n    if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n    msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    // if (global.get(\"estBomba\") === 0)global.set(\"pedBomba\", 0);\n    // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    // enviarMQTT();\n    controlBomba();\n  }\n\n  // global.set(\"estBomba\", parseInt(payload));\n  // msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n  // controlBomba();\n}\n\nif (topic == \"ESP/TermoSolar/pedido\"){\n    var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n    global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n    global.set(\"tipoFallaIlLiving\", msg.payload); \n    enviarMQTT();}\n\nfunction controlBomba(){\n  msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null, null]);\n  if (global.get(\"estBomba\")=== 1 && context.llenandoTermo === 0){\n    context.llenandoTermo = 1;\n    global.set(\"comienzoLlenado\", new Date().getTime());}\n  if (global.get(\"estBomba\") === 0 && context.llenandoTermo === 1){\n    context.llenandoTermo = 0;\n    var tiempo = new Date().getTime() - global.get(\"comienzoLlenado\");\n    tiempo = parseFloat(tiempo / 1000).toFixed(2);\n    global.set(\"tiempoLlenado\", tiempo);\n    msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null, null]);\n    enviarBlynk();\n    // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n    // msg = {pin: 105, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n  } \n}    \n\n// function controlCrepuscular(){\n//  if (global.get(\"sensorCrep\") > valorDia && global.get(\"Dia\") === 0){global.set(\"Dia\", 1); msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);}\n//  if (global.get(\"sensorCrep\") < valorNoche && global.get(\"Dia\") === 1){global.set(\"Dia\", 0); msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);}\n//  // msg = {topic: \"ESP/TermoSolar/Crepuscular\", payload: global.get(\"Dia\")}; node.send([null, msg, null, null]);\n// }\n\nfunction enviarBlynk(){\n    msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n    msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg, null]);\n    msg = {pin: 104, payload: global.get(\"estResistencia\")}; node.send([null, null, msg, null]);\n    msg = {pin: 105, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n    msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \"  --  \" + global.get(\"tempExterior\")}; node.send([null, null, msg, null]);  \n    msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg, null]);\n    msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg, null]);\n    msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg, null]);\n    msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg, null]);\n}\n\nfunction enviarMQTT(){   \n  // msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n  // var estadoBomba;\n  // if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n  // msg = {pin: 102, label: estadoBomba, payload: global.get(\"pedBomba\")}; node.send([null, null, msg, null]);\n  // msg = {pin: 104, payload: global.get(\"pedResistencia\")}; node.send([null, null, msg, null]);\n  // if (topic == \"ESP/TermoSolar/Bomba\")return;\n    // msg.payload = topic; node.send([null, msg, null, null]); \n    payload = global.get(\"autoBomba\") + \"#\"; payload += global.get(\"autoResistencia\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    payload += global.get(\"pedBomba\") + \"#\"; payload += global.get(\"pedResistencia\") + \"#\"; payload += global.get(\"pedToldo\") + \"#\"; \n    payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    // payload += \"#\" + global.get(\"bombaAutoAnulada\");\n    msg.payload = payload;  \n    msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null, null]);\n}",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 170,
+        "y": 130,
+        "wires": [
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "eff3a752.de3518",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "100mS",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "175128d0.232fe7",
+                "73825806.e85588",
+                "eb7da846.da7938"
+            ]
+        ]
+    },
+    {
+        "id": "a95e076c.28a548",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/Lavadero/Presurizadora",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1810,
+        "y": 230,
+        "wires": [
+            [
+                "c60d0701.7afb78",
+                "3cbbdb78.1c2784"
+            ]
+        ]
+    },
+    {
+        "id": "c60d0701.7afb78",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "if (msg.payload === \"0\") msg.payload = global.get(\"fechaCompleta\") + \" - Sin Rociar\\n\";\nif (msg.payload === \"1\") msg.payload = global.get(\"fechaCompleta\") + \" - Rociando\\n\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2000,
+        "y": 230,
+        "wires": [
+            [
+                "411aee5d.52986"
+            ]
+        ]
+    },
+    {
+        "id": "411aee5d.52986",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "terminalBlynk",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2160,
+        "y": 230,
+        "wires": []
+    },
+    {
+        "id": "3cbbdb78.1c2784",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 2020,
+        "y": 270,
+        "wires": []
+    },
+    {
+        "id": "b36fe59d.ea6ce8",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/Lavadero/Presurizadora",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2280,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "28249150.b9ac2e",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "aviso/Alarma",
+        "qos": "2",
+        "broker": "6b36e4a.1d30b1c",
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "ecde02ad.86ec1"
+            ]
+        ]
+    },
+    {
+        "id": "ab1d306e.08657",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 560,
+        "y": 110,
+        "wires": [
+            [
+                "6cac749e.e260cc"
+            ]
+        ]
+    },
+    {
+        "id": "6cac749e.e260cc",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.pin = 101;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 90,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "e6af6242.55db8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 560,
+        "y": 70,
+        "wires": [
+            [
+                "6cac749e.e260cc"
+            ]
+        ]
+    },
+    {
+        "id": "3be84564.9a44ba",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/Lavadero/AguaCaliente",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 325,
+        "y": 114,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "2141b1f8.ecaf2e",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 680,
+        "wires": [
+            [
+                "71f7d0d7.4a5a5"
+            ]
+        ]
+    },
+    {
+        "id": "71f7d0d7.4a5a5",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.payload = global.get(\"hsCpu\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 310,
+        "y": 680,
+        "wires": [
+            [
+                "668cf86d.0ed508"
+            ]
+        ]
+    },
+    {
+        "id": "668cf86d.0ed508",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 500,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "cb9ae3b9.f7e66",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1800,
+        "y": 630,
+        "wires": []
+    },
+    {
+        "id": "7f3e7ba4.d12f14",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 2060,
+        "y": 310,
+        "wires": [
+            [
+                "b36fe59d.ea6ce8"
+            ]
+        ]
+    },
+    {
+        "id": "16db6f45.e87eb1",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 2060,
+        "y": 370,
+        "wires": [
+            [
+                "b36fe59d.ea6ce8"
+            ]
+        ]
+    },
+    {
+        "id": "892093c2.02471",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/Lavadero/AguaFria",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2000,
+        "y": 400,
+        "wires": [
+            [
+                "3347295a.45ecd6"
+            ]
+        ]
+    },
+    {
+        "id": "3347295a.45ecd6",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "var dato = msg.payload;\nif (dato.substring(0, 15) == \"BombaAguaFriaSI\")msg.payload = 1;\nif (dato.substring(0, 15) == \"BombaAguaFriaNO\")msg.payload = 0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2180,
+        "y": 400,
+        "wires": [
+            [
+                "fa12e4b.e0b2718"
+            ]
+        ]
+    },
+    {
+        "id": "ecde02ad.86ec1",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "100mS",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "3f1bbb9.ce0db44",
+        "type": "link in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "links": [
+            "744f52d5.ad8ecc"
+        ],
+        "x": 885,
+        "y": 560,
+        "wires": [
+            [
+                "c5b789fb.271758"
+            ]
+        ]
+    },
+    {
+        "id": "1a2b83ea.ee6f4c",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 660,
+        "y": 430,
+        "wires": [
+            [
+                "3b1ad846.46bf18"
+            ]
+        ]
+    },
+    {
+        "id": "3b1ad846.46bf18",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg= {topic: \"horasDia\", payload: \"1.5\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 820,
+        "y": 440,
+        "wires": [
+            [
+                "a26bf49d.7592a8"
+            ]
+        ]
+    },
+    {
+        "id": "ceedbfdf.eafc",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "USBin",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1500,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "edf96630.2efd58",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "if (msg.payload.substring(0, 9) == \"Resultado\"){\n    msg = {topic: \"terminalBlynk\", payload: msg.payload};\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1700,
+        "y": 920,
+        "wires": [
+            [
+                "7a86fcb3.a9e2d4"
+            ]
+        ]
+    },
+    {
+        "id": "7a86fcb3.a9e2d4",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "pedido",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1840,
+        "y": 910,
+        "wires": []
+    },
+    {
+        "id": "448649a8.aeaab8",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "bomba man/auto",
+        "pin": "101",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "26db8e32.8f6cd2",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "marcha bomba",
+        "pin": "102",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 370,
+        "y": 350,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "a0111784.f9b148",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "resistencia man/auto",
+        "pin": "103",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "ab40319.f2ffbd",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "encendido resistencia",
+        "pin": "104",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 350,
+        "y": 450,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "9ab98a60.9eddc8",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "Rociador 99",
+        "pin": "99",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1740,
+        "y": 160,
+        "wires": [
+            [
+                "5b9f8de2.52f174",
+                "afe23215.982c9"
+            ]
+        ]
+    },
+    {
+        "id": "ad63f47b.2f0648",
+        "type": "blynk-ws-in-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": "98",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2010,
+        "y": 340,
+        "wires": [
+            [
+                "b36fe59d.ea6ce8"
+            ]
+        ]
+    },
+    {
+        "id": "48ced2fe.e09f6c",
+        "type": "blynk-ws-out-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 1077,
+        "y": 305,
+        "wires": []
+    },
+    {
+        "id": "e7939c04.95fce",
+        "type": "blynk-ws-out-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 1550,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "cd4a8ec4.61e4c",
+        "type": "blynk-ws-out-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 2100,
+        "y": 130,
+        "wires": []
+    },
+    {
+        "id": "fa12e4b.e0b2718",
+        "type": "blynk-ws-out-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": "98",
+        "pinmode": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2330,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "fee66478.1c6498",
+        "type": "blynk-ws-out-set-property",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "prop": "bycode",
+        "client": "2c18e412.5f5cbc",
+        "x": 840,
+        "y": 270,
+        "wires": []
+    },
+    {
+        "id": "120619c7.7050b6",
+        "type": "thingspeak42",
+        "z": "17cadfaf.12d97",
+        "name": "4EICHLJL446HHU1Z",
+        "delay": "15",
+        "topic1": "temperaturaTermo",
+        "topic2": "temperaturaExterior",
+        "topic3": "crepuscular",
+        "topic4": "estBomba",
+        "topic5": "tiempoLlenado",
+        "topic6": "TanqueAgua",
+        "topic7": "potenciaResistencia",
+        "topic8": "horasDia",
+        "endpoint": "https://thingspeak.com",
+        "x": 881,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a26bf49d.7592a8",
+        "type": "thingspeak42",
+        "z": "17cadfaf.12d97",
+        "name": "4EICHLJL446HHU1Z",
+        "delay": "1",
+        "topic1": "temperaturaTermo",
+        "topic2": "temperaturaExterior",
+        "topic3": "crepuscular",
+        "topic4": "estBomba",
+        "topic5": "tiempoLlenado",
+        "topic6": "TanqueAgua",
+        "topic7": "potenciaResistencia",
+        "topic8": "horasDia",
+        "endpoint": "https://thingspeak.com",
+        "x": 1050,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "fe494e9c.4bae6",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 582.7777777777777,
+        "y": 355.55555555555554,
+        "wires": []
+    },
+    {
+        "id": "15a7f293.f5257d",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Reset",
+        "payloadType": "str",
+        "x": 1230.7143173217773,
+        "y": 341.428560256958,
+        "wires": [
+            [
+                "2736159a.8a82aa"
+            ]
+        ]
+    },
+    {
+        "id": "2736159a.8a82aa",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Config",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1460.714210510254,
+        "y": 341.4285659790039,
+        "wires": []
+    },
+    {
+        "id": "53cd14c3.6607fc",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Inicio",
+        "payload": "",
+        "payloadType": "date",
+        "x": 259.16666666666663,
+        "y": 783.3333333333333,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "9bd223de.b65fb",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "terminalBlynk",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 809,
+        "y": 389,
+        "wires": []
+    },
+    {
+        "id": "eb7da846.da7938",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.payload = msg.payload;// + \"/n\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 566.5,
+        "y": 309,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "73825806.e85588",
+        "type": "blynk-ws-out-write",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pin": "105",
+        "pinmode": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 597.5,
+        "y": 182,
+        "wires": []
+    },
+    {
+        "id": "3d026f4c.bea46",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "crepMQTT",
+        "qos": "2",
+        "broker": "6b36e4a.1d30b1c",
+        "x": 228,
+        "y": 20,
+        "wires": [
+            [
+                "ab9e65ca.914d28"
+            ]
+        ]
+    },
+    {
+        "id": "ab9e65ca.914d28",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "20",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 380,
+        "y": 20,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "c8fcd2bc.f829e",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.payload = global.get(\"autoResistencia\") + \"#\" + global.get(\"tempTermoFin\") + \"#\" + global.get(\"tempMinimaResistenciaAuto\") + \"#\" + global.get(\"tempMaxResistenciaAuto\")  + \"#\" + global.get(\"pedResistencia\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 769.5,
+        "y": 41,
+        "wires": [
+            [
+                "9ba89d5c.9d695"
+            ]
+        ]
+    },
+    {
+        "id": "cad48753.a12eb8",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 627.5,
+        "y": 35,
+        "wires": [
+            [
+                "c8fcd2bc.f829e"
+            ]
+        ]
+    },
+    {
+        "id": "4a5de491.a102cc",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 834.5,
+        "y": 81,
+        "wires": [
+            [
+                "4ce70b99.8f6904"
+            ]
+        ]
+    },
+    {
+        "id": "4ce70b99.8f6904",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1128.5,
+        "y": 27,
+        "wires": [
+            [
+                "79530500.5a7e6c"
+            ]
+        ]
+    },
+    {
+        "id": "79530500.5a7e6c",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1251.5,
+        "y": 29,
+        "wires": []
+    },
+    {
+        "id": "9ba89d5c.9d695",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 936.5,
+        "y": 16,
+        "wires": []
+    },
+    {
+        "id": "76b0a529.1feafc",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 788.5,
+        "y": 480,
+        "wires": [
+            [
+                "fe1c2626.0ab558"
+            ]
+        ]
+    },
+    {
+        "id": "fe1c2626.0ab558",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "global.set(\"tiempoEncResis\", 0);\n\t      global.set(\"potenciaResistencia\", 0);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 934.5,
+        "y": 478,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f883f6f.0a67d",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/controlResistencia",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 304,
+        "y": 80,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "274d8dce.8c9af2",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 77.5,
+        "y": 349,
+        "wires": [
+            [
+                "dbc470cd.64e0b"
+            ]
+        ]
+    },
+    {
+        "id": "9a29f106.3e75a",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 77.5,
+        "y": 458,
+        "wires": []
+    },
+    {
+        "id": "dbc470cd.64e0b",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "msg.payload = global.get(\"potenciaResistencia\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 104.5,
+        "y": 391,
+        "wires": [
+            [
+                "9a29f106.3e75a"
+            ]
+        ]
+    },
+    {
+        "id": "701e3064.7704a",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 989.5,
+        "y": 85,
+        "wires": []
+    },
+    {
+        "id": "a128744.8711a88",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1078,
+        "y": 247,
+        "wires": []
+    },
+    {
+        "id": "312a5097.1c8b1",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 987,
+        "y": 170,
+        "wires": []
+    },
+    {
+        "id": "f9a19985.3905e8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Lavadero/AguaCaliente",
+        "payload": "BombaAguaCalienteSI",
+        "payloadType": "str",
+        "x": 627.5,
+        "y": 144,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "459d8d1a.e6a354",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 838.5,
+        "y": 235,
+        "wires": [
+            [
+                "f73f6c96.0f0c9",
+                "d0080f49.7007d"
+            ]
+        ]
+    },
+    {
+        "id": "f73f6c96.0f0c9",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1041,
+        "y": 233,
+        "wires": []
+    },
+    {
+        "id": "26f16b29.80b624",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/TermoSolar/Inicio",
+        "payload": "",
+        "payloadType": "date",
+        "x": 116.5,
+        "y": 63,
+        "wires": [
+            [
+                "175128d0.232fe7"
+            ]
+        ]
+    },
+    {
+        "id": "293063f2.d2e8dc",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "3600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 217.5,
+        "y": 496,
+        "wires": [
+            [
+                "6ff510c0.f84ad",
+                "df9cb332.d42a4"
+            ]
+        ]
+    },
+    {
+        "id": "6ff510c0.f84ad",
+        "type": "function",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "func": "if (parseInt(global.get(\"hh\")) > 7){\n    msg = {pin: 101, payload: 1};\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 379.5,
+        "y": 497,
+        "wires": [
+            [
+                "175128d0.232fe7",
+                "742ad6f.4f6a828"
+            ]
+        ]
+    },
+    {
+        "id": "df9cb332.d42a4",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 602.5,
+        "y": 466,
+        "wires": []
+    },
+    {
+        "id": "742ad6f.4f6a828",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 599,
+        "y": 393,
+        "wires": []
+    },
+    {
+        "id": "5a87681f.5e91f8",
+        "type": "inject",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 781.5,
+        "y": 698,
+        "wires": [
+            [
+                "c5b789fb.271758"
+            ]
+        ]
+    },
+    {
+        "id": "d0080f49.7007d",
+        "type": "mqtt out",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1021,
+        "y": 199,
+        "wires": []
     }
 ]
