@@ -2034,8 +2034,7 @@
         "wires": [
             [
                 "7187c2e5.d9c10c",
-                "b50751d4.0745",
-                "52dc0931.634188"
+                "b50751d4.0745"
             ]
         ]
     },
@@ -2524,8 +2523,8 @@
         "id": "c45d2106.9d2f9",
         "type": "exec",
         "z": "3ce5b54a.127d6a",
-        "command": "./temp.sh",
-        "addpay": true,
+        "command": "cat /sys/class/thermal/thermal_zone0/temp",
+        "addpay": "payload",
         "append": "",
         "useSpawn": "false",
         "timer": "",
@@ -2536,7 +2535,7 @@
         "wires": [
             [
                 "ceaa70f7.12e92",
-                "b5334e08.2a0aa"
+                "fedc8d6a.5d4ae"
             ],
             [],
             []
@@ -2563,18 +2562,28 @@
         "type": "inject",
         "z": "3ce5b54a.127d6a",
         "name": "",
-        "repeat": "30",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
         "topic": "Baterias/Est/Pedido/Resp",
         "payload": "",
         "payloadType": "date",
-        "x": 180,
-        "y": 1050,
+        "x": 90,
+        "y": 1080,
         "wires": [
             [
-                "c45d2106.9d2f9"
+                "c45d2106.9d2f9",
+                "bda0b692.9d67a8"
             ]
         ]
     },
@@ -3190,20 +3199,6 @@
         "wires": []
     },
     {
-        "id": "b5334e08.2a0aa",
-        "type": "debug",
-        "z": "3ce5b54a.127d6a",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 510,
-        "y": 1130,
-        "wires": []
-    },
-    {
         "id": "ea97adc2.af88d",
         "type": "inject",
         "z": "3ce5b54a.127d6a",
@@ -3361,20 +3356,6 @@
         ]
     },
     {
-        "id": "52dc0931.634188",
-        "type": "debug",
-        "z": "3ce5b54a.127d6a",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 300,
-        "y": 1120,
-        "wires": []
-    },
-    {
         "id": "bcf69a76.207f48",
         "type": "debug",
         "z": "3ce5b54a.127d6a",
@@ -3397,8 +3378,8 @@
         "qos": "",
         "retain": "",
         "broker": "e779f8d6.7bc2c8",
-        "x": 933,
-        "y": 977,
+        "x": 990,
+        "y": 1060,
         "wires": []
     },
     {
@@ -12482,17 +12463,17 @@
         "z": "3ce5b54a.127d6a",
         "name": "FUVQOCDCDSQ684O3",
         "delay": "15",
-        "topic1": "tempAmbiente",
-        "topic2": "tempBat1",
-        "topic3": "tempBat2",
-        "topic4": "tempCPU",
+        "topic1": "tempRPI",
+        "topic2": "tempGPU",
+        "topic3": "",
+        "topic4": "",
         "topic5": "",
         "topic6": "",
         "topic7": "",
         "topic8": "",
         "endpoint": "https://thingspeak.com",
-        "x": 790,
-        "y": 1000,
+        "x": 930,
+        "y": 1220,
         "wires": []
     },
     {
@@ -15454,17 +15435,19 @@
         "id": "a9d852d5.43883",
         "type": "exec",
         "z": "3ce5b54a.127d6a",
-        "command": "cat /sys/class/thermal/thermal_zone0/temp ",
-        "addpay": true,
+        "command": "vcgencmd measure_temp",
+        "addpay": "payload",
         "append": "",
         "useSpawn": "false",
         "timer": "",
         "oldrc": true,
         "name": "tempCPU",
-        "x": 150,
-        "y": 1100,
+        "x": 360,
+        "y": 1120,
         "wires": [
-            [],
+            [
+                "fedc8d6a.5d4ae"
+            ],
             [],
             []
         ]
@@ -21755,9 +21738,12 @@
         "type": "function",
         "z": "17cadfaf.12d97",
         "name": "val. in. termo",
-        "func": "var dato = msg.payload.split(\"#\");\nglobal.set(\"autoBomba\", dato[0]);\nglobal.set(\"autoResistencia\", dato[1]);\nglobal.set(\"autoToldo\", dato[2]);\nglobal.set(\"pedBomba\", dato[3]);\nglobal.set(\"pedResistencia\", dato[4]);\nglobal.set(\"pedToldo\", dato[5]);\nglobal.set(\"tempMaximaTermo\", dato[6]);\nglobal.set(\"tempMaxResistencia\", dato[7]);\nglobal.set(\"tempMaxResistenciaManual\", dato[8]);\nglobal.set(\"tempMinimaResistencia\", dato[9]);\n// global.set(\"valorDia\", dato[10]);\n// global.set(\"valorNoche\", dato[11]);\n// global.set(\"segundosMarchaBomba\", dato[12]);\n// global.set(\"offsetDia\", dato[13]);\n// global.set(\"offsetNoche\", dato[14]);\n\nglobal.set(\"estBomba\", 0);\nglobal.set(\"estResistencia\", 0);\nglobal.set(\"estToldo\", 0);\nglobal.set(\"tempTermoFin\", 0);\nglobal.set(\"tempExteriorFin\", 0);\nglobal.set(\"sensorCrep\", 0);\nglobal.set(\"comienzoLlenado\", 0);\nglobal.set(\"tiempoLlenado\", 0);\nmsg = {topic: \"ESP/TermoSolar/pedido\", payload: 1}; node.send(msg);//ESP/TermoSolar/Recibo\n\n",
+        "func": "var dato = msg.payload.split(\"#\");\nglobal.set(\"autoBomba\", dato[0]);\nglobal.set(\"autoResistencia\", dato[1]);\nglobal.set(\"autoToldo\", dato[2]);\nglobal.set(\"pedBomba\", dato[3]);\nglobal.set(\"pedResistencia\", dato[4]);\nglobal.set(\"pedToldo\", dato[5]);\nglobal.set(\"tempMaximaTermo\", dato[6]);\nglobal.set(\"tempMaxResistencia\", dato[7]);\nglobal.set(\"tempMaxResistenciaManual\", dato[8]);\nglobal.set(\"tempMinimaResistencia\", dato[9]);\n// global.set(\"valorDia\", dato[10]);\n// global.set(\"valorNoche\", dato[11]);\n// global.set(\"segundosMarchaBomba\", dato[12]);\n// global.set(\"offsetDia\", dato[13]);\n// global.set(\"offsetNoche\", dato[14]);\n\nglobal.set(\"estBomba\", 0);\nglobal.set(\"estResistencia\", 0);\nglobal.set(\"estToldo\", 0);\nglobal.set(\"tempExterior\", 0);\nglobal.set(\"tempTermoFin\", 0);\nglobal.set(\"tempExteriorFin\", 0);\nglobal.set(\"sensorCrep\", 0);\nglobal.set(\"comienzoLlenado\", 0);\nglobal.set(\"tiempoLlenado\", 0);\nmsg = {topic: \"ESP/TermoSolar/pedido\", payload: 1}; node.send(msg);//ESP/TermoSolar/Recibo\n\n",
         "outputs": 1,
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 1750,
         "y": 600,
         "wires": [
@@ -21865,7 +21851,7 @@
         "type": "debug",
         "z": "17cadfaf.12d97",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -23330,8 +23316,8 @@
         "pinmode": "1",
         "prop": "bycode",
         "client": "2c18e412.5f5cbc",
-        "x": 840,
-        "y": 270,
+        "x": 900,
+        "y": 300,
         "wires": []
     },
     {
@@ -24007,5 +23993,100 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "b30952a1.e2bc5",
+        "type": "debug",
+        "z": "3ce5b54a.127d6a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "fedc8d6a.5d4ae",
+        "type": "function",
+        "z": "3ce5b54a.127d6a",
+        "name": "",
+        "func": "context.dato = context.dato || 0;\nvar dato = 0;\n\ncontext.dato = context.dato + 1\n\nif (parseInt(context.dato) === 1){\n    dato = parseInt(msg.payload) / 1000;\n    global.set(\"tempRPI\", dato.toFixed(1));\n}\nif (parseInt(context.dato) === 2){\n    context.dato = 0 ;\n    dato = parseFloat(msg.payload.substring(5));\n    global.set(\"tempGPU\", dato);\n    msg.payload = \"Cpu: \" + global.get(\"tempRPI\");\n    msg.payload += \", GPU: \" + global.get(\"tempGPU\");\n    node.send([msg, null]);\n    msg= {topic: \"tempRPI\", payload: global.get(\"tempRPI\")}; node.send([null, msg]);\n    msg= {topic: \"tempGPU\", payload: global.get(\"tempGPU\")}; node.send([null, msg]);\n    if (parseInt(global.get(\"tempRPI\")) > 65 || parseInt(global.get(\"tempGPU\")) > 70){\n        msg = {topic: \"notifyBlynk\", payload: global.get(\"hsCpu\") + \" - RPI muy Caliente\"};\n        node.send([msg, null]);\n    }\n    return;\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1140,
+        "wires": [
+            [
+                "b30952a1.e2bc5",
+                "8e765cc1.2afb1"
+            ],
+            [
+                "62525e7.2f30ca",
+                "5eb90f5.fd3b4f"
+            ]
+        ]
+    },
+    {
+        "id": "bda0b692.9d67a8",
+        "type": "delay",
+        "z": "3ce5b54a.127d6a",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 200,
+        "y": 1120,
+        "wires": [
+            [
+                "a9d852d5.43883"
+            ]
+        ]
+    },
+    {
+        "id": "4b84f950.1a8008",
+        "type": "mqtt in",
+        "z": "3ce5b54a.127d6a",
+        "name": "tempExterior",
+        "topic": "ESP/TermoSolar/Envio",
+        "qos": "2",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 130,
+        "y": 1040,
+        "wires": [
+            [
+                "c45d2106.9d2f9"
+            ]
+        ]
+    },
+    {
+        "id": "5eb90f5.fd3b4f",
+        "type": "debug",
+        "z": "3ce5b54a.127d6a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 1280,
+        "wires": []
     }
 ]
