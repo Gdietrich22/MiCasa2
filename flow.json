@@ -1597,9 +1597,10 @@
         "server": "smtp.mail.yahoo.com",
         "port": "465",
         "secure": true,
+        "tls": false,
         "name": "gdietrich22@yahoo.com.ar",
-        "dname": "gd28722563",
-        "x": 780,
+        "dname": "hbeqqdvdulleezlp",
+        "x": 800,
         "y": 320,
         "wires": []
     },
@@ -20658,8 +20659,8 @@
         "secure": true,
         "tls": false,
         "name": "gdietrich22@yahoo.com.ar",
-        "dname": "gd28722563",
-        "x": 970.0793609619141,
+        "dname": "hbeqqdvdulleezlp",
+        "x": 990.0793609619141,
         "y": 250.31744130452472,
         "wires": []
     },
@@ -21122,20 +21123,6 @@
         "wires": []
     },
     {
-        "id": "fd21249c.cd27c8",
-        "type": "blynk-ws-in-write",
-        "z": "a43ba0fe.679e4",
-        "name": "",
-        "pin": "132",
-        "pin_all": true,
-        "client": "2c18e412.5f5cbc",
-        "x": 600,
-        "y": 20,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "f9232a27.01e0f8",
         "type": "mqtt in",
         "z": "a43ba0fe.679e4",
@@ -21419,8 +21406,8 @@
         "secure": true,
         "tls": false,
         "name": "gdietrich22@yahoo.com.ar",
-        "dname": "rgrjrvcuhxdloine",
-        "x": 753,
+        "dname": "hbeqqdvdulleezlp",
+        "x": 763,
         "y": 418,
         "wires": []
     },
@@ -21500,6 +21487,18 @@
         "type": "inject",
         "z": "a43ba0fe.679e4",
         "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "0#0#0",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "string"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
@@ -21559,7 +21558,7 @@
         "type": "debug",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -21574,14 +21573,14 @@
         "type": "debug",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "payload",
         "targetType": "msg",
-        "x": 670,
-        "y": 169,
+        "x": 610,
+        "y": 40,
         "wires": []
     },
     {
@@ -21933,8 +21932,8 @@
         "secure": true,
         "tls": false,
         "name": "gdietrich22@yahoo.com.ar",
-        "dname": "gd28722563",
-        "x": 1010,
+        "dname": "hbeqqdvdulleezlp",
+        "x": 1030,
         "y": 560,
         "wires": []
     },
@@ -23921,5 +23920,34 @@
         "x": 1021,
         "y": 199,
         "wires": []
+    },
+    {
+        "id": "3e3ee0f3.9847b",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Gas/Envio",
+        "payload": "0#0#1",
+        "payloadType": "str",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
     }
 ]
