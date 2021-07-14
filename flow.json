@@ -22311,7 +22311,7 @@
         "type": "debug",
         "z": "17cadfaf.12d97",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -24247,7 +24247,7 @@
         "type": "function",
         "z": "17cadfaf.12d97",
         "name": "",
-        "func": "var cont = 0;\n\nif (msg.payload.substring(0,6) == \"Inicio\")cont = 1;\n\nif (msg.payload.substring(0,3) == \"fin\")cont = 1;\n\nif (msg.payload.substring(0,6) == \"tanque\")cont = 1;\n\nif (msg.payload.substring(0,5) == \"bomba\")cont = 1;\n\nif (parseInt(cont) === 1){\n    msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- \" + msg.payload + \"\\n\"};\n    // if (msg.payload.includes(\"bomba\") )return msg;\n    return msg;\n}",
+        "func": "var cont = 0;\ncontext.segundos = context.segundos || 0;\nvar date = new Date();\n\nif (msg.payload.substring(0,6) == \"Inicio\"){\n\tcontext.segundos = date.getTime();\n\tcont = 1;\n}\n\nif (msg.payload.substring(0,3) == \"fin\")cont = 1;\n\nif (msg.payload.substring(0,6) == \"tanque\")cont = 1;\n\nif (msg.payload.substring(0,12) == \"bombaMarcha1\"){\n\tcontext.segundos = parseInt(date.getTime()) - parseInt(context.segundos);\n\tcontext.segundos = context.segundos / 1000;\n    msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - T espera arr bomba: \" + context.segundos.toFixed(1) + \"\\n\"};\n    // if (msg.payload.includes(\"bomba\") )return msg;\n    return msg;\t\n}\n\nif (parseInt(cont) === 1){\n    msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - \" + msg.payload + \"\\n\"};\n    // if (msg.payload.includes(\"bomba\") )return msg;\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -24257,7 +24257,8 @@
         "y": 20,
         "wires": [
             [
-                "b2560217.e90c5"
+                "b2560217.e90c5",
+                "8e73359a.6a3088"
             ]
         ]
     },
@@ -24349,5 +24350,235 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "8e73359a.6a3088",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1640,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bb3719a2.0602e8",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "func": "var cont = 0;\ncontext.segundos = context.segundos || 0;\nvar date = new Date();\n\nif (msg.payload.substring(0,6) == \"Inicio\"){\n\tcontext.segundos = date.getTime();\n\tcont = 1;\n}\n\nif (msg.payload.substring(0,3) == \"fin\")cont = 1;\n\nif (msg.payload.substring(0,6) == \"tanque\")cont = 1;\n\nif (msg.payload.substring(0,12) == \"bombaMarcha1\"){\n\tcontext.segundos = parseInt(date.getTime()) - parseInt(context.segundos);\n\tcontext.segundos = context.segundos / 1000;\n    msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - T espera arr bomba: \" + context.segundos.toFixed(1) + \"\\n\"};\n    // if (msg.payload.includes(\"bomba\") )return msg;\n    return msg;\t\n}\n\nif (parseInt(cont) === 1){\n    msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - \" + msg.payload + \"\\n\"};\n    // if (msg.payload.includes(\"bomba\") )return msg;\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 120,
+        "wires": [
+            [
+                "9b371a4d.1a7a18",
+                "8cfdbe5d.f4537"
+            ]
+        ]
+    },
+    {
+        "id": "74ee5a5c.d90024",
+        "type": "mqtt in",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "topic": "ESP/TermoSolar/Debug",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 190,
+        "y": 170,
+        "wires": [
+            [
+                "b2efe3c1.033e1",
+                "180a0c64.8db844",
+                "bb3719a2.0602e8"
+            ]
+        ]
+    },
+    {
+        "id": "9b371a4d.1a7a18",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b2efe3c1.033e1",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 420,
+        "y": 170,
+        "wires": []
+    },
+    {
+        "id": "180a0c64.8db844",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "func": "msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- \" + msg.payload + \"\\n\"};\n// if (msg.payload.includes(\"bomba\") )return msg;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "170c397c.bbfb17",
+        "type": "mqtt in",
+        "z": "71fbfc8a.29b834",
+        "name": "EstadoBomba",
+        "topic": "ESP/TermoSolar/EstadoBomba",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 220,
+        "y": 260,
+        "wires": [
+            [
+                "180a0c64.8db844",
+                "a97539fb.d43f98"
+            ]
+        ]
+    },
+    {
+        "id": "43c7f09a.3fbc1",
+        "type": "mqtt in",
+        "z": "71fbfc8a.29b834",
+        "name": "ModoBomba",
+        "topic": "ESP/TermoSolar/ModoBomba",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 220,
+        "y": 210,
+        "wires": [
+            [
+                "180a0c64.8db844"
+            ]
+        ]
+    },
+    {
+        "id": "a97539fb.d43f98",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 430,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "77d4073b.55a248",
+        "type": "inject",
+        "z": "71fbfc8a.29b834",
+        "name": "inicio",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Inicio timer, seg. espera: ",
+        "payloadType": "str",
+        "x": 220,
+        "y": 40,
+        "wires": [
+            [
+                "bb3719a2.0602e8"
+            ]
+        ]
+    },
+    {
+        "id": "31239877.e4e028",
+        "type": "inject",
+        "z": "71fbfc8a.29b834",
+        "name": "prendo bomba",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "bombaMarcha1",
+        "payloadType": "str",
+        "x": 250,
+        "y": 80,
+        "wires": [
+            [
+                "bb3719a2.0602e8"
+            ]
+        ]
+    },
+    {
+        "id": "8cfdbe5d.f4537",
+        "type": "mqtt out",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 720,
+        "y": 120,
+        "wires": []
     }
 ]
