@@ -4527,8 +4527,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 538.8888778686523,
-        "y": 701.111120223999,
+        "x": 490,
+        "y": 720,
         "wires": []
     },
     {
@@ -21199,36 +21199,21 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
-        "x": 177.5,
-        "y": 75,
+        "x": 180,
+        "y": 60,
         "wires": [
             [
-                "7cb36ef1.e6117",
                 "4e5f8b98.50bb94",
-                "c76092af.b7939"
+                "51b14ab0.bca114"
             ]
         ]
-    },
-    {
-        "id": "7cb36ef1.e6117",
-        "type": "debug",
-        "z": "a43ba0fe.679e4",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 430.5,
-        "y": 129,
-        "wires": []
     },
     {
         "id": "4e5f8b98.50bb94",
         "type": "function",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "func": "var date = new Date();\nvar payload = msg.payload;\ncontext.tiempoAnteriorQuemador = context.tiempoAnteriorQuemador || 0;\ncontext.tiempoAnteriorCaldera = context.tiempoAnteriorCaldera || 0;\ncontext.tiempoAnteriorTermo = context.tiempoAnteriorTermo || 0;\ncontext.estAnteriorQuemador = context.estAnteriorQuemador || null;\ncontext.estAnteriorCaldera = context.estAnteriorCaldera || null;\ncontext.diaAnterior = context.diaAnterior || null;\ncontext.avisoMail = context.avisoMail || 0;\nvar dia = date.getDate(); \nvar datos = 0;\n\n\n\n\nif (global.get(\"estQuemador\") === undefined || isNaN(global.get(\"estQuemador\")))global.set(\"estQuemador\", 0);\nif (global.get(\"estCaldera\") === undefined || isNaN(global.get(\"estCaldera\")))global.set(\"estCaldera\", 0);\nif (global.get(\"mtsCaldera\") === undefined || isNaN(global.get(\"mtsCaldera\")))global.set(\"mtsCaldera\", 0);\nif (global.get(\"mtsTermo\") === undefined || isNaN(global.get(\"mtsTermo\")))global.set(\"mtsTermo\", 0);\nif (global.get(\"mtsTotales\") === undefined || isNaN(global.get(\"mtsTotales\")))global.set(\"mtsTotales\", 0);\n\n\nif (global.get(\"mtsDiariosCaldera\") === undefined || isNaN(global.get(\"mtsDiariosCaldera\")))global.set(\"mtsDiariosCaldera\", 0);\nif (global.get(\"mtsDiariosTermo\") === undefined || isNaN(global.get(\"mtsDiariosTermo\")))global.set(\"mtsDiariosTermo\", 0);\nif (global.get(\"tiempoDiarioCaldera\") === undefined || isNaN(global.get(\"tiempoDiarioCaldera\")))global.set(\"tiempoDiarioCaldera\", 0);\nif (global.get(\"tiempoMarchaCaldera\") === undefined || isNaN(global.get(\"tiempoMarchaCaldera\")))global.set(\"tiempoMarchaCaldera\", 0);\n\nif (global.get(\"mtsControlCaldera\") === undefined || isNaN(global.get(\"mtsControlCaldera\")))global.set(\"mtsControlCaldera\", 0);\nif (global.get(\"tiempoControlCaldera\") === undefined || isNaN(global.get(\"tiempoControlCaldera\")))global.set(\"tiempoControlCaldera\", 0);\n\n\nvar enviarDatos = 0;\nvar tiempo = 0;\n\nif (msg.topic == \"timer\"){\n\tif (parseInt(context.diaAnterior) != parseInt(dia)){\n\t\tcontext.diaAnterior = dia;\n\t\tcontext.avisoMail = 0;\n\t}\t\n\tif (parseInt(date.getHours()) == 23 && parseInt(date.getMinutes()) == 59 && parseInt(context.avisoMail) === 0){\n\t\tcontext.avisoMail = 1;\n\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t// msg.payload = tiempo; node.send(msg);\n\t\ttiempo = tiempo / 3600000;\n\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\t\t\n\t\tglobal.set(\"tiempoEncCaldera\", date.getTime());\n\n\t\ttiempo = \"Consumo de gas del: \" + global.get(\"fechaQuinela\") + \":\\n\";\n\t\ttiempo += \"Caldera: \" + global.get(\"mtsDiariosCaldera\") + \" mts3.\\n\";\n\t\ttiempo += \"Termo: \" + global.get(\"mtsDiariosTermo\") + \" mts3.\\n\";\n\t\ttiempo += \"Totales Diarios: \" + parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\")) + \" mts3.\\n\";\n\t\ttiempo += \"Tiempo de caldera prendida: \" + global.get(\"tiempoDiarioCaldera\") + \" minutos\\n\";\n\n\t\tmsg.topic = \"Conumos de gas de casa\";\n    \tmsg.payload = tiempo;\t\n    \tnode.send([null, null, msg]);\n\n\t\tmsg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; node.send([null, msg]);\n\t\tmsg = {topic: \"mtsDiariosCaldera\", payload: global.get(\"mtsDiariosCaldera\")}; node.send([null, msg]);\n\t\tmsg = {topic: \"mtsDiariosTermo\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\"));\n\t\t\n\t\tmsg = {topic: \"mtsDiariosTotales\", payload: tiempo}; node.send([null, msg]);\n\t\tmsg = {topic: \"tiempoDiarioCaldera\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\tglobal.set(\"mtsDiariosCaldera\", 0); global.set(\"mtsDiariosTermo\", 0);\n\t\tglobal.set(\"mtsDiariosTotales\", 0); global.set(\"tiempoDiarioCaldera\", 0);\n\n    return ([null, msg]);\n\n\t}\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\treturn;\n}\n\n\n// if (msg.topic == \"ESP/Lavadero/Recibo\" && msg.payload == \"pedidoTemp\"){\n//     // var dato = parseFloat(global.get(\"mtsTotales\")) + parseFloat(global.get(\"mtsCaldera\")) + parseFloat(global.get(\"mtsTermo\"));\n//     // msg.payload = \"Dato:  \" + dato;node.send(msg);\n\n//     // msg.payload = global.get(\"mtsTotales\") + \"   caldera\" + global.get(\"mtsCaldera\") + \"   termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     // global.set(\"mtsTotales\", dato);\n//     // msg.payload = \"termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     msg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; \n//     return ([null, msg]);\n// }\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorQuemador) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorQuemador) + 2000){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorQuemador = date.getTime();\n\tcontext.estAnteriorQuemador = payload.substring(0,1);\n\tglobal.set(\"estQuemador\",payload.substring(0,1));\n\tif (parseInt(global.get(\"estQuemador\")) === 1){global.set(\"tiempoEncQuemador\", date.getTime());}\n\tif (parseInt(global.get(\"estQuemador\")) === 0){\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncQuemador\"));\n\n\t\tdatos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\ttiempo = tiempo / 1000; //  aca esta el tiempo en minutos\n\n\t\tvar tiempo2 = parseFloat(tiempo) + parseFloat(global.get(\"tiempoMarchaCaldera\")); global.set(\"tiempoMarchaCaldera\", tiempo2);\n\n\t\ttiempo = parseFloat(tiempo) * parseFloat(22.369); tiempo = parseFloat(tiempo) / parseFloat(50190.968); // 1mts3 en 2190 segundos (36.5min)\n\t\t// msg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\n\t\tdatos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\tvar tiempo3 = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo); global.set(\"mtsTotales\", tiempo3);\n\t\t\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosCaldera\")) + parseFloat(tiempo); tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosCaldera\", tiempo);\n\t\t// global.set(\"mtsCaldera\", tiempo);\n\t\t// tiempo = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo);\n\t\t// global.set(\"mtsTotales\", tiempo);\n\t\t// msg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n\t\t\n\t\t// msg.payload = \n\t}\n}\npayload = payload.substring(2);\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorCaldera) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorCaldera) + 2000){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorCaldera = date.getTime();\n\tcontext.estAnteriorCaldera = payload.substring(0,1);\n\tglobal.set(\"estCaldera\",payload.substring(0,1));\n\tif (parseInt(global.get(\"estCaldera\")) === 1)global.set(\"tiempoEncCaldera\", date.getTime());\n\tif (parseInt(global.get(\"estCaldera\")) === 0){\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t// msg.payload = tiempo; node.send(msg);\n\t\ttiempo = tiempo / 3600000;\n\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\n\t}\t\n}\npayload = payload.substring(2);\n\nif (parseInt(payload.substring(0,1)) !== parseInt(context.tiempoAnteriorTermo)){\n\tenviarDatos = 1;\n\tcontext.tiempoAnteriorTermo = payload.substring(0,1);\n\tif (parseInt(payload.substring(0,1)) === 1)global.set(\"estTermo\", 0);\n\tif (parseInt(payload.substring(0,1)) === 0)global.set(\"estTermo\", 1);\n\tif (parseInt(global.get(\"estTermo\")) === 1){global.set(\"tiempoEncTermo\", date.getTime());}\n\tif (parseInt(global.get(\"estTermo\")) === 0){\n\t\t\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncTermo\"));\n\n\t\t// datos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\ttiempo = tiempo / 1000;//  aca esta el tiempo en minutos\n\t\tmsg.payload = \"tiempo en segundos: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\ttiempo = tiempo / 6920;// 1mts3 en 6920 segundos (115.33min)\n\n\t\t// datos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\tmsg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + tiempo; tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosTermo\", tiempo);\n\t\t// global.set(\"mtsTermo\", tiempo);\n\t\ttiempo = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo);\n\n\t\tglobal.set(\"mtsTotales\", tiempo);\n\n\t\t// global.set(\"mtsControlCaldera\")\n\n\t\tmsg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n\t}\t\t\n}\n\n\nif (parseInt(enviarDatos) === 1){\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\n\t// msg.payload = global.get(\"fechaCompleta\") + \" - Q: \" + global.get(\"estQuemador\");\n\t// msg.payload = msg.payload +  \" - BC: \" + global.get(\"estCaldera\");\n\t// msg.payload = msg.payload +  \" - T: \" + global.get(\"estTermo\") + \"\\n\";\n\nmsg.payload = \"\\n\" + global.get(\"fechaCompleta\");\nmsg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\nmsg.payload += \"mts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\n\n\tmsg = {pin: 150, payload: msg.payload}; \n\t// node.send(msg);\n\t// msg.payload = \"mts totales: \" + parseFloat(global.get(\"mtsTotales\")).toFixed(3) + \"\\n\"\n\treturn msg;\n}\n\n\n\n\n// msg.payload = global.get(\"fechaCompleta\") + \" - \" + msg.payload + \"\\n\";\n// return msg;",
+        "func": "var date = new Date();\nvar payload = msg.payload;\ncontext.tiempoAnteriorQuemador = context.tiempoAnteriorQuemador || 0;\ncontext.tiempoAnteriorCaldera = context.tiempoAnteriorCaldera || 0;\ncontext.tiempoAnteriorTermo = context.tiempoAnteriorTermo || 0;\ncontext.estAnteriorQuemador = context.estAnteriorQuemador || null;\ncontext.estAnteriorCaldera = context.estAnteriorCaldera || null;\ncontext.diaAnterior = context.diaAnterior || null;\ncontext.avisoMail = context.avisoMail || 0;\nvar dia = date.getDate(); \nvar datos = 0;\n\n\n\n\nif (global.get(\"estQuemador\") === undefined || isNaN(global.get(\"estQuemador\")))global.set(\"estQuemador\", 0);\nif (global.get(\"estCaldera\") === undefined || isNaN(global.get(\"estCaldera\")))global.set(\"estCaldera\", 0);\nif (global.get(\"mtsCaldera\") === undefined || isNaN(global.get(\"mtsCaldera\")))global.set(\"mtsCaldera\", 0);\nif (global.get(\"mtsTermo\") === undefined || isNaN(global.get(\"mtsTermo\")))global.set(\"mtsTermo\", 0);\nif (global.get(\"mtsTotales\") === undefined || isNaN(global.get(\"mtsTotales\")))global.set(\"mtsTotales\", 0);\n\n\nif (global.get(\"mtsDiariosCaldera\") === undefined || isNaN(global.get(\"mtsDiariosCaldera\")))global.set(\"mtsDiariosCaldera\", 0);\nif (global.get(\"mtsDiariosTermo\") === undefined || isNaN(global.get(\"mtsDiariosTermo\")))global.set(\"mtsDiariosTermo\", 0);\nif (global.get(\"tiempoDiarioCaldera\") === undefined || isNaN(global.get(\"tiempoDiarioCaldera\")))global.set(\"tiempoDiarioCaldera\", 0);\nif (global.get(\"tiempoDiarioQuemador\") === undefined || isNaN(global.get(\"tiempoDiarioQuemador\")))global.set(\"tiempoDiarioQuemador\", 0);\nif (global.get(\"tiempoMarchaCaldera\") === undefined || isNaN(global.get(\"tiempoMarchaCaldera\")))global.set(\"tiempoMarchaCaldera\", 0);\n\nif (global.get(\"mtsControlCaldera\") === undefined || isNaN(global.get(\"mtsControlCaldera\")))global.set(\"mtsControlCaldera\", 0);\nif (global.get(\"tiempoControlCaldera\") === undefined || isNaN(global.get(\"tiempoControlCaldera\")))global.set(\"tiempoControlCaldera\", 0);\n\n\nvar enviarDatos = 0;\nvar tiempo = 0;\n\nif (msg.topic == \"timer\"){\n\tif (parseInt(context.diaAnterior) != parseInt(dia)){\n\t\tcontext.diaAnterior = dia;\n\t\tcontext.avisoMail = 0;\n\t}\t\n\tif (parseInt(date.getHours()) == 23 && parseInt(date.getMinutes()) == 59 && parseInt(context.avisoMail) === 0){\n\t\tcontext.avisoMail = 1;\n\n\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t// msg.payload = tiempo; node.send(msg);\n\t\ttiempo = tiempo / 3600000;\n\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\t\t\n\t\tglobal.set(\"tiempoEncCaldera\", date.getTime());\n\n\t\ttiempo = \"Consumo de gas del: \" + global.get(\"fechaQuinela\") + \":\\n\";\n\t\ttiempo += \"Caldera: \" + global.get(\"mtsDiariosCaldera\") + \" mts3.\\n\";\n\t\ttiempo += \"Termo: \" + global.get(\"mtsDiariosTermo\") + \" mts3.\\n\";\n\t\ttiempo += \"tiempoDiarioQuemador: \" + global.get(\"tiempoDiarioQuemador\") + \" mts3.\\n\";\n\t\ttiempo += \"Totales Diarios: \" + parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\")) + \" mts3.\\n\";\n\t\ttiempo += \"Tiempo de caldera prendida: \" + global.get(\"tiempoDiarioCaldera\") + \" minutos\\n\";\n\n\t\tmsg.topic = \"Conumos de gas de casa\";\n    \tmsg.payload = tiempo;\t\n    \tnode.send([null, null, msg]);\n\n\t\t// msg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; node.send([null, msg]);\n\t\t// msg = {topic: \"mtsDiariosCaldera\", payload: global.get(\"mtsDiariosCaldera\")}; node.send([null, msg]);\n\t\t// msg = {topic: \"mtsDiariosTermo\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + parseFloat(global.get(\"mtsDiariosCaldera\"));\n\t\t\n\t\t// msg = {topic: \"mtsDiariosTotales\", payload: tiempo}; node.send([null, msg]);\n\t\t// msg = {topic: \"tiempoDiarioCaldera\", payload: global.get(\"tiempoDiarioCaldera\")}; node.send([null, msg]);\n\n\t\tglobal.set(\"mtsDiariosCaldera\", 0); global.set(\"mtsDiariosTermo\", 0);\n\t\tglobal.set(\"mtsDiariosTotales\", 0); global.set(\"tiempoDiarioCaldera\", 0);\n\t\tglobal.set(\"tiempoDiarioQuemador\", 0); \n\n    return ([null, msg]);\n\n\t}\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\tmsg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);\t\t\n\treturn;\n}\n\n\n// if (msg.topic == \"ESP/Lavadero/Recibo\" && msg.payload == \"pedidoTemp\"){\n//     // var dato = parseFloat(global.get(\"mtsTotales\")) + parseFloat(global.get(\"mtsCaldera\")) + parseFloat(global.get(\"mtsTermo\"));\n//     // msg.payload = \"Dato:  \" + dato;node.send(msg);\n\n//     // msg.payload = global.get(\"mtsTotales\") + \"   caldera\" + global.get(\"mtsCaldera\") + \"   termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     // global.set(\"mtsTotales\", dato);\n//     // msg.payload = \"termo\" + global.get(\"mtsTermo\"); node.send(msg);\n//     msg = {topic: \"metrosGas\", payload: global.get(\"mtsTotales\")}; \n//     return ([null, msg]);\n// }\n\nif (msg.topic == \"ESP/Gas/Envio\"){\n\n\tif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorQuemador) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorQuemador) + 2000){\n\t\tenviarDatos = 1;\n\t\tcontext.tiempoAnteriorQuemador = date.getTime();\n\t\tcontext.estAnteriorQuemador = payload.substring(0,1);\n\t\tglobal.set(\"estQuemador\",payload.substring(0,1));\n\t\tif (parseInt(global.get(\"estQuemador\")) === 1){global.set(\"tiempoEncQuemador\", date.getTime());}\n\t\tif (parseInt(global.get(\"estQuemador\")) === 0){\n\t\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncQuemador\"));\n\n\t\t\tdatos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\t\ttiempo = tiempo / 1000; //  aca esta el tiempo en minutos\n\n\t\t\tvar tiempo2 = parseFloat(tiempo) + parseFloat(global.get(\"tiempoMarchaCaldera\")); global.set(\"tiempoMarchaCaldera\", tiempo2);\n\n\t\t\tvar tiempo4 = parseFloat(tiempo) / 3600;// + parseFloat(global.get(\"tiempoDiarioQuemador\")); \n\t\t\ttiempo4 = parseFloat(tiempo4) + parseFloat(global.get(\"tiempoDiarioQuemador\"));\n\t\t\tglobal.set(\"tiempoDiarioQuemador\", tiempo4);\n\n\n\t\t\ttiempo = parseFloat(tiempo) * parseFloat(22.369); tiempo = parseFloat(tiempo) / parseFloat(50190.968); // 1mts3 en 2190 segundos (36.5min)\n\t\t\t// msg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\n\t\t\tdatos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\t\tvar tiempo3 = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo); global.set(\"mtsTotales\", tiempo3);\n\t\t\t\n\t\t\ttiempo = parseFloat(global.get(\"mtsDiariosCaldera\")) + parseFloat(tiempo); tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosCaldera\", tiempo);\n\n\t\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t\t// msg.payload = tiempo; node.send(msg);\n\t\t\ttiempo = tiempo / 3600000;\n\t\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\n\t\t}\n\t}\n\tpayload = payload.substring(2);\n\n\tif (parseInt(payload.substring(0,1)) !== parseInt(context.estAnteriorCaldera) && parseInt(date.getTime()) > parseInt(context.tiempoAnteriorCaldera) + 2000){\n\t\tenviarDatos = 1;\n\t\tcontext.tiempoAnteriorCaldera = date.getTime();\n\t\tcontext.estAnteriorCaldera = payload.substring(0,1);\n\t\tglobal.set(\"estCaldera\",payload.substring(0,1));\n\t\tif (parseInt(global.get(\"estCaldera\")) === 1)global.set(\"tiempoEncCaldera\", date.getTime());\n\t\tif (parseInt(global.get(\"estCaldera\")) === 0){\n\t\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncCaldera\"));\n\t\t\t// msg.payload = tiempo; node.send(msg);\n\t\t\ttiempo = tiempo / 3600000;\n\t\t\ttiempo = parseFloat(tiempo).toFixed(2);\n\t\t\ttiempo = parseFloat(global.get(\"tiempoDiarioCaldera\")) + parseFloat(tiempo); global.set(\"tiempoDiarioCaldera\", tiempo);\n\t\t}\t\n\t}\n\tpayload = payload.substring(2);\n\n\tif (parseInt(payload.substring(0,1)) !== parseInt(context.tiempoAnteriorTermo)){\n\t\tenviarDatos = 1;\n\t\tcontext.tiempoAnteriorTermo = payload.substring(0,1);\n\t\tif (parseInt(payload.substring(0,1)) === 1)global.set(\"estTermo\", 0);\n\t\tif (parseInt(payload.substring(0,1)) === 0)global.set(\"estTermo\", 1);\n\t\tif (parseInt(global.get(\"estTermo\")) === 1){global.set(\"tiempoEncTermo\", date.getTime());}\n\t\tif (parseInt(global.get(\"estTermo\")) === 0){\n\t\t\t\n\t\t\ttiempo = parseInt(date.getTime()) - parseInt(global.get(\"tiempoEncTermo\"));\n\n\t\t\t// datos = parseFloat(global.get(\"tiempoControlCaldera\")) + tiempo; global.set(\"tiempoControlCaldera\", datos);\n\n\t\t\ttiempo = tiempo / 1000;//  aca esta el tiempo en minutos\n\t\t\tmsg.payload = \"tiempo en segundos: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\t\ttiempo = tiempo / 6920;// 1mts3 en 6920 segundos (115.33min)\n\n\t\t\t// datos = parseFloat(global.get(\"mtsControlCaldera\")) + tiempo; global.set(\"mtsControlCaldera\", datos);\n\n\t\t\tmsg.payload = \"mts3: \" + tiempo +\"\\n\"; node.send([null, msg]);\n\t\t\ttiempo = parseFloat(global.get(\"mtsDiariosTermo\")) + tiempo; tiempo = parseFloat(tiempo).toFixed(3); global.set(\"mtsDiariosTermo\", tiempo);\n\t\t\t// global.set(\"mtsTermo\", tiempo);\n\t\t\ttiempo = parseFloat(global.get(\"mtsTotales\")) + parseFloat(tiempo);\n\n\t\t\tglobal.set(\"mtsTotales\", tiempo);\n\n\t\t\t// global.set(\"mtsControlCaldera\")\n\n\t\t\tmsg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n\t\t}\t\t\n\t}\n\tmsg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);\n}\n\n\nif (parseInt(enviarDatos) === 1){\n\tmsg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n\tmsg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n\tmsg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\n\tmsg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n\tmsg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);\t\n\n\t// msg.payload = global.get(\"fechaCompleta\") + \" - Q: \" + global.get(\"estQuemador\");\n\t// msg.payload = msg.payload +  \" - BC: \" + global.get(\"estCaldera\");\n\t// msg.payload = msg.payload +  \" - T: \" + global.get(\"estTermo\") + \"\\n\";\n\nmsg.payload = \"\\n\" + global.get(\"fechaCompleta\");\nmsg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\nmsg.payload += \"mts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoDiarioQuemador: \" + global.get(\"tiempoDiarioQuemador\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\n\n\tmsg = {pin: 150, payload: msg.payload}; \n\t// node.send(msg);\n\t// msg.payload = \"mts totales: \" + parseFloat(global.get(\"mtsTotales\")).toFixed(3) + \"\\n\"\n\treturn msg;\n}\n\n\n\n\n// msg.payload = global.get(\"fechaCompleta\") + \" - \" + msg.payload + \"\\n\";\n// return msg;Fnull",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -21256,14 +21241,23 @@
         "type": "inject",
         "z": "a43ba0fe.679e4",
         "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
-        "payload": "0#1#0",
+        "topic": "ESP/Gas/Envio",
+        "payload": "1#1#0",
         "payloadType": "str",
-        "x": 187.5,
+        "x": 237.5,
         "y": 110,
         "wires": [
             [
@@ -21308,17 +21302,17 @@
         "z": "a43ba0fe.679e4",
         "name": "",
         "delay": "5",
-        "topic1": "metrosGas",
-        "topic2": "mtsDiariosCaldera",
-        "topic3": "mtsDiariosTermo",
-        "topic4": "mtsDiariosTotales",
-        "topic5": "tiempoDiarioCaldera",
+        "topic1": "marchaCaldera",
+        "topic2": "marchaQuemador",
+        "topic3": "marchaTermo",
+        "topic4": "",
+        "topic5": "",
         "topic6": "",
         "topic7": "",
         "topic8": "",
         "endpoint": "https://thingspeak.com",
-        "x": 684.5,
-        "y": 281,
+        "x": 730,
+        "y": 280,
         "wires": []
     },
     {
@@ -21326,14 +21320,23 @@
         "type": "inject",
         "z": "a43ba0fe.679e4",
         "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
+        "topic": "ESP/Gas/Envio",
         "payload": "0#1#0",
         "payloadType": "str",
-        "x": 183,
+        "x": 233,
         "y": 221,
         "wires": [
             [
@@ -21366,7 +21369,7 @@
         "type": "debug",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -21395,7 +21398,7 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "2293.838",
+        "payload": "2323.290",
         "payloadType": "num",
         "x": 153.5,
         "y": 24,
@@ -21444,7 +21447,7 @@
         "type": "function",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "func": "msg.payload = \"\\n\" + global.get(\"fechaCompleta\");\nmsg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\nmsg.payload += \"mts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\nreturn msg",
+        "func": "msg.payload = \"\\n\" + global.get(\"fechaCompleta\");\nmsg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\nmsg.payload += \"mts totales:\" + global.get(\"mtsTotales\").toFixed(3) + \"\\n\";\nmsg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\") + \"\\n\";\nmsg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\") + \"\\n\";\nmsg.payload += \"tiempoDiarioCaldera: \" + global.get(\"tiempoDiarioCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoDiarioQuemador: \" + global.get(\"tiempoDiarioQuemador\").toFixed(2) + \"\\n\";\nmsg.payload += \"tiempoMarchaCaldera: \" + global.get(\"tiempoMarchaCaldera\") + \"\\n\";\nmsg.payload += \"tiempoControlCaldera: \" + global.get(\"tiempoControlCaldera\").toFixed(2) + \"\\n\";\nmsg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";\nreturn msg",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -21465,17 +21468,14 @@
         "name": "",
         "props": [
             {
-                "p": "payload",
-                "v": "",
-                "vt": "str"
+                "p": "payload"
             },
             {
                 "p": "topic",
-                "v": "timer",
-                "vt": "string"
+                "vt": "str"
             }
         ],
-        "repeat": "15",
+        "repeat": "60",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -21582,24 +21582,21 @@
         "name": "",
         "props": [
             {
-                "p": "payload",
-                "v": "0#0#0",
-                "vt": "str"
+                "p": "payload"
             },
             {
                 "p": "topic",
-                "v": "",
-                "vt": "string"
+                "vt": "str"
             }
         ],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
+        "topic": "ESP/Gas/Envio",
         "payload": "0#0#0",
         "payloadType": "str",
-        "x": 193,
+        "x": 243,
         "y": 147,
         "wires": [
             [
@@ -21673,7 +21670,7 @@
         "complete": "payload",
         "targetType": "msg",
         "x": 610,
-        "y": 40,
+        "y": 60,
         "wires": []
     },
     {
@@ -21711,14 +21708,23 @@
         "type": "inject",
         "z": "a43ba0fe.679e4",
         "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
+        "topic": "ESP/Gas/Envio",
         "payload": "0#1#0",
         "payloadType": "str",
-        "x": 191,
+        "x": 241,
         "y": 280,
         "wires": [
             [
@@ -21731,14 +21737,23 @@
         "type": "inject",
         "z": "a43ba0fe.679e4",
         "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
+        "topic": "ESP/Gas/Envio",
         "payload": "0#1#1",
         "payloadType": "str",
-        "x": 194,
+        "x": 244,
         "y": 254,
         "wires": [
             [
@@ -23822,7 +23837,7 @@
         "type": "debug",
         "z": "17cadfaf.12d97",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -24182,21 +24197,6 @@
         "statusType": "auto",
         "x": 930,
         "y": 1280,
-        "wires": []
-    },
-    {
-        "id": "c76092af.b7939",
-        "type": "debug",
-        "z": "a43ba0fe.679e4",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "x": 770,
-        "y": 20,
         "wires": []
     },
     {
@@ -24820,5 +24820,50 @@
                 "9f837dbe.a7563"
             ]
         ]
+    },
+    {
+        "id": "5dfb8b47.027cb4",
+        "type": "inject",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Gas/Envio",
+        "payload": "0#1#0",
+        "payloadType": "str",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "4e5f8b98.50bb94"
+            ]
+        ]
+    },
+    {
+        "id": "51b14ab0.bca114",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 20,
+        "wires": []
     }
 ]
