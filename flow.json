@@ -393,6 +393,66 @@
         "collapse": false
     },
     {
+        "id": "15d926b1.b6d9d9",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "cd55229f.ece94",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "a1d000e5.8e89b",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
         "id": "411b27cf.122ad8",
         "type": "function",
         "z": "230e7f04.aca52",
@@ -3463,7 +3523,7 @@
         "type": "function",
         "z": "73083520.75304c",
         "name": "llenado de tanque",
-        "func": "context.nivelAnterior = context.nivelAnterior || 0;\ncontext.estadoAnterior = context.estadoAnterior || 0;\n\ncontext.nivelArranco = context.nivelArranco ||0;\ncontext.tiempoArrancoLLenado =context.tiempoArrancoLLenado ||0;\n// context.avisoTanque = context.avisoTanque || 0;\ncontext.llenadoAnulado = context.llenadoAnulado || 0;\ncontext.tiempoLlenado = context.tiempoLlenado || 0;\ncontext.tiempoRestante = context.tiempoRestante || 0; // 0 == por nivel\ncontext.nivelInicioLlenado = context.nivelInicioLlenado || 0;\ncontext.tiempoInicioLlenado = context.tiempoInicioLlenado || 0;\nif (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\nif (global.get(\"bombaPozo\") === undefined || global.get(\"bombaPozo\") == isNaN)global.set(\"bombaPozo\", 0);\nif (global.get(\"tipoRiego\") === undefined || global.get(\"tipoRiego\") == isNaN)global.set(\"tipoRiego\", 0);\n\n\n    context.errorLlenadoAuto = context.errorLlenadoAuto || 0;\n  if (global.get(\"tiempoInicioLlenado\") === undefined)global.set(\"tiempoInicioLlenado\", 0);\n  // if (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\n\n  var date = new Date();\n  // var dato = JSON.parse(msg.payload);\n  var topic = msg.topic;\n  var pin = parseInt(msg.pin);\n  var nivMaximo = 400;\n  var nivMinimo = 250;\n  var timerLuces = 12000;\n  var tasaLlenado = 0;\n\n  if (global.get(\"dateRiegoFrente\") === undefined || isNaN(global.get(\"dateRiegoFrente\")))global.set(\"dateRiegoFrente\", 0);\n  if (global.get(\"dateRiegoPatio\") === undefined || isNaN(global.get(\"dateRiegoPatio\")))global.set(\"dateRiegoPatio\", 0);\n  if (global.get(\"fallasLavadero\") === undefined || isNaN(global.get(\"fallasLavadero\")))global.set(\"fallasLavadero\", 0);\n  if (global.get(\"luzLavadero\") === undefined || isNaN(global.get(\"luzLavadero\")))global.set(\"luzLavadero\", 0);\n  if (global.get(\"luzAlacenaLavadero\" || isNaN(global.get(\"luzAlacenaLavadero\"))) === undefined)global.set(\"luzAlacenaLavadero\", 0);\n  if (global.get(\"bombaPozo\") === undefined || isNaN(global.get(\"bombaPozo\")))global.set(\"bombaPozo\", 0);\n  if (global.get(\"valvulaTanque\") === undefined || isNaN(global.get(\"valvulaTanque\")))global.set(\"valvulaTanque\", 0);\n  if (global.get(\"riegoFrente\") === undefined || isNaN(global.get(\"riegoFrente\")))global.set(\"riegoFrente\", 0);\n  if (global.get(\"estadoEspTanque\") === undefined || isNaN(global.get(\"estadoEspTanque\")))global.set(\"estadoEspTanque\", 1);\n  if (global.get(\"tasaLlenadoTanque\") === undefined || isNaN(global.get(\"tasaLlenadoTanque\")))global.set(\"tasaLlenadoTanque\", 0);\n\n  if (global.get(\"modoRiegoPatio\") === undefined || isNaN(global.get(\"modoRiegoPatio\")))global.set(\"modoRiegoPatio\", 0);\n  if (global.get(\"modoRiegoFrente\") === undefined || isNaN(global.get(\"modoRiegoFrente\")))global.set(\"modoRiegoFrente\", 0);\n\nglobal.set(\"minimoTanque\", 180);\nglobal.set(\"maximoTanque\", 370);\n  if (global.get(\"alturaTanque\") === undefined)global.set(\"alturaTanque\", 680);\n\n  // node.status({text: global.get(\"estadoAlarma\") + \" -- \"  + global.get(\"luzLavadero\")});\n\n  if (topic == \"blynk/marchaBomba\")pin = 2;\n  if (topic == \"blynk/llenarTanque\")pin = 34;\n\n  if (topic == \"aviso/Alarma\"){\n    if (global.get(\"estadoAlarma\") === 1)apagadoLuces();\n  }\n\n  // if (topic == \"google/Alarma\" || topic == \"aviso/Alarma\"){\n  //   if (global.get(\"luzAlacenaLavadero\") === 1 || global.get(\"luzLavadero\") === 1){\n  //     node.status({text: global.get(\"estadoAlarma\") + \" -ppp- \"  + global.get(\"luzLavadero\")});\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 0){setTimeout(apagadoLuces, timerLuces);}\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 1)apagadoLuces();\n  //   }\n  // } \n\n  if (topic == \"google/Lavadero\" || topic == \"crepMQTT\"){\n    enviarBlynk();\n    enviarDatos();\n  }   \n\n  if (parseInt(global.get(\"tipoRiego\")) === 1){\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        var valor = (parseInt(global.get(\"dateRiegoFrente\")) + parseInt(global.get(\"tiempoRiegoFrente\")) * 1000 * 6);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n            global.set(\"tipoRiego\", 2);\n            valor  = parseInt(date.getTime());\n            global.set(\"dateRiegoPatio\", valor);   \n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto SI\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);          \n        }\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0);\n      dato = global.get(\"hsCpu\") + \" - riego Frente Auto NO\" + '\\n';\n      msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);        \n        valor = \"riego\" + global.get(\"tipoRiego\"); \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n        }\n    }\n    }\n      if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 1){\n        global.set(\"tipoRiego\", 2);\n        valor  = parseInt(date.getTime());\n        global.set(\"dateRiegoPatio\", valor);\n    }\n\n  if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n      if (parseInt(global.get(\"tipoRiego\")) === 2){\n        var valor = (parseInt(global.get(\"dateRiegoPatio\")) + parseInt(global.get(\"tiempoRiegoPatio\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");     \n            msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto NO\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);              \n        }\n      }\n    }\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) !== 0){\n        global.set(\"tipoRiego\", 0); \n        dato = global.get(\"hsCpu\") + \" - riego frente Auto NO\" + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);  \n        }        \n    if (parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 2)global.set(\"tipoRiego\", 0);\n\n  if (topic == \"ESP/Lavadero/riego\"){\n        valor = \"riego\" + global.get(\"tipoRiego\");     \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]); \n        dato = global.get(\"hsCpu\") + \" - riego desde blynk: \" + global.get(\"tipoRiego\") + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);         \n        return;\n  }\n\n  if (topic == \"ESP/Lavadero/Envio\"){\n    if (msg.payload === \"\")return;\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasSI\"){msg = {pin: 74, payload: 1}; node.send([null, msg]); return;}\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasNO\"){msg = {pin: 74, payload: 0}; node.send([null, msg]); return;}\n    // if (msg.substring(0, 6) == \"Buzzer\") msg = msg.substring(6);\n\n    if (msg.payload.substring(0, 6) == \"$riego\"){\n        var valor = msg.payload.substring(6);\n        if (parseInt(valor) === 0){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");\n            msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        }\n        if (parseInt(valor) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0)global.set(\"tipoRiego\", 2);\n        }\n        if (parseInt(valor) === 2){\n            if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                global.set(\"tipoRiego\", 2);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoPatio\", valor);  \n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego patio Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n                }              \n            if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        }\n    }\n\n    var dato = msg.payload.substring(1);\n    // msg.payload = dato; return msg;\n    dato = msg.payload.split(\"#\");\n    global.set(\"bombaPozo\", parseInt(dato[0])); \n    global.set(\"riegoFrente\", parseInt(dato[1])); \n    global.set(\"luzLavadero\", parseInt(dato[2])); \n    global.set(\"luzAlacenaLavadero\", parseInt(dato[3])); \n\n    // node.status({text: global.get(\"riegoFrente\")});\n\n    // if (parseInt(global.get(\"riegoFrente\")) === 1){\n    //     global.set(\"bombaPozo\", 1);\n    //     global.set(\"riegoFrente\", 1);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }\n    // if (parseInt(global.get(\"riegoFrente\")) === 0){\n    //     global.set(\"bombaPozo\", 0);\n    //     global.set(\"riegoFrente\", 0);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }    \n  //   if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n    enviarBlynk();\n    return;\n  }\n\n  if (topic == \"ESP/TanqueAgua/Desconectado\"){\n    var restante = parseInt(nivMaximo) - parseInt(global.get(\"nivTanque\"));\n    var tiempoRestante = (parseInt(restante) * 209) / 104;\n    context.tiempoRestante = parseInt(tiempoRestante * 1000);\n    global.set(\"estadoEspTanque\", 0);// 0 = Desconectado\n    return;\n  }  \n\n  if (topic == \"ESP/TanqueAgua/Inicio\"){\n    global.set(\"estadoEspTanque\", 1);\n    var datos = \"config\" + global.get(\"minimoTanque\") + \"#\" + global.get(\"maximoTanque\") + \"#\" + global.get(\"alturaTanque\");\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: datos}; node.send([msg, null]);\n    // enviarDatos();    \n    return;\n  }   \n\n  // if (global.get(\"estadoEspTanque\") === 0 && global.get(\"llenarTanque\") === 1 && date.getTime() > parseInt(context.tiempoRestante)){\n  //   global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n  //   msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por tiempo\"}; node.send(msg);\n  //   enviarBlynk(); \n  //   enviarDatos();  \n  // }\n\n  // if (dato.topic == \"bombaRF\"){\n  //   if (global.get(\"bombaPozo\") === 0){global.set(\"bombaPozo\", 1);}else{global.set(\"bombaPozo\", 0);}\n  //   enviarBlynk(); \n  //   enviarDatos(); //return;\n  // }\n\n  if (parseInt(global.get(\"llenarTanque\")) === 1 && parseInt(date.getTime()) > parseInt(context.tiempoLlenado)){\n    context.tiempoLlenado = date.getTime() + 60000;\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: \" \"}; node.send([msg, null]); \n    return;\n  }\n\n  // sube el nivel a razon de 104mm cada 209\"     42mm en 91\"\nif (topic == \"ESP/TanqueAgua/Envio\"){\n    global.set(\"nivTanque\", parseInt(msg.payload));\n\n     if (parseInt(global.get(\"nivTanque\")) < 50){\n        // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Tanque con poca agua, nivel: \" + global.get(\"nivTanque\") + \"\\n\"}; node.send([msg, null]);\n     }\n\n    if (parseInt(global.get(\"llenarTanque\")) === 1){\n        var tiempoLlenando = parseInt(global.get(\"tiempoInicioLlenado\")) + 1200000;\n        if(parseInt(date.getTime()) > parseInt(tiempoLlenando)){\n            context.errorLlenadoAuto = 1;\n            global.set(\"llenarTanque\", 0);\n            global.set(\"bombaPozo\",  0);\n            global.set(\"valvulaTanque\", 0);        \n            msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);        \n            msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);\n            enviarBlynk(); \n            msg.topic = \"ESP/Lavadero/Inicio\";\n            enviarDatos(); \n        }\n    } \n\n    if (parseInt(global.get(\"nivTanque\")) < parseInt(global.get(\"minimoTanque\")) && global.get(\"llenarTanque\") === 0 && context.llenadoAnulado === 0 && context.errorLlenadoAuto === 0){\n        if(parseInt(global.get(\"nivTanque\")) === 0)return;\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio llenando tanque\\n\"}; node.send([msg, null]);\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();  \n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.tiempoLlenado = date.getTime() + 60000;\n        context.estadoAnterior = 1;\n        global.set(\"llenarTanque\", 1);\n        // global.set(\"bombaPozo\",  1);\n        global.set(\"valvulaTanque\", 1);\n        //   msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio AUTO llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"llenando1\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;    \n    }\n    \n    if (parseInt(global.get(\"nivTanque\")) >= parseInt(global.get(\"maximoTanque\")) && parseInt(global.get(\"llenarTanque\")) === 1){// && parseInt(global.get(\"estadoEspTanque\")) === 1){ //&& context.avisoTanque === 0 && global.get(\"estadoEspTanque\") === 1){\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n        tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);        \n        global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n        var ponele3 = parseInt(global.get(\"nivTanque\")) - context.nivelInicioLlenado;\n        node.status({text: \"FIN Auto nivelInicio: \" + ponele3 + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro AUTO Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        // msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por nivel\"}; node.send(msg);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        mensaje = tiempoLL / 1000;\n        var minutosLL = parseInt(parseInt(mensaje)/60);\n        var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n        if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n        if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n        minutosLL = minutosLL + \":\" + segundosLL;        \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"        \n\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        topicNuevo = \"ESP/Lavadero/Inicio\";\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;\n    }  \n\n    if (global.get(\"nivTanque\") != context.nivelAnterior){\n      context.nivelAnterior = global.get(\"nivTanque\");\n        if (parseInt(global.get(\"llenarTanque\")) === 1){// parseInt(global.get(\"nivTanque\")) < parseInt(nivMaximo)){\n          var var1 = global.get(\"nivTanque\");\n          tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n          tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n          context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n          context.tiempoInicioLlenado = date.getTime();\n          global.set(\"tasaLlenadoTanque\", tasaLlenado);      \n          msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n          msg = {topic: \"Blynk/actualizar/estado\", payload: 1}; node.send([msg, null]);\n      }\n    }  \n\n} \n\n  if (topic == \"ESP/Lavadero/Inicio\") {\n    enviarDatos(); \n  valor = \"riego\" + global.get(\"tipoRiego\");\n  msg = {delay: 2000, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);    \n    return;\n  }\n\n  switch (pin){\n    case 2:\n    global.set(\"bombaPozo\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;\n\n    case 200:\n        // global.set(\"bombaPozo\", parseInt(msg.payload));\n        // global.set(\"riegoFrente\", parseInt(msg.payload));\n        if (parseInt(msg.payload) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente auto SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n                if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                    global.set(\"tipoRiego\", 2);\n                    valor  = parseInt(date.getTime());\n                    global.set(\"dateRiegoPatio\", valor);  \n                    valor = \"riego\" + global.get(\"tipoRiego\");\n                    msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                    dato = global.get(\"hsCpu\") + \" - riego patio auto SI\" + '\\n';\n                    msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n                    }              \n                if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n            }\n        }\n\n\n        // if (parseInt(msg.payload) === 1){\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        //         global.set(\"tipoRiego\", 1);\n        //         valor  = parseInt(date.getTime());\n        //         global.set(\"dateRiegoFrente\", valor);\n        //         valor = \"riego\" + global.get(\"tipoRiego\");\n        //         msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //     }\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n        //         if (parseInt(global.set(\"modoRiegoPatio\")) === 1){\n        //             global.set(\"tipoRiego\", 2);\n        //             valor  = parseInt(date.getTime());\n        //             global.set(\"dateRiegoPatio\", valor);  \n        //             valor = \"riego\" + global.get(\"tipoRiego\");\n        //             msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //             }\n        //             }              \n        //         if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        // }\n        // enviarBlynk();\n        // enviarDatos(); //return;      \n      break;      \n\n    case 34:\n      context.errorLlenadoAuto = 0;\n      context.estadoAnterior = msg.payload;\n      global.set(\"llenarTanque\", parseInt(msg.payload));\n      global.set(\"bombaPozo\",  parseInt(msg.payload));\n      global.set(\"valvulaTanque\",parseInt( msg.payload));\n      context.tiempoLlenado = date.getTime() + 60000;\n      if (parseInt(msg.payload) === 0) {\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - context.tiempoInicioLlenado) / 60000;        \n        parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        var ponele = var1 - context.nivelInicioLlenado;\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro MANUAL Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n    mensaje = tiempoLL / 1000;\n    var minutosLL = parseInt(parseInt(mensaje)/60);\n    var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n    if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n    if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n    minutosLL = minutosLL + \":\" + segundosLL;       \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);      \n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        node.status({text: \"FIN Man nivelInicio: \" + ponele + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        context.llenadoAnulado = 1;\n      }\n      if (parseInt(msg.payload) === 1) {\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();\n        context.nivelArranco = global.get(\"nivTanque\");\n        context.tiempoArrancoLLenado = date.getTime();\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio MANUAL llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - Inicio llenado tanque\\n\"}; node.send([msg, null]);\n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.llenadoAnulado = 0;\n        }\n      enviarBlynk();\n      enviarDatos(); //return;\n      break;  \n\n    case 35:\n      // if (parseInt(msg.payload) === 1) global.set(\"luzLavadero\", 0);\n      // if (parseInt(msg.payload) === 0) global.set(\"luzLavadero\", 1);\n      global.set(\"luzLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -fff- \"  + global.get(\"luzLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 36:\n      global.set(\"luzAlacenaLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -ggg- \"  + global.get(\"luzAlacenaLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 37:\n      global.set(\"PresurizadoraFria\", parseInt(msg.payload));\n      msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: global.get(\"PresurizadoraFria\")}; node.send([msg, null]);\n      return;\n      break;   \n\n    case 38:\n      global.set(\"valvulaTanque\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;                  \n  }\n\n  function enviarBlynk(){\n    msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null, msg]);\n    msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null, msg]);\n    msg = {pin: 35, payload: global.get(\"luzLavadero\")}; node.send([null, msg]);\n    msg = {pin: 36, payload: global.get(\"luzAlacenaLavadero\")}; node.send([null, msg]);\n    msg = {pin: 37, payload: global.get(\"riegoFrente\")}; node.send([null, msg]);\n    msg = {pin: 38, payload: global.get(\"valvulaTanque\")}; node.send([null, msg]);\n  }\n\n  function enviarDatos(){//return;\n    var topicNuevo = msg.topic;\n    msg = global.get(\"bombaPozo\") + \"#\";\n    msg += global.get(\"valvulaTanque\") + \"#\";\n    msg += global.get(\"riegoFrente\") + \"#\";\n    msg += global.get(\"luzLavadero\") + \"#\";\n    msg += global.get(\"luzAlacenaLavadero\") + \"#\";\n    msg += \"3#\";\n    // msg += global.get(\"1\") + \"1#\";\n    msg += global.get(\"pwmMinLed\") + \"#\";\n    msg += global.get(\"Dia\");\n    if (topicNuevo == \"crepMQTT\" || topicNuevo == \"ESP/Lavadero/Inicio\" || topicNuevo == \"aviso/Alarma\")msg += \"#\";\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: msg}; node.send([msg, null]);\n\n\n    // if (global.get(\"valvulaTanque\") === 1) {context.avisoTanque = 0;}\n    // msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null,msg]);\n    // msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null,msg]);\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"most\\\",\\\"payload\\\":\" + msg.payload + \"}\"}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: global.get(\"bombaPozo\")}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: global.get(\"valvulaTanque\")}; node.send(msg);    \n    // node.status({text: \"Bomba: \" + global.get(\"bombaPozo\") + \"  Valvula: \" + global.get(\"valvulaTanque\") + \" - \" + global.get(\"nivTanque\") + \" - \" + global.get(\"llenarTanque\") + \" - \" + context.estadoAnterior});\n  }\n\n  function apagadoLuces(){\n      node.status({text: \"apagado auto\"});\n      global.set(\"luzLavadero\", 0);\n      global.set(\"luzAlacenaLavadero\", 0);\n      enviarBlynk();\n      enviarDatos();\n  }\n\n",
+        "func": "context.nivelAnterior = context.nivelAnterior || 0;\ncontext.estadoAnterior = context.estadoAnterior || 0;\n\ncontext.nivelArranco = context.nivelArranco ||0;\ncontext.tiempoArrancoLLenado =context.tiempoArrancoLLenado ||0;\n// context.avisoTanque = context.avisoTanque || 0;\ncontext.llenadoAnulado = context.llenadoAnulado || 0;\ncontext.tiempoLlenado = context.tiempoLlenado || 0;\ncontext.tiempoRestante = context.tiempoRestante || 0; // 0 == por nivel\ncontext.nivelInicioLlenado = context.nivelInicioLlenado || 0;\ncontext.tiempoInicioLlenado = context.tiempoInicioLlenado || 0;\nif (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\nif (global.get(\"bombaPozo\") === undefined || global.get(\"bombaPozo\") == isNaN)global.set(\"bombaPozo\", 0);\nif (global.get(\"tipoRiego\") === undefined || global.get(\"tipoRiego\") == isNaN)global.set(\"tipoRiego\", 0);\n\n\n    context.errorLlenadoAuto = context.errorLlenadoAuto || 0;\n  if (global.get(\"tiempoInicioLlenado\") === undefined)global.set(\"tiempoInicioLlenado\", 0);\n  // if (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\n\n  var date = new Date();\n  // var dato = JSON.parse(msg.payload);\n  var topic = msg.topic;\n  var pin = parseInt(msg.pin);\n  var nivMaximo = 400;\n  var nivMinimo = 250;\n  var timerLuces = 12000;\n  var tasaLlenado = 0;\n\n  if (global.get(\"dateRiegoFrente\") === undefined || isNaN(global.get(\"dateRiegoFrente\")))global.set(\"dateRiegoFrente\", 0);\n  if (global.get(\"dateRiegoPatio\") === undefined || isNaN(global.get(\"dateRiegoPatio\")))global.set(\"dateRiegoPatio\", 0);\n  if (global.get(\"fallasLavadero\") === undefined || isNaN(global.get(\"fallasLavadero\")))global.set(\"fallasLavadero\", 0);\n  if (global.get(\"luzLavadero\") === undefined || isNaN(global.get(\"luzLavadero\")))global.set(\"luzLavadero\", 0);\n  if (global.get(\"luzAlacenaLavadero\" || isNaN(global.get(\"luzAlacenaLavadero\"))) === undefined)global.set(\"luzAlacenaLavadero\", 0);\n  if (global.get(\"bombaPozo\") === undefined || isNaN(global.get(\"bombaPozo\")))global.set(\"bombaPozo\", 0);\n  if (global.get(\"valvulaTanque\") === undefined || isNaN(global.get(\"valvulaTanque\")))global.set(\"valvulaTanque\", 0);\n  if (global.get(\"riegoFrente\") === undefined || isNaN(global.get(\"riegoFrente\")))global.set(\"riegoFrente\", 0);\n  if (global.get(\"estadoEspTanque\") === undefined || isNaN(global.get(\"estadoEspTanque\")))global.set(\"estadoEspTanque\", 1);\n  if (global.get(\"tasaLlenadoTanque\") === undefined || isNaN(global.get(\"tasaLlenadoTanque\")))global.set(\"tasaLlenadoTanque\", 0);\n\n  if (global.get(\"modoRiegoPatio\") === undefined || isNaN(global.get(\"modoRiegoPatio\")))global.set(\"modoRiegoPatio\", 0);\n  if (global.get(\"modoRiegoFrente\") === undefined || isNaN(global.get(\"modoRiegoFrente\")))global.set(\"modoRiegoFrente\", 0);\n\nglobal.set(\"minimoTanque\", 180);\nglobal.set(\"maximoTanque\", 370);\n  if (global.get(\"alturaTanque\") === undefined)global.set(\"alturaTanque\", 680);\n\n  // node.status({text: global.get(\"estadoAlarma\") + \" -- \"  + global.get(\"luzLavadero\")});\n\n  if (topic == \"blynk/marchaBomba\")pin = 2;\n  if (topic == \"blynk/llenarTanque\")pin = 34;\n\n  if (topic == \"aviso/Alarma\"){\n    if (global.get(\"estadoAlarma\") === 1)apagadoLuces();\n  }\n\n  // if (topic == \"google/Alarma\" || topic == \"aviso/Alarma\"){\n  //   if (global.get(\"luzAlacenaLavadero\") === 1 || global.get(\"luzLavadero\") === 1){\n  //     node.status({text: global.get(\"estadoAlarma\") + \" -ppp- \"  + global.get(\"luzLavadero\")});\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 0){setTimeout(apagadoLuces, timerLuces);}\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 1)apagadoLuces();\n  //   }\n  // } \n\n  if (topic == \"google/Lavadero\" || topic == \"crepMQTT\"){\n    enviarBlynk();\n    enviarDatos();\n  }   \n\n  if (parseInt(global.get(\"tipoRiego\")) === 1){\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        var valor = (parseInt(global.get(\"dateRiegoFrente\")) + parseInt(global.get(\"tiempoRiegoFrente\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n            global.set(\"tipoRiego\", 2);\n            valor  = parseInt(date.getTime());\n            global.set(\"dateRiegoPatio\", valor);   \n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto SI\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);          \n        }\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0);\n      dato = global.get(\"hsCpu\") + \" - riego Frente Auto NO\" + '\\n';\n      msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);        \n        valor = \"riego\" + global.get(\"tipoRiego\"); \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n        }\n    }\n    }\n      if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 1){\n        global.set(\"tipoRiego\", 2);\n        valor  = parseInt(date.getTime());\n        global.set(\"dateRiegoPatio\", valor);\n    }\n\n  if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n      if (parseInt(global.get(\"tipoRiego\")) === 2){\n        var valor = (parseInt(global.get(\"dateRiegoPatio\")) + parseInt(global.get(\"tiempoRiegoPatio\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");     \n            msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto NO\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);              \n        }\n      }\n    }\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) !== 0){\n        global.set(\"tipoRiego\", 0); \n        dato = global.get(\"hsCpu\") + \" - riego frente Auto NO\" + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);  \n        }        \n    if (parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 2)global.set(\"tipoRiego\", 0);\n\n  if (topic == \"ESP/Lavadero/riego\"){\n        valor = \"riego\" + global.get(\"tipoRiego\");     \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]); \n        dato = global.get(\"hsCpu\") + \" - riego desde blynk: \" + global.get(\"tipoRiego\") + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);         \n        return;\n  }\n\n  if (topic == \"ESP/Lavadero/Envio\"){\n    if (msg.payload === \"\")return;\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasSI\"){msg = {pin: 74, payload: 1}; node.send([null, msg]); return;}\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasNO\"){msg = {pin: 74, payload: 0}; node.send([null, msg]); return;}\n    // if (msg.substring(0, 6) == \"Buzzer\") msg = msg.substring(6);\n\n    if (msg.payload.substring(0, 6) == \"$riego\"){\n        var valor = msg.payload.substring(6);\n        if (parseInt(valor) === 0){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");\n            msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        }\n        if (parseInt(valor) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0)global.set(\"tipoRiego\", 2);\n        }\n        if (parseInt(valor) === 2){\n            if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                global.set(\"tipoRiego\", 2);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoPatio\", valor);  \n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego patio Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n                }              \n            if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        }\n    }\n\n    var dato = msg.payload.substring(1);\n    // msg.payload = dato; return msg;\n    dato = msg.payload.split(\"#\");\n    global.set(\"bombaPozo\", parseInt(dato[0])); \n    global.set(\"riegoFrente\", parseInt(dato[1])); \n    global.set(\"luzLavadero\", parseInt(dato[2])); \n    global.set(\"luzAlacenaLavadero\", parseInt(dato[3])); \n\n    // node.status({text: global.get(\"riegoFrente\")});\n\n    // if (parseInt(global.get(\"riegoFrente\")) === 1){\n    //     global.set(\"bombaPozo\", 1);\n    //     global.set(\"riegoFrente\", 1);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }\n    // if (parseInt(global.get(\"riegoFrente\")) === 0){\n    //     global.set(\"bombaPozo\", 0);\n    //     global.set(\"riegoFrente\", 0);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }    \n  //   if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n    enviarBlynk();\n    return;\n  }\n\n  if (topic == \"ESP/TanqueAgua/Desconectado\"){\n    var restante = parseInt(nivMaximo) - parseInt(global.get(\"nivTanque\"));\n    var tiempoRestante = (parseInt(restante) * 209) / 104;\n    context.tiempoRestante = parseInt(tiempoRestante * 1000);\n    global.set(\"estadoEspTanque\", 0);// 0 = Desconectado\n    return;\n  }  \n\n  if (topic == \"ESP/TanqueAgua/Inicio\"){\n    global.set(\"estadoEspTanque\", 1);\n    var datos = \"config\" + global.get(\"minimoTanque\") + \"#\" + global.get(\"maximoTanque\") + \"#\" + global.get(\"alturaTanque\");\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: datos}; node.send([msg, null]);\n    // enviarDatos();    \n    return;\n  }   \n\n  // if (global.get(\"estadoEspTanque\") === 0 && global.get(\"llenarTanque\") === 1 && date.getTime() > parseInt(context.tiempoRestante)){\n  //   global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n  //   msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por tiempo\"}; node.send(msg);\n  //   enviarBlynk(); \n  //   enviarDatos();  \n  // }\n\n  // if (dato.topic == \"bombaRF\"){\n  //   if (global.get(\"bombaPozo\") === 0){global.set(\"bombaPozo\", 1);}else{global.set(\"bombaPozo\", 0);}\n  //   enviarBlynk(); \n  //   enviarDatos(); //return;\n  // }\n\n  if (parseInt(global.get(\"llenarTanque\")) === 1 && parseInt(date.getTime()) > parseInt(context.tiempoLlenado)){\n    context.tiempoLlenado = date.getTime() + 60000;\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: \" \"}; node.send([msg, null]); \n    return;\n  }\n\n  // sube el nivel a razon de 104mm cada 209\"     42mm en 91\"\nif (topic == \"ESP/TanqueAgua/Envio\"){\n    global.set(\"nivTanque\", parseInt(msg.payload));\n\n     if (parseInt(global.get(\"nivTanque\")) < 50){\n        // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Tanque con poca agua, nivel: \" + global.get(\"nivTanque\") + \"\\n\"}; node.send([msg, null]);\n     }\n\n    if (parseInt(global.get(\"llenarTanque\")) === 1){\n        var tiempoLlenando = parseInt(global.get(\"tiempoInicioLlenado\")) + 1200000;\n        if(parseInt(date.getTime()) > parseInt(tiempoLlenando)){\n            context.errorLlenadoAuto = 1;\n            global.set(\"llenarTanque\", 0);\n            global.set(\"bombaPozo\",  0);\n            global.set(\"valvulaTanque\", 0);        \n            msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);        \n            msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);\n            enviarBlynk(); \n            msg.topic = \"ESP/Lavadero/Inicio\";\n            enviarDatos(); \n        }\n    } \n\n    if (parseInt(global.get(\"nivTanque\")) < parseInt(global.get(\"minimoTanque\")) && global.get(\"llenarTanque\") === 0 && context.llenadoAnulado === 0 && context.errorLlenadoAuto === 0){\n        if(parseInt(global.get(\"nivTanque\")) === 0)return;\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio llenando tanque\\n\"}; node.send([msg, null]);\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();  \n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.tiempoLlenado = date.getTime() + 60000;\n        context.estadoAnterior = 1;\n        global.set(\"llenarTanque\", 1);\n        // global.set(\"bombaPozo\",  1);\n        global.set(\"valvulaTanque\", 1);\n        //   msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio AUTO llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"llenando1\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;    \n    }\n    \n    if (parseInt(global.get(\"nivTanque\")) >= parseInt(global.get(\"maximoTanque\")) && parseInt(global.get(\"llenarTanque\")) === 1){// && parseInt(global.get(\"estadoEspTanque\")) === 1){ //&& context.avisoTanque === 0 && global.get(\"estadoEspTanque\") === 1){\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n        tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);        \n        global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n        var ponele3 = parseInt(global.get(\"nivTanque\")) - context.nivelInicioLlenado;\n        node.status({text: \"FIN Auto nivelInicio: \" + ponele3 + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro AUTO Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        // msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por nivel\"}; node.send(msg);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        mensaje = tiempoLL / 1000;\n        var minutosLL = parseInt(parseInt(mensaje)/60);\n        var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n        if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n        if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n        minutosLL = minutosLL + \":\" + segundosLL;        \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"        \n\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        topicNuevo = \"ESP/Lavadero/Inicio\";\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;\n    }  \n\n    if (global.get(\"nivTanque\") != context.nivelAnterior){\n      context.nivelAnterior = global.get(\"nivTanque\");\n        if (parseInt(global.get(\"llenarTanque\")) === 1){// parseInt(global.get(\"nivTanque\")) < parseInt(nivMaximo)){\n          var var1 = global.get(\"nivTanque\");\n          tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n          tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n          context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n          context.tiempoInicioLlenado = date.getTime();\n          global.set(\"tasaLlenadoTanque\", tasaLlenado);      \n          msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n          msg = {topic: \"Blynk/actualizar/estado\", payload: 1}; node.send([msg, null]);\n      }\n    }  \n\n} \n\n  if (topic == \"ESP/Lavadero/Inicio\") {\n    enviarDatos(); \n  valor = \"riego\" + global.get(\"tipoRiego\");\n  msg = {delay: 2000, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);    \n    return;\n  }\n\n  switch (pin){\n    case 2:\n    global.set(\"bombaPozo\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;\n\n    case 200:\n        // global.set(\"bombaPozo\", parseInt(msg.payload));\n        // global.set(\"riegoFrente\", parseInt(msg.payload));\n        if (parseInt(msg.payload) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente auto SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n                if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                    global.set(\"tipoRiego\", 2);\n                    valor  = parseInt(date.getTime());\n                    global.set(\"dateRiegoPatio\", valor);  \n                    valor = \"riego\" + global.get(\"tipoRiego\");\n                    msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                    dato = global.get(\"hsCpu\") + \" - riego patio auto SI\" + '\\n';\n                    msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n                    }              \n                if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n            }\n        }\n\n\n        // if (parseInt(msg.payload) === 1){\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        //         global.set(\"tipoRiego\", 1);\n        //         valor  = parseInt(date.getTime());\n        //         global.set(\"dateRiegoFrente\", valor);\n        //         valor = \"riego\" + global.get(\"tipoRiego\");\n        //         msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //     }\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n        //         if (parseInt(global.set(\"modoRiegoPatio\")) === 1){\n        //             global.set(\"tipoRiego\", 2);\n        //             valor  = parseInt(date.getTime());\n        //             global.set(\"dateRiegoPatio\", valor);  \n        //             valor = \"riego\" + global.get(\"tipoRiego\");\n        //             msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //             }\n        //             }              \n        //         if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        // }\n        // enviarBlynk();\n        // enviarDatos(); //return;      \n      break;      \n\n    case 34:\n      context.errorLlenadoAuto = 0;\n      context.estadoAnterior = msg.payload;\n      global.set(\"llenarTanque\", parseInt(msg.payload));\n      global.set(\"bombaPozo\",  parseInt(msg.payload));\n      global.set(\"valvulaTanque\",parseInt( msg.payload));\n      context.tiempoLlenado = date.getTime() + 60000;\n      if (parseInt(msg.payload) === 0) {\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - context.tiempoInicioLlenado) / 60000;        \n        parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        var ponele = var1 - context.nivelInicioLlenado;\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro MANUAL Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n    mensaje = tiempoLL / 1000;\n    var minutosLL = parseInt(parseInt(mensaje)/60);\n    var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n    if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n    if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n    minutosLL = minutosLL + \":\" + segundosLL;       \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);      \n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        node.status({text: \"FIN Man nivelInicio: \" + ponele + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        context.llenadoAnulado = 1;\n      }\n      if (parseInt(msg.payload) === 1) {\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();\n        context.nivelArranco = global.get(\"nivTanque\");\n        context.tiempoArrancoLLenado = date.getTime();\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio MANUAL llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - Inicio llenado tanque\\n\"}; node.send([msg, null]);\n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.llenadoAnulado = 0;\n        }\n      enviarBlynk();\n      enviarDatos(); //return;\n      break;  \n\n    case 35:\n      // if (parseInt(msg.payload) === 1) global.set(\"luzLavadero\", 0);\n      // if (parseInt(msg.payload) === 0) global.set(\"luzLavadero\", 1);\n      global.set(\"luzLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -fff- \"  + global.get(\"luzLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 36:\n      global.set(\"luzAlacenaLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -ggg- \"  + global.get(\"luzAlacenaLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 37:\n      global.set(\"PresurizadoraFria\", parseInt(msg.payload));\n      msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: global.get(\"PresurizadoraFria\")}; node.send([msg, null]);\n      return;\n      break;   \n\n    case 38:\n      global.set(\"valvulaTanque\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;                  \n  }\n\n  function enviarBlynk(){\n    msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null, msg]);\n    msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null, msg]);\n    msg = {pin: 35, payload: global.get(\"luzLavadero\")}; node.send([null, msg]);\n    msg = {pin: 36, payload: global.get(\"luzAlacenaLavadero\")}; node.send([null, msg]);\n    msg = {pin: 37, payload: global.get(\"riegoFrente\")}; node.send([null, msg]);\n    msg = {pin: 38, payload: global.get(\"valvulaTanque\")}; node.send([null, msg]);\n  }\n\n  function enviarDatos(){//return;\n    var topicNuevo = msg.topic;\n    msg = global.get(\"bombaPozo\") + \"#\";\n    msg += global.get(\"valvulaTanque\") + \"#\";\n    msg += global.get(\"riegoFrente\") + \"#\";\n    msg += global.get(\"luzLavadero\") + \"#\";\n    msg += global.get(\"luzAlacenaLavadero\") + \"#\";\n    msg += \"3#\";\n    // msg += global.get(\"1\") + \"1#\";\n    msg += global.get(\"pwmMinLed\") + \"#\";\n    msg += global.get(\"Dia\");\n    if (topicNuevo == \"crepMQTT\" || topicNuevo == \"ESP/Lavadero/Inicio\" || topicNuevo == \"aviso/Alarma\")msg += \"#\";\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: msg}; node.send([msg, null]);\n\n\n    // if (global.get(\"valvulaTanque\") === 1) {context.avisoTanque = 0;}\n    // msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null,msg]);\n    // msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null,msg]);\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"most\\\",\\\"payload\\\":\" + msg.payload + \"}\"}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: global.get(\"bombaPozo\")}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: global.get(\"valvulaTanque\")}; node.send(msg);    \n    // node.status({text: \"Bomba: \" + global.get(\"bombaPozo\") + \"  Valvula: \" + global.get(\"valvulaTanque\") + \" - \" + global.get(\"nivTanque\") + \" - \" + global.get(\"llenarTanque\") + \" - \" + context.estadoAnterior});\n  }\n\n  function apagadoLuces(){\n      node.status({text: \"apagado auto\"});\n      global.set(\"luzLavadero\", 0);\n      global.set(\"luzAlacenaLavadero\", 0);\n      enviarBlynk();\n      enviarDatos();\n  }\n\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -19373,7 +19433,7 @@
         "type": "debug",
         "z": "9c63fd61.9908c",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -19772,8 +19832,8 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
-        "x": 105,
-        "y": 22,
+        "x": 520,
+        "y": 20,
         "wires": [
             [
                 "79e2935c.25c1cc"
@@ -19790,8 +19850,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 337,
-        "y": 25,
+        "x": 752,
+        "y": 23,
         "wires": []
     },
     {
@@ -20017,8 +20077,8 @@
         "topic": "",
         "payload": "132000",
         "payloadType": "num",
-        "x": 831.5,
-        "y": 48,
+        "x": 793,
+        "y": 85,
         "wires": [
             [
                 "1f2ebbe1.6038f4"
@@ -20033,8 +20093,8 @@
         "func": "var mensaje = msg.payload;\nmensaje = mensaje / 1000;\nvar minutosLL = parseInt(parseInt(mensaje)/60);\nvar segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\nif (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\nif (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\nminutosLL = minutosLL + \":\" + segundosLL; \nmsg.payload = minutosLL;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 998.5,
-        "y": 43,
+        "x": 960,
+        "y": 80,
         "wires": [
             [
                 "d5246166.ee14f"
@@ -20051,8 +20111,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1146.5,
-        "y": 38,
+        "x": 1108,
+        "y": 75,
         "wires": []
     },
     {
@@ -20820,7 +20880,7 @@
         "type": "function",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "func": "context.dato1AnteriorQuemador = context.dato1AnteriorQuemador || 0;\ncontext.dato1AnteriorCaldera = context.dato1AnteriorCaldera || 0;\ncontext.dato1AnteriorTermo = context.dato1AnteriorTermo || 0;\ncontext.estAnteriorQuemador = context.estAnteriorQuemador || null;\ncontext.estAnteriorCaldera = context.estAnteriorCaldera || null;\ncontext.diaAnterior = context.diaAnterior || null;\ncontext.avisoMail = context.avisoMail || 0;\n\nvar date = new Date();\nvar payload = msg.payload;\nvar dia = date.getDate(); \nvar enviarDatos = 0;\nvar dato1 = 0;\nvar dato2 = 0;\n\nif (msg.topic == \"timer\"){\n  if (parseInt(context.diaAnterior) != parseInt(dia)){\n    context.diaAnterior = dia;\n    context.avisoMail = 0;\n  } \n  if (parseInt(date.getHours()) == 23 && parseInt(date.getMinutes()) == 59 && parseInt(context.avisoMail) === 0){\n    context.avisoMail = 1;\n\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    if (parseInt(global.get(\"estCaldera\")) === 1)global.set(\"mSencendidoCaldera\", date.getTime());\n    if (parseInt(global.get(\"estQuemador\")) === 1){\n      dato2 = parseInt(date.getTime() - global.get(\"mSencendidoQuemador\"));\n      dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsDiariosCaldera\")); \n      global.set(\"mtsDiariosCaldera\", dato2);      \n      global.set(\"mSencendidoQuemador\", date.getTime());\n    }\n\n    if (parseInt(global.get(\"estTermo\")) === 1){\n      dato1 = parseFloat(global.get(\"mtsDiariosTermo\") + ((date.getTime()-global.get(\"mSencendidoTermo\"))/6920000));\n      global.set(\"mtsDiariosTermo\", dato1);\n      global.set(\"mSencendidoTermo\", date.getTime());\n    }\n\n    dato1 = parseFloat(global.get(\"mtsBimestrales\")+global.get(\"mtsDiariosCaldera\")+global.get(\"mtsDiariosTermo\")); global.set(\"mtsBimestrales\", dato1);\n\n    dato1 = \"Consumo de gas del: \" + global.get(\"fechaQuinela\") + \":\\n\";\n    dato1 += \"Acumulados Bimestre: \" + parseFloat(global.get(\"mtsBimestrales\")).toFixed(3) + \" mts3.\\n\";\n    dato1 += \"Caldera: \" + global.get(\"mtsDiariosCaldera\") + \" mts3.\\n\";\n    dato1 += \"Termo: \" + global.get(\"mtsDiariosTermo\") + \" mts3.\\n\";\n    dato1 += \"hsMarchaDiarioCaldera: \" + global.get(\"hsMarchaDiarioCaldera\") + \" Hs.\\n\";\n    dato1 += \"hsMarchaQuemador: \" + global.get(\"hsMarchaQuemador\") + \" Hs.\\n\";\n    dato1 += \"Totales Diarios: \" + parseFloat(global.get(\"mtsDiariosTermo\")+global.get(\"mtsDiariosCaldera\")) + \" mts3.\\n\";\n    // dato1 += \"Tiempo de caldera prendida: \" + global.get(\"dato1DiarioCaldera\") + \" minutos\\n\";\n\n    msg.topic = \"Consumos de gas de casa\";\n      msg.payload = dato1;  \n      node.send([null, null, msg]);\n\n    global.set(\"mtsDiariosCaldera\", 0); global.set(\"mtsDiariosTermo\", 0);\n    global.set(\"hsMarchaDiarioCaldera\", 0); global.set(\"hsMarchaQuemador\", 0);\n\n  }\n  msg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n  msg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n  msg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n  msg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n  msg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n  msg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);    \n  return;\n}\n\nif (msg.topic == \"ESP/Gas/Envio\"){\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estQuemador\")) === 0){global.set(\"estQuemador\", 1); global.set(\"mSencendidoQuemador\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estQuemador\")) === 1){\n    global.set(\"estQuemador\", 0);\n    dato1 = parseInt(date.getTime() - global.get(\"mSencendidoQuemador\"));\n    dato2 = parseInt(dato1 + global.get(\"tiempoMsMarchaQuemador\")); global.set(\"tiempoMsMarchaQuemador\", dato2); //acumulativo diario Ms marcha quemador\n\n    dato2 = parseFloat(global.get(\"hsMarchaQuemador\")) + (dato1/3600000); dato2 = parseFloat(dato2.toFixed(2));\n    global.set(\"hsMarchaQuemador\" , dato2); //acumulativo diario Hs marcha quemador\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsControlCaldera\")); global.set(\"mtsControlCaldera\", dato2);\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsTotales\")); global.set(\"mtsTotales\", dato2);\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsDiariosCaldera\")); global.set(\"mtsDiariosCaldera\", dato2);\n\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    global.set(\"mSencendidoCaldera\", date.getTime());\n  }\n  payload = payload.substring(2); // estado caldera\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estCaldera\")) === 0){global.set(\"estCaldera\", 1); global.set(\"mSencendidoCaldera\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estCaldera\")) === 1){\n    global.set(\"estCaldera\", 0);\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    global.set(\"mSencendidoCaldera\", date.getTime());\n  } \n\n  payload = payload.substring(2); // estado termo\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estTermo\")) === 0){global.set(\"estTermo\", 1); global.set(\"mSencendidoTermo\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estTermo\")) === 1){\n    global.set(\"estTermo\", 0);\n  \n    dato1 = parseFloat(global.get(\"mtsDiariosTermo\") + ((date.getTime()-global.get(\"mSencendidoTermo\"))/6920000));\n    global.set(\"mtsDiariosTermo\", dato1);\n\n    dato1 = parseFloat(global.get(\"mtsTotales\")+dato1);\n    global.set(\"mtsTotales\", dato1);\n    msg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n  }   \n\n  msg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n  msg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n  msg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\n  msg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n  msg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n  msg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);  \n\n  msg.payload = \"\\n\" + global.get(\"fechaCompleta\");\n  msg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\n  msg.payload += \"mts totales:\" + parseFloat(global.get(\"mtsTotales\")).toFixed(3) + \"\\n\";\n  msg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\").toFixed(3) + \"\\n\";\n  msg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\").toFixed(3) + \"\\n\";\n  msg.payload += \"tiempoMsMarchaQuemador: \" + parseInt(global.get(\"tiempoMsMarchaQuemador\")) + \"\\n\";\n  msg.payload += \"mtsControlCaldera: \" + global.get(\"mtsControlCaldera\") + \"\\n\";  \n  msg.payload += \"hsMarchaQuemador: \" + parseFloat(global.get(\"hsMarchaQuemador\")).toFixed(2) + \"\\n\";\n  msg.payload += \"hsMarchaDiarioCaldera: \" + global.get(\"hsMarchaDiarioCaldera\").toFixed(2) + \"\\n\";\n  msg = {pin: 150, payload: msg.payload}; \n  return msg;\n}\n",
+        "func": "context.dato1AnteriorQuemador = context.dato1AnteriorQuemador || 0;\ncontext.dato1AnteriorCaldera = context.dato1AnteriorCaldera || 0;\ncontext.dato1AnteriorTermo = context.dato1AnteriorTermo || 0;\ncontext.estAnteriorQuemador = context.estAnteriorQuemador || null;\ncontext.estAnteriorCaldera = context.estAnteriorCaldera || null;\ncontext.diaAnterior = context.diaAnterior || null;\ncontext.avisoMail = context.avisoMail || 0;\n\nvar date = new Date();\nvar payload = msg.payload;\nvar dia = date.getDate(); \nvar enviarDatos = 0;\nvar dato1 = 0;\nvar dato2 = 0;\n\nif (msg.topic == \"timer\"){\n  if (parseInt(context.diaAnterior) != parseInt(dia)){\n    context.diaAnterior = dia;\n    context.avisoMail = 0;\n  } \n  if (parseInt(date.getHours()) == 23 && parseInt(date.getMinutes()) == 59 && parseInt(context.avisoMail) === 0){\n    context.avisoMail = 1;\n\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    if (parseInt(global.get(\"estCaldera\")) === 1)global.set(\"mSencendidoCaldera\", date.getTime());\n    if (parseInt(global.get(\"estQuemador\")) === 1){\n      dato2 = parseInt(date.getTime() - global.get(\"mSencendidoQuemador\"));\n      dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsDiariosCaldera\")); \n      global.set(\"mtsDiariosCaldera\", dato2);      \n      global.set(\"mSencendidoQuemador\", date.getTime());\n    }\n\n    if (parseInt(global.get(\"estTermo\")) === 1){\n      dato1 = parseFloat(global.get(\"mtsDiariosTermo\") + ((date.getTime()-global.get(\"mSencendidoTermo\"))/6920000));\n      global.set(\"mtsDiariosTermo\", dato1);\n      global.set(\"mSencendidoTermo\", date.getTime());\n    }\n\n    dato1 = parseFloat(global.get(\"mtsBimestrales\")+global.get(\"mtsDiariosCaldera\")+global.get(\"mtsDiariosTermo\")); global.set(\"mtsBimestrales\", dato1);\n\n    dato1 = \"Consumo de gas del: \" + global.get(\"fechaQuinela\") + \":\\n\";\n    dato1 += \"Acumulados Bimestre: \" + parseFloat(global.get(\"mtsBimestrales\")).toFixed(3) + \" mts3.\\n\";\n    dato1 += \"Caldera: \" + global.get(\"mtsDiariosCaldera\") + \" mts3.\\n\";\n    dato1 += \"Termo: \" + global.get(\"mtsDiariosTermo\") + \" mts3.\\n\";\n    dato1 += \"hsMarchaDiarioCaldera: \" + global.get(\"hsMarchaDiarioCaldera\") + \" Hs.\\n\";\n    dato1 += \"hsMarchaQuemador: \" + global.get(\"hsMarchaQuemador\") + \" Hs.\\n\";\n    dato1 += \"Totales Diarios: \" + parseFloat(global.get(\"mtsDiariosTermo\")+global.get(\"mtsDiariosCaldera\")) + \" mts3.\\n\";\n    // dato1 += \"Tiempo de caldera prendida: \" + global.get(\"dato1DiarioCaldera\") + \" minutos\\n\";\n\n    msg.topic = \"Consumos de gas de casa\";\n      msg.payload = dato1;  \n      node.send([null, null, msg]);\n\n    global.set(\"mtsDiariosCaldera\", 0); global.set(\"mtsDiariosTermo\", 0);\n    global.set(\"hsMarchaDiarioCaldera\", 0); global.set(\"hsMarchaQuemador\", 0);\n\n  }\n  msg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n  msg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n  msg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n  msg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n  msg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n  msg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);    \n  return;\n}\n\nif (msg.topic == \"ESP/Gas/Envio\"){\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estQuemador\")) === 0){global.set(\"estQuemador\", 1); global.set(\"mSencendidoQuemador\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estQuemador\")) === 1){\n    global.set(\"estQuemador\", 0);\n    dato1 = parseInt(date.getTime() - global.get(\"mSencendidoQuemador\"));\n    dato2 = parseInt(dato1 + global.get(\"tiempoMsMarchaQuemador\")); global.set(\"tiempoMsMarchaQuemador\", dato2); //acumulativo diario Ms marcha quemador\n\n    dato2 = parseFloat(global.get(\"hsMarchaQuemador\")) + (dato1/3600000); dato2 = parseFloat(dato2.toFixed(2));\n    global.set(\"hsMarchaQuemador\" , dato2); //acumulativo diario Hs marcha quemador\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsControlCaldera\")); global.set(\"mtsControlCaldera\", dato2);\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsTotales\")); global.set(\"mtsTotales\", dato2);\n\n    dato2 = parseFloat((((dato1/1000)*22.369)/50190.968) + global.get(\"mtsDiariosCaldera\")); global.set(\"mtsDiariosCaldera\", dato2);\n\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    global.set(\"mSencendidoCaldera\", date.getTime());\n  }\n  payload = payload.substring(2); // estado caldera\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estCaldera\")) === 0){global.set(\"estCaldera\", 1); global.set(\"mSencendidoCaldera\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estCaldera\")) === 1){\n    global.set(\"estCaldera\", 0);\n    dato1 = parseFloat(global.get(\"hsMarchaDiarioCaldera\") + ((date.getTime() - global.get(\"mSencendidoCaldera\"))/3600000));\n    global.set(\"hsMarchaDiarioCaldera\", dato1);\n    dato1 = global.get(\"hsMarchaDiarioCaldera\")\n\n    global.set(\"mSencendidoCaldera\", date.getTime());\n  } \n\n  payload = payload.substring(2); // estado termo\n  if (parseInt(payload.substring(0,1)) === 0 && parseInt(global.get(\"estTermo\")) === 0){global.set(\"estTermo\", 1); global.set(\"mSencendidoTermo\", date.getTime());}\n  if (parseInt(payload.substring(0,1)) === 1 && parseInt(global.get(\"estTermo\")) === 1){\n    global.set(\"estTermo\", 0);\n  \n    dato1 = parseFloat(global.get(\"mtsDiariosTermo\") + ((date.getTime()-global.get(\"mSencendidoTermo\"))/6920000));\n    global.set(\"mtsDiariosTermo\", dato1);\n\n    dato1 = parseFloat(global.get(\"mtsTotales\")+dato1);\n    global.set(\"mtsTotales\", dato1);\n    msg.payload = \"mts3 totales: \" + global.get(\"mtsTotales\") +\"\\n\"; node.send([null, msg]);\n  }   \n\n  msg = {pin: 129, payload: global.get(\"estQuemador\")}; node.send(msg);\n  msg = {pin: 130, payload: global.get(\"estCaldera\")}; node.send(msg);\n  msg = {pin: 131, payload: global.get(\"estTermo\")}; node.send(msg);\n\n  msg = {topic: \"marchaCaldera\", payload: global.get(\"estCaldera\")}; node.send([null, msg]);\n  msg = {topic: \"marchaQuemador\", payload: global.get(\"estQuemador\")}; node.send([null, msg]);\n  msg = {topic: \"marchaTermo\", payload: global.get(\"estTermo\")}; node.send([null, msg]);  \n\n  msg.payload = \"\\n\" + global.get(\"fechaCompleta\");\n  msg.payload += \"  (\" + global.get(\"estQuemador\") + \"-\" + global.get(\"estCaldera\") + \"-\" + global.get(\"estTermo\") + \")\\n\";\n  msg.payload += \"mts Bimestre: \" + parseFloat(global.get(\"mtsBimestrales\")+global.get(\"mtsDiariosCaldera\")+global.get(\"mtsDiariosTermo\")).toFixed(3) + \" mts3.\\n\";\n  msg.payload += \"mts totales medidor:\" + parseFloat(global.get(\"ultimaMedicion\")+global.get(\"mtsBimestrales\")+global.get(\"mtsDiariosCaldera\")+global.get(\"mtsDiariosTermo\")).toFixed(3) + \"mts3\\n\";\n  msg.payload += \"mts diar caldera: \" + global.get(\"mtsDiariosCaldera\").toFixed(3) + \"mts3\\n\";\n  msg.payload += \"mts diar termo: \" + global.get(\"mtsDiariosTermo\").toFixed(3) + \"mts3\\n\";\n  // msg.payload += \"tiempoMsMarchaQuemador: \" + parseInt(global.get(\"tiempoMsMarchaQuemador\")) + \"\\n\";\n  // msg.payload += \"mtsControlCaldera: \" + parseFloat(global.get(\"mtsControlCaldera\")).toFixed(3) + \"mts3\\n\";  \n  msg.payload += \"hsMarchaQuemador: \" + parseFloat(global.get(\"hsMarchaQuemador\")).toFixed(2) + \"hs.\\n\";\n  msg.payload += \"hsMarchaDiarioCaldera: \" + global.get(\"hsMarchaDiarioCaldera\").toFixed(2) + \"hs.\\n\";\n  msg = {pin: 150, payload: msg.payload}; \n  return msg;\n}\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -21492,7 +21552,7 @@
         "type": "function",
         "z": "17cadfaf.12d97",
         "name": "",
-        "func": "    // Sal1  thingspeak\n    // Sal2  mqtt\n    // Sal3  blynk\n    // Sal4  mysql\n    //global.get(\"tempMinExt\")\n\n    context.llenandoTermo = context.llenandoTermo || 0;\n    context.encendidoResistencia = context.encendidoResistencia || 0;\n    context.estAnteriorResistencia = context.estAnteriorResistencia || 0;\n    context.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\n    context.manualPorAlarma = context.manualPorAlarma || 0;\n    context.tiempo = context.tiempo || 0;\n\n    var topic = msg.topic;\n    var payload = msg.payload;\n    var comienzoLlenado;\n    var terminoLlenado;\n    var valorDia = global.get(\"valorDia\");\n    var valorNoche = global.get(\"valorNoche\");\n    var pin = parseInt(msg.pin);\n    var date = new Date();\n    var tiempo = 0\n\n    if (topic == \"timer\"){\n       if (parseFloat(global.get(\"tempMinExt\")) < 2){tiempo = 12;}else{tiempo = 9;}\n       if (parseInt(global.get(\"mes\")) !== parseInt(global.get(\"mesAnt\"))){\n            global.set(\"mesAnt\", global.get(\"mes\"));\n            global.set(\"tiempoEncResis\", 0);\n            global.set(\"potenciaResistencia\", 0);\n       }\n       if (parseInt(global.get(\"hh\")) === parseInt(tiempo) && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n          msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por hora (9:00 \\n\"}; node.send([null, null, msg]);\n          // if (parseInt(global.get(\"nivTanque\")) > 150){global.set(\"autoBomba\", 1); }\n          // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n            msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- Apago bomb termo\" + \"\\n\"};\n            node.send([null, null, msg]);\n          enviarBlynk();\n          enviarMQTT();\n       }\n    }\n\n    // PONGO BOMBA EN AUTO UNA VEZ QUE SE APAGO Y PASARON 2' DESDE QUE SE APAGO PRESURIZADORA\n    if (date.getTime() > context.tiempo && parseInt(context.manualPorAlarma) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n    //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a MANUAL bomba termo por activarse alarma casa o apagarse bomba agua caliente\\n\"}; node.send([null, null, msg]);\n      context.manualPorAlarma = 0;\n      // global.set(\"autoBomba\", 0);   \n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/Lavadero/AguaCaliente\"){\n      if (msg.payload.substring(0, 19) == \"BombaAguaCalienteSI\" && parseInt(global.get(\"nivTanque\")) > 100){\n        context.manualPorAlarma = 0; \n        // global.set(\"autoBomba\", 1);\n        \n        context.manualPorAlarma = 1; \n        context.tiempo = date.getTime() + 1800000;\n        msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- prend bomb termo\" + \"\\n\"};\n        node.send([null, null, msg]);\n    \n      // if (msg.payload.substring(0, 19) == \"BombaAguaCalienteNO\"){context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; return;}\n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]); \n\n        // payload = \"0#1#\";\n        // payload += global.get(\"luzPatio\") + \"#\"; \n        // payload += global.get(\"tempMaximaTermo\") + \"#\";\n        // payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        // msg.payload = payload;  \n        // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n\n      enviarBlynk();\n      return; \n      }  \n    }\n\n    if (topic == \"aviso/Alarma\" && parseInt(global.get(\"estadoAlarma\") === 0 && parseInt(global.get(\"nivTanque\")) > 150) === 0 && parseInt(global.get(\"hh\")) > 6){\n      // global.set(\"autoBomba\", 1);   \n      context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n    //   context.manualPorAlarma = 1;  context.tiempo = date.getTime() + 120000;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 1) return;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 0 && parseInt(global.get(\"hh\")) > 6){\n    //     msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por desactivarse alarma casa \\n\"}; node.send([null, null, msg]);\n    //     global.set(\"autoBomba\", 1);       a\n      enviarBlynk();\n      enviarMQTT();\n    //   }\n    } \n\n    switch (pin){\n      case 101:\n        if (parseInt(payload) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 3600000;\n          global.set(\"pedBomba\", 0); }\n         // if(parseInt(global.get(\"nivTanque\") > 150))\n        global.set(\"autoBomba\", parseInt(payload)); \n\n        if (parseInt(payload) === 1){\n            payload = global.get(\"autoBomba\");\n            payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n            payload += global.get(\"tempMaximaTermo\") + \"#\";\n            payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n            msg.payload = payload;  \n            msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]); \n\n            // payload = \"0#1#\";\n            // payload += global.get(\"luzPatio\") + \"#\"; \n            // payload += global.get(\"tempMaximaTermo\") + \"#\";\n            // payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n            // msg.payload = payload;  \n            // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n        }\n        else{\n            enviarMQTT();\n        }\n\n\n        enviarBlynk();\n        // enviarMQTT();\n      break;\n\n      case 102:\n        if (parseInt(global.get(\"autoBomba\")) === 0){\n          global.set(\"pedBomba\", payload); \n          enviarMQTT();\n        }\n      break;\n\n      case 103:\n        if (parseInt(payload) === 0){global.set(\"luzPatio\", 0);}\n        global.set(\"autoLuzPatio\", payload); \n        controlResistencia();   \n        enviarBlynk();\n        enviarMQTT();\n      break;\n      case 104:\n        if (parseInt(global.get(\"autoLuzPatio\")) === 0){\n            global.set(\"luzPatio\", payload); \n            controlResistencia();\n            enviarBlynk();\n            enviarMQTT();}\n      break;\n    }\n\n    if (topic == \"ESP/TermoSolar/controlResistencia\"){\n        controlResistencia();\n        enviarBlynk();\n        enviarMQTT(); \n        return;\n        }\n\n    if (topic == \"ESP/TermoSolar/Envio\"){\n      //0#0#0#15.55#25.55#1020\n        var dato = payload.split(\"#\");\n        global.set(\"estBomba\", parseInt(dato[0])); \n        global.set(\"estResistencia\", parseInt(dato[1])); \n        // global.set(\"estToldo\", parseInt(dato[2]));  \n        var dato2 = parseFloat(dato[2]).toFixed(1);\n        if (parseInt(dato[2]) !== 0) global.set(\"tempTermoFin\", dato2); \n        dato2 = parseFloat(dato[3]).toFixed(1);\n        if (parseInt(dato[3]) !== 0)global.set(\"tempExterior\", dato2); \n        global.set(\"sensorCrep\", parseInt(dato[4])); \n\n      msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null]);\n      msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null]);\n      msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null]);\n      msg= {topic: \"TanqueAgua\", payload: global.get(\"nivTanque\")}; node.send([msg, null, null]); \n      msg= {topic: \"horasDia\", payload: global.get(\"horasDia\")}; node.send([msg, null, null]); \n\n    controlResistencia();\n    enviarBlynk();\n    enviarMQTT(); \n\n     //  if(parseInt(global.get(\"autoLuzPatio\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"luzPatio\")) === 0){\n     //         global.set(\"luzPatio\", 1);\n     //         controlResistencia();\n        //  enviarBlynk();\n        //  enviarMQTT();   \n     //  }\n\n     //  if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"luzPatio\")) == 1){\n     //     global.set(\"luzPatio\", 0);\n     //     controlResistencia();\n        // enviarBlynk();\n        // enviarMQTT();\n        // // return;\n        // }\n        // enviarBlynk();\n    }\n      \n\n    if (topic == \"ESP/TermoSolar/EstadoBomba\"){\n      if (payload.substring(0, 11) == \"bombaMarcha\"){\n        global.set(\"estBomba\", parseInt(payload.substring(11)));\n        if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n        msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        controlBomba();\n      }\n    }\n\n    // var status = new Date().getTime() - global.get(\"comienzoLlenado\")\n    // node.status({text: global.get(\"estBomba\") + \" -- \" + status}) ; \n\n    // PARADA BOMBA POR ERROR DE MARCHA\n    if (global.get(\"estBomba\") === 1 && new Date().getTime() - global.get(\"comienzoLlenado\") > 240000){\n      // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // global.set(\"autoBomba\", 0);\n      global.set(\"pedBomba\", 0);\n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/TermoSolar/Inicio\"){\n        var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n        global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n        global.set(\"tipoFallaIlLiving\", msg.payload); \n        enviarMQTT();\n    }\n\n    if (topic == \"crepMQTT\"){\n        // if (parseInt(global.get(\"Dia\")) === 0 && parseInt(global.get(\"luzPatio\")) === 0 && parseInt(global.get(\"tempTermoFin\")) > 45 && parseInt(global.get(\"tempTermoFin\")) <  parseInt(global.get(\"tempMaxResistenciaAuto\"))){\n        // global.set(\"luzPatio\", 1);\n        // controlResistencia();\n        // enviarBlynk();\n        if (parseInt(global.get(\"autoLuzPatio\")) === 1){\n            if (parseInt(global.get(\"Dia\")) === 0){\n                global.set(\"luzPatio\", 1);\n            }\n            if (parseInt(global.get(\"Dia\")) === 1){\n                global.set(\"luzPatio\", 0);\n            }  \n        }             \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; \n        node.send([null, null, null, msg]);\n        return;        \n    }\n\n    function controlResistencia(){\n\n      if(parseInt(global.get(\"habilitacionResistenciaTermo\")) === 0){\n        global.set(\"luzPatio\", 0);\n     //     enviarBlynk();\n        // enviarMQTT();\n        return;\n      }\n      if(parseInt(global.get(\"autoLuzPatio\")) === 1 && parseInt(global.get(\"tempTermoFin\"))  < parseInt(global.get(\"tempMinimaResistenciaAuto\")) && parseInt(global.get(\"luzPatio\")) === 0){\n            global.set(\"luzPatio\", 1);\n        }\n\n      if (parseInt(global.get(\"tempTermoFin\"))  > parseInt(global.get(\"tempMaxResistenciaAuto\")) && parseInt(global.get(\"luzPatio\")) == 1){\n        global.set(\"luzPatio\", 0);\n        }\n\n\n      if(parseInt(global.get(\"luzPatio\")) === 1 && parseInt(context.estAnteriorResistencia) === 0){\n          context.estAnteriorResistencia = 1;\n          context.tiempoInicioResistencia = new Date().getTime();//}\n          msg = {topic: \"borrar\", payload: context.tiempoInicioResistencia}; node.send([null, msg, null]);\n      }\n\n      if (parseInt(global.get(\"luzPatio\")) === 0 && parseInt(context.estAnteriorResistencia) === 1){// && context.encendidoResistencia === 1){            \n          context.estAnteriorResistencia = 0;\n          var tiempo = (new Date().getTime() - parseInt(context.tiempoInicioResistencia)) / 3600000;\n          \n          // tiempo = parseFloat(tiempo);\n          var potencia = (1.9 * parseFloat(tiempo)).toFixed(5);\n\n          potencia = parseFloat(potencia) + parseFloat(global.get(\"potenciaResistencia\"));\n          // tiempo = parseFloat(tiempo) + parseFloat(global.get(\"tiempoEncResis\", tiempo));   \n\n          // global.set(\"tiempoEncResis\", tiempo);\n          global.set(\"potenciaResistencia\", parseFloat(potencia).toFixed(2));\n\n          msg= {topic: \"potenciaResistencia\", payload: global.get(\"potenciaResistencia\")}; node.send([msg, null, null]); \n          msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        }       \n    }\n\n\n    function controlBomba(){\n      msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null]);\n      if (parseInt(global.get(\"estBomba\")) === 1 && parseInt(context.llenandoTermo) === 0){\n        context.llenandoTermo = 1;\n        global.set(\"comienzoLlenado\", new Date().getTime());}\n      if (parseInt(global.get(\"estBomba\")) === 0 && parseInt(context.llenandoTermo) === 1){\n        context.llenandoTermo = 0;\n        var tiempo = parseInt(new Date().getTime()) - parseInt(global.get(\"comienzoLlenado\"));\n        tiempo = parseFloat(tiempo / 1000).toFixed(2);\n        global.set(\"tiempoLlenado\", tiempo);\n        msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null]);\n        enviarBlynk();\n      } \n    }    \n\n    function enviarBlynk(){\n        msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 104, payload: global.get(\"luzPatio\")}; node.send([null, null, msg]);\n        msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \" - \" + global.get(\"tempExterior\") + \" - \" + global.get(\"sensorCrep\")}; node.send([null, null, msg]);  \n        msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg]);\n        msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg]);\n        msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg]);\n        // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg]);\n    }\n\n    // function enviarMQTT(){   \n    //     payload = global.get(\"autoBomba\");\n    //     // payload =\"0\";    \n    //     payload += \"#\"; payload += global.get(\"autoLuzPatio\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    //     payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; //payload += global.get(\"pedToldo\") + \"#\"; \n    //     payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    //     payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    //     payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    //     // payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    //     msg.payload = payload;  \n    //     msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    // }\n\n    function enviarMQTT(){   \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    }",
+        "func": "    // Sal1  thingspeak\n    // Sal2  mqtt\n    // Sal3  blynk\n    // Sal4  mysql\n    //global.get(\"tempMinExt\")\n\n    context.llenandoTermo = context.llenandoTermo || 0;\n    context.encendidoResistencia = context.encendidoResistencia || 0;\n    context.estAnteriorResistencia = context.estAnteriorResistencia || 0;\n    context.tiempoInicioResistencia = context.tiempoInicioResistencia || 0;\n    context.manualPorAlarma = context.manualPorAlarma || 0;\n    context.tiempo = context.tiempo || 0;\n\n    var topic = msg.topic;\n    var payload = msg.payload;\n    var comienzoLlenado;\n    var terminoLlenado;\n    var valorDia = global.get(\"valorDia\");\n    var valorNoche = global.get(\"valorNoche\");\n    var pin = parseInt(msg.pin);\n    var date = new Date();\n    var tiempo = 0\n\n    if (topic == \"timer\"){\n       if (parseFloat(global.get(\"tempMinExt\")) < 2){tiempo = 12;}else{tiempo = 9;}\n       if (parseInt(global.get(\"mes\")) !== parseInt(global.get(\"mesAnt\"))){\n            global.set(\"mesAnt\", global.get(\"mes\"));\n            global.set(\"tiempoEncResis\", 0);\n            global.set(\"potenciaResistencia\", 0);\n       }\n       if (parseInt(global.get(\"hh\")) === parseInt(tiempo) && parseInt(global.get(\"mm\")) === 0 && parseInt(global.get(\"autoBomba\")) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n          msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por hora (9:00 \\n\"}; node.send([null, null, msg]);\n          // if (parseInt(global.get(\"nivTanque\")) > 150){global.set(\"autoBomba\", 1); }\n          // msg = {pin: 102, payload: global.get(\"autoBomba\")}; node.send([null, null, msg, null]);\n            msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- Apago bomb termo\" + \"\\n\"};\n            node.send([null, null, msg]);\n          enviarBlynk();\n          enviarMQTT();\n       }\n    }\n\n    // PONGO BOMBA EN AUTO UNA VEZ QUE SE APAGO Y PASARON 2' DESDE QUE SE APAGO PRESURIZADORA\n    if (date.getTime() > context.tiempo && parseInt(context.manualPorAlarma) === 1 && parseInt(global.get(\"estBomba\")) === 0){\n    //   msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a MANUAL bomba termo por activarse alarma casa o apagarse bomba agua caliente\\n\"}; node.send([null, null, msg]);\n      context.manualPorAlarma = 0;\n      // global.set(\"autoBomba\", 0);   \n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/Lavadero/AguaCaliente\"){\n      if (msg.payload.substring(0, 19) == \"BombaAguaCalienteSI\" && parseInt(global.get(\"nivTanque\")) > 100){\n        context.manualPorAlarma = 0; \n        // global.set(\"autoBomba\", 1);\n        \n        context.manualPorAlarma = 1; \n        context.tiempo = date.getTime() + 1800000;\n        msg = {pin: 127, payload: global.get(\"hsCpu\") + \" -- prend bomb termo\" + \"\\n\"};\n        node.send([null, null, msg]);\n    \n      // if (msg.payload.substring(0, 19) == \"BombaAguaCalienteNO\"){context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; return;}\n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]); \n\n        // payload = \"0#1#\";\n        // payload += global.get(\"luzPatio\") + \"#\"; \n        // payload += global.get(\"tempMaximaTermo\") + \"#\";\n        // payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        // msg.payload = payload;  \n        // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n\n      enviarBlynk();\n      return; \n      }  \n    }\n\n    if (topic == \"aviso/Alarma\" && parseInt(global.get(\"estadoAlarma\") === 0 && parseInt(global.get(\"nivTanque\")) > 150) === 0 && parseInt(global.get(\"hh\")) > 6){\n      // global.set(\"autoBomba\", 1);   \n      context.manualPorAlarma = 1; context.tiempo = date.getTime() + 120000; \n    //   context.manualPorAlarma = 1;  context.tiempo = date.getTime() + 120000;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 1) return;\n    //   if (parseInt(global.get(\"estadoAlarma\")) === 0 && parseInt(global.get(\"hh\")) > 6){\n    //     msg = {pin: 127, payload: global.get(\"hsCpu\") + \", paso a AUTO bomba termo por desactivarse alarma casa \\n\"}; node.send([null, null, msg]);\n    //     global.set(\"autoBomba\", 1);       a\n      enviarBlynk();\n      enviarMQTT();\n    //   }\n    } \n\n    switch (pin){\n      case 101:\n        if (parseInt(payload) === 0){\n          context.manualPorAlarma = 1; context.tiempo = date.getTime() + 3600000;\n          global.set(\"pedBomba\", 0); }\n         // if(parseInt(global.get(\"nivTanque\") > 150))\n        global.set(\"autoBomba\", parseInt(payload)); \n\n        if (parseInt(payload) === 1){\n            payload = global.get(\"autoBomba\");\n            payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n            payload += global.get(\"tempMaximaTermo\") + \"#\";\n            payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n            msg.payload = payload;  \n            msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]); \n\n            // payload = \"0#1#\";\n            // payload += global.get(\"luzPatio\") + \"#\"; \n            // payload += global.get(\"tempMaximaTermo\") + \"#\";\n            // payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n            // msg.payload = payload;  \n            // msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n        }\n        else{\n            enviarMQTT();\n        }\n\n\n        enviarBlynk();\n        // enviarMQTT();\n      break;\n\n      case 102:\n        if (parseInt(global.get(\"autoBomba\")) === 0){\n          global.set(\"pedBomba\", payload); \n          enviarMQTT();\n        }\n      break;\n\n    }\n\n    if (topic == \"ESP/TermoSolar/Envio\"){\n      //0#0#0#15.55#25.55#1020\n        var dato = payload.split(\"#\");\n        global.set(\"estBomba\", parseInt(dato[0])); \n        global.set(\"estResistencia\", parseInt(dato[1])); \n        // global.set(\"estToldo\", parseInt(dato[2]));  \n        var dato2 = parseFloat(dato[2]).toFixed(1);\n        if (parseInt(dato[2]) !== 0) global.set(\"tempTermoFin\", dato2); \n        dato2 = parseFloat(dato[3]).toFixed(1);\n        if (parseInt(dato[3]) !== 0)global.set(\"tempExterior\", dato2); \n        global.set(\"sensorCrep\", parseInt(dato[4])); \n\n      msg= {topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\")}; node.send([msg, null, null]);\n      msg= {topic: \"crepuscular\", payload: global.get(\"sensorCrep\")}; node.send([msg, null, null]);\n      msg= {topic: \"temperaturaExterior\", payload: global.get(\"tempExterior\")}; node.send([msg, null, null]);\n      msg= {topic: \"TanqueAgua\", payload: global.get(\"nivTanque\")}; node.send([msg, null, null]); \n      msg= {topic: \"horasDia\", payload: global.get(\"horasDia\")}; node.send([msg, null, null]); \n    enviarBlynk();\n    enviarMQTT(); \n    }\n      \n\n    if (topic == \"ESP/TermoSolar/EstadoBomba\"){\n      if (payload.substring(0, 11) == \"bombaMarcha\"){\n        global.set(\"estBomba\", parseInt(payload.substring(11)));\n        if (global.get(\"autoBomba\") === 1){estadoBomba = \"Automatico\";}else{estadoBomba = \"Manual\";}\n        msg = {pin: 102, label: estadoBomba, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        controlBomba();\n      }\n    }\n\n    // var status = new Date().getTime() - global.get(\"comienzoLlenado\")\n    // node.status({text: global.get(\"estBomba\") + \" -- \" + status}) ; \n\n    // PARADA BOMBA POR ERROR DE MARCHA\n    if (global.get(\"estBomba\") === 1 && new Date().getTime() - global.get(\"comienzoLlenado\") > 240000){\n      // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" - ERROR bomba termo paso a manual\"}; node.send([null, msg, null]);\n      // global.set(\"autoBomba\", 0);\n      global.set(\"pedBomba\", 0);\n      enviarBlynk();\n      enviarMQTT();\n    }\n\n    if (topic == \"ESP/TermoSolar/Inicio\"){\n        var fallasLivingIluminacion = global.get(\"fallasLivingIluminacion\") + 1;\n        global.set(\"fallasLivingIluminacion\", fallasLivingIluminacion);\n        global.set(\"tipoFallaIlLiving\", msg.payload); \n        enviarMQTT();\n    }\n\n    if (topic == \"crepMQTT\"){\n        // if (parseInt(global.get(\"Dia\")) === 0 && parseInt(global.get(\"luzPatio\")) === 0 && parseInt(global.get(\"tempTermoFin\")) > 45 && parseInt(global.get(\"tempTermoFin\")) <  parseInt(global.get(\"tempMaxResistenciaAuto\"))){\n        // global.set(\"luzPatio\", 1);\n        // controlResistencia();\n        // enviarBlynk();\n        if (parseInt(global.get(\"autoLuzPatio\")) === 1){\n            if (parseInt(global.get(\"Dia\")) === 0){\n                global.set(\"luzPatio\", 1);\n            }\n            if (parseInt(global.get(\"Dia\")) === 1){\n                global.set(\"luzPatio\", 0);\n            }  \n        }             \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; \n        node.send([null, null, null, msg]);\n        return;        \n    }\n\n    function controlBomba(){\n      msg = {topic: \"estBomba\", payload: global.get(\"estBomba\")}; node.send([msg, null, null]);\n      if (parseInt(global.get(\"estBomba\")) === 1 && parseInt(context.llenandoTermo) === 0){\n        context.llenandoTermo = 1;\n        global.set(\"comienzoLlenado\", new Date().getTime());}\n      if (parseInt(global.get(\"estBomba\")) === 0 && parseInt(context.llenandoTermo) === 1){\n        context.llenandoTermo = 0;\n        var tiempo = parseInt(new Date().getTime()) - parseInt(global.get(\"comienzoLlenado\"));\n        tiempo = parseFloat(tiempo / 1000).toFixed(2);\n        global.set(\"tiempoLlenado\", tiempo);\n        msg = {topic: \"tiempoLlenado\", payload: global.get(\"tiempoLlenado\")}; node.send([msg, null, null]);\n        enviarBlynk();\n      } \n    }    \n\n    function enviarBlynk(){\n        msg = {pin: 101, payload: global.get(\"autoBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 102, payload: global.get(\"estBomba\")}; node.send([null, null, msg]);\n        msg = {pin: 104, payload: global.get(\"luzPatio\")}; node.send([null, null, msg]);\n        msg = {pin: 105, payload: global.get(\"tiempoLlenado\") + \" - \" + global.get(\"potenciaResistencia\")}; node.send([null, null, msg]);\n        msg = {pin: 110, payload: global.get(\"tempTermoFin\") + \" - \" + global.get(\"tempExterior\") + \" - \" + global.get(\"sensorCrep\")}; node.send([null, null, msg]);  \n        msg = {pin: 111, payload: global.get(\"sensorCrep\")}; node.send([null, null, msg]);\n        msg = {pin: 112, payload: global.get(\"tempExterior\")}; node.send([null, null, msg]);\n        msg = {pin: 113, payload: global.get(\"tempTermoFin\")}; node.send([null, null, msg]);\n        // msg = {pin: 114, payload: global.get(\"tiempoLlenado\")}; node.send([null, null, msg]);\n    }\n\n    // function enviarMQTT(){   \n    //     payload = global.get(\"autoBomba\");\n    //     // payload =\"0\";    \n    //     payload += \"#\"; payload += global.get(\"autoLuzPatio\") + \"#\"; payload += global.get(\"autoToldo\") + \"#\"; \n    //     payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; //payload += global.get(\"pedToldo\") + \"#\"; \n    //     payload += global.get(\"tempMaximaTermo\") + \"#\"; payload += global.get(\"tempMaxResistencia\") + \"#\"; \n    //     payload += global.get(\"tempMaxResistenciaManual\") + \"#\"; payload += global.get(\"tempMinimaResistencia\") + \"#\";\n    //     payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n    //     // payload += \"#\" + global.get(\"offsetDia\")  + \"#\"; payload += global.get(\"offsetNoche\");\n    //     msg.payload = payload;  \n    //     msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    // }\n\n    function enviarMQTT(){   \n        payload = global.get(\"autoBomba\");\n        payload += \"#\" + global.get(\"pedBomba\") + \"#\"; payload += global.get(\"luzPatio\") + \"#\"; \n        payload += global.get(\"tempMaximaTermo\") + \"#\";\n        payload += global.get(\"valorDia\")  + \"#\"; payload += global.get(\"valorNoche\") + \"#\" + global.get(\"segundosMarchaBomba\");\n        msg.payload = payload;  \n        msg = {topic: \"ESP/TermoSolar/Config\", payload: payload}; node.send([null, msg, null]);\n    }",
         "outputs": 4,
         "noerr": 0,
         "initialize": "",
@@ -21620,102 +21680,6 @@
                 "6fea480e.9f5238"
             ]
         ]
-    },
-    {
-        "id": "180c2f67.1ad531",
-        "type": "debug",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 1010,
-        "y": 610,
-        "wires": []
-    },
-    {
-        "id": "c5b789fb.271758",
-        "type": "e-mail",
-        "z": "17cadfaf.12d97",
-        "server": "smtp.mail.yahoo.com",
-        "port": "465",
-        "secure": true,
-        "tls": false,
-        "name": "gdietrich22@yahoo.com.ar",
-        "dname": "hbeqqdvdulleezlp",
-        "x": 1030,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "927132a0.0384a",
-        "type": "mqtt in",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "topic": "crepMQTT",
-        "qos": "2",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 730,
-        "y": 550,
-        "wires": [
-            [
-                "26761002.5cee4",
-                "b2cd1c41.48c08"
-            ]
-        ]
-    },
-    {
-        "id": "b4c683c6.4b604",
-        "type": "inject",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "2",
-        "payloadType": "global",
-        "x": 740,
-        "y": 600,
-        "wires": [
-            [
-                "26761002.5cee4"
-            ]
-        ]
-    },
-    {
-        "id": "26761002.5cee4",
-        "type": "function",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "func": "msg.payload = \"cambio en sensor crepuscular\" + global.get(\"avisoMail\") + \" valor sensor: \" + global.get(\"sensorCrep\");\nif (parseInt(global.get(\"Dia\")) === 1){\n    msg.payload = msg.payload + \",  Potencia Resistencia termo acumulado mes: \" + global.get(\"potenciaResistencia\") + \" Kw\";\n}\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 870,
-        "y": 600,
-        "wires": [
-            [
-                "c5b789fb.271758",
-                "180c2f67.1ad531"
-            ]
-        ]
-    },
-    {
-        "id": "b2cd1c41.48c08",
-        "type": "debug",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 990,
-        "y": 520,
-        "wires": []
     },
     {
         "id": "39a95d5a.ea8d72",
@@ -22793,58 +22757,6 @@
         ]
     },
     {
-        "id": "3f1bbb9.ce0db44",
-        "type": "link in",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "links": [
-            "744f52d5.ad8ecc"
-        ],
-        "x": 885,
-        "y": 560,
-        "wires": [
-            [
-                "c5b789fb.271758"
-            ]
-        ]
-    },
-    {
-        "id": "1a2b83ea.ee6f4c",
-        "type": "inject",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 660,
-        "y": 430,
-        "wires": [
-            [
-                "3b1ad846.46bf18"
-            ]
-        ]
-    },
-    {
-        "id": "3b1ad846.46bf18",
-        "type": "function",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "func": "msg= {topic: \"horasDia\", payload: \"1.5\"};\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 820,
-        "y": 440,
-        "wires": [
-            [
-                "a26bf49d.7592a8"
-            ]
-        ]
-    },
-    {
         "id": "448649a8.aeaab8",
         "type": "blynk-ws-in-write",
         "z": "17cadfaf.12d97",
@@ -22870,38 +22782,6 @@
         "client": "2c18e412.5f5cbc",
         "x": 370,
         "y": 350,
-        "wires": [
-            [
-                "175128d0.232fe7"
-            ]
-        ]
-    },
-    {
-        "id": "a0111784.f9b148",
-        "type": "blynk-ws-in-write",
-        "z": "17cadfaf.12d97",
-        "name": "resistencia man/auto",
-        "pin": "103",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 360,
-        "y": 400,
-        "wires": [
-            [
-                "175128d0.232fe7"
-            ]
-        ]
-    },
-    {
-        "id": "ab40319.f2ffbd",
-        "type": "blynk-ws-in-write",
-        "z": "17cadfaf.12d97",
-        "name": "encendido resistencia",
-        "pin": "104",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 350,
-        "y": 450,
         "wires": [
             [
                 "175128d0.232fe7"
@@ -23019,25 +22899,6 @@
         "endpoint": "https://thingspeak.com",
         "x": 881,
         "y": 140,
-        "wires": []
-    },
-    {
-        "id": "a26bf49d.7592a8",
-        "type": "thingspeak42",
-        "z": "17cadfaf.12d97",
-        "name": "4EICHLJL446HHU1Z",
-        "delay": "1",
-        "topic1": "temperaturaTermo",
-        "topic2": "temperaturaExterior",
-        "topic3": "crepuscular",
-        "topic4": "estBomba",
-        "topic5": "tiempoLlenado",
-        "topic6": "TanqueAgua",
-        "topic7": "potenciaResistencia",
-        "topic8": "horasDia",
-        "endpoint": "https://thingspeak.com",
-        "x": 1050,
-        "y": 420,
         "wires": []
     },
     {
@@ -23238,40 +23099,6 @@
         "wires": []
     },
     {
-        "id": "76b0a529.1feafc",
-        "type": "inject",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 788.5,
-        "y": 480,
-        "wires": [
-            [
-                "fe1c2626.0ab558"
-            ]
-        ]
-    },
-    {
-        "id": "fe1c2626.0ab558",
-        "type": "function",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "func": "global.set(\"tiempoEncResis\", 0);\n\t      global.set(\"potenciaResistencia\", 0);",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 934.5,
-        "y": 478,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "3f883f6f.0a67d",
         "type": "mqtt in",
         "z": "17cadfaf.12d97",
@@ -23285,56 +23112,6 @@
         "wires": [
             [
                 "175128d0.232fe7"
-            ]
-        ]
-    },
-    {
-        "id": "274d8dce.8c9af2",
-        "type": "inject",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 77.5,
-        "y": 349,
-        "wires": [
-            [
-                "dbc470cd.64e0b"
-            ]
-        ]
-    },
-    {
-        "id": "9a29f106.3e75a",
-        "type": "debug",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 77.5,
-        "y": 458,
-        "wires": []
-    },
-    {
-        "id": "dbc470cd.64e0b",
-        "type": "function",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "func": "msg.payload = global.get(\"potenciaResistencia\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 104.5,
-        "y": 391,
-        "wires": [
-            [
-                "9a29f106.3e75a"
             ]
         ]
     },
@@ -23371,7 +23148,7 @@
         "type": "debug",
         "z": "17cadfaf.12d97",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -23471,21 +23248,6 @@
         ]
     },
     {
-        "id": "df9cb332.d42a4",
-        "type": "debug",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 602.5,
-        "y": 466,
-        "wires": []
-    },
-    {
         "id": "742ad6f.4f6a828",
         "type": "debug",
         "z": "17cadfaf.12d97",
@@ -23499,26 +23261,6 @@
         "x": 599,
         "y": 393,
         "wires": []
-    },
-    {
-        "id": "5a87681f.5e91f8",
-        "type": "inject",
-        "z": "17cadfaf.12d97",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 781.5,
-        "y": 698,
-        "wires": [
-            [
-                "c5b789fb.271758"
-            ]
-        ]
     },
     {
         "id": "d0080f49.7007d",
@@ -24465,7 +24207,7 @@
         "type": "function",
         "z": "a43ba0fe.679e4",
         "name": "",
-        "func": "var date = new Date();\nvar dato1 = 0;\n\nvar mes = date.getMonth();\n\nif (parseInt(date.getDate()) === 6){\n    if (parseInt(mes) === 1 || parseInt(mes) === 3 ||parseInt(mes) === 5 ||parseInt(mes) === 7 ||parseInt(mes) === 9 ||parseInt(mes) === 11){\n        dato1 = \"Consumo de gas bimestral (\" + global.get(\"fechaQuinela\") + \"):  \";\n        dato1 += parseFloat(global.get(\"mtsBimestrales\")-global.get(\"mtsMedidor\"))  + \" mts3.\\n\";\n        dato1 += \"Valor medidor:  \";\n        dato1 += parseFloat(global.get(\"mtsBimestrales\"));// + parseFloat(global.get(\"mtsMedidor\"));\n\n        msg.topic = \"Consumos de gas de casa\";\n        msg.payload = dato1;  \n        node.send(msg);\n      \n        global.set(\"mtsMedidor\", global.get(\"mtsBimestrales\"));\n        global.set(\"mtsBimestrales\", 0);  \n    }\n}\n",
+        "func": "var date = new Date();\nvar dato1 = 0;\n\nvar mes = date.getMonth();\n\nif (parseInt(date.getDate()) === 6){\n    if (parseInt(mes) === 1 || parseInt(mes) === 3 ||parseInt(mes) === 5 ||parseInt(mes) === 7 ||parseInt(mes) === 9 ||parseInt(mes) === 11){\n        dato1 = \"Consumo de gas bimestral (\" + global.get(\"fechaQuinela\") + \"):  \";\n        dato1 += parseFloat(global.get(\"mtsBimestrales\"))  + \" mts3.\\n\";\n        dato1 += \"Valor medidor:  \";\n        dato1 += parseFloat(global.get(\"mtsBimestrales\")+global.get(\"ultimaMedicion\"));// + parseFloat(global.get(\"mtsMedidor\"));\n\n        msg.topic = \"Consumos de gas de casa\";\n        msg.payload = dato1;  \n        node.send(msg);\n        \n        dato1 = parseFloat(global.get(\"mtsBimestrales\")+global.get(\"ultimaMedicion\"));\n        global.set(\"mtsMedidor\", dato1);\n        global.set(\"mtsBimestrales\", 0);  \n    }\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -24550,10 +24292,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 1170,
-        "y": 120,
+        "payload": "2433.65",
+        "payloadType": "num",
+        "x": 1160,
+        "y": 100,
         "wires": [
             [
                 "842aa671.5004e8"
@@ -24564,8 +24306,8 @@
         "id": "842aa671.5004e8",
         "type": "function",
         "z": "a43ba0fe.679e4",
-        "name": "mts Medidor",
-        "func": "global.set(\"mtsBimestrales\", 2433.65); ",
+        "name": "mtsMedidor",
+        "func": "global.set(\"mtsMedidor\", msg.payload); ",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -24581,8 +24323,8 @@
         "id": "76d90149.8d21e",
         "type": "function",
         "z": "a43ba0fe.679e4",
-        "name": "eltima medicion",
-        "func": "global.set(\"mtsMedidor\", 1724.3); ",
+        "name": "ultimaMedicion",
+        "func": "global.set(\"ultimaMedicion\", msg.payload); \n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -24613,9 +24355,9 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 1170,
+        "payload": "1724.3",
+        "payloadType": "num",
+        "x": 1160,
         "y": 160,
         "wires": [
             [
@@ -24656,17 +24398,51 @@
         "id": "a346dc2.e07c82",
         "type": "function",
         "z": "a43ba0fe.679e4",
-        "name": "bimestrales",
-        "func": "global.set(\"mtsBimestrales\", 709.35); ",
+        "name": "mtsBimestrales",
+        "func": "var dato = parseFloat(global.get(\"mtsMedidor\"))-parseFloat(global.get(\"ultimaMedicion\"));\nmsg.payload = dato;\nnode.send(msg);\n\n//global.set(\"mtsBimestrales\", 709.35); ",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1360,
+        "x": 1370,
         "y": 200,
         "wires": [
-            []
+            [
+                "7655c0c6.6ffb"
+            ]
+        ]
+    },
+    {
+        "id": "7655c0c6.6ffb",
+        "type": "debug",
+        "z": "a43ba0fe.679e4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1550,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9d7eeecc.9a145",
+        "type": "blynk-ws-in-write",
+        "z": "73083520.75304c",
+        "name": "riegoFrente",
+        "pin": "200",
+        "pin_all": false,
+        "client": "2c18e412.5f5cbc",
+        "x": 350,
+        "y": 60,
+        "wires": [
+            [
+                "9f837dbe.a7563"
+            ]
         ]
     }
 ]
