@@ -19868,8 +19868,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1987.5,
-        "y": 211,
+        "x": 1990,
+        "y": 260,
         "wires": []
     },
     {
@@ -26103,8 +26103,8 @@
         "pin": "201",
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 1730,
-        "y": 40,
+        "x": 2210,
+        "y": 160,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26116,18 +26116,21 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "var dato = 0;\nglobal.set(\"estBombaPileta\", msg.payload);\n\ndato = \"&\" + global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\nif (parseInt(global.get(\"estLuzPileta\")) === 1){\n   dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n   dato = dato + global.get(\"PiletaR\") + \"#\";\n   dato = dato + global.get(\"PiletaG\") + \"#\";\n   dato = dato + global.get(\"PiletaB\") + \"#\";}\nelse{  \n    dato = dato + \"0#0#0#0#\"; \n   }     \n\ndato = dato + \"1#\" + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send(msg);\n        \n        \nreturn msg;",
-        "outputs": 1,
+        "func": "var dato = 0;\n\n\nif (parseInt(msg.pin) === 80 || parseInt(msg.pin) === 201){global.set(\"estBombaPileta\", msg.payload);}\nif (parseInt(msg.pin) === 81){global.set(\"reflectorPatio\", msg.payload);}\nif (parseInt(msg.pin) === 82){global.set(\"luzDeck\", msg.payload);}\nif (parseInt(msg.pin) === 83){global.set(\"estLuzPileta\", msg.payload);}\n\nif (msg.topic == \"ESP/Pileta/Envio\"){\n  dato = msg.payload.split(\"#\");\n  global.set(\"reflectorPatio\", dato[0]);\n  global.set(\"luzDeck\", dato[1]);\n  global.set(\"estLuzPileta\", dato[2]);\n  global.set(\"estBombaPileta\", dato[3]);  \n  msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n  msg = {pin: 81, payload: global.get(\"reflectorPatio\")}; node.send([null, msg]);\n  msg = {pin: 82, payload: global.get(\"luzDeck\")}; node.send([null, msg]);\n  msg = {pin: 83, payload: global.get(\"estLuzPileta\")}; node.send([null, msg]);\n  return;\n}\n\ndato = \"&\" + global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\nif (parseInt(global.get(\"estLuzPileta\")) === 1){\n   dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n   dato = dato + global.get(\"PiletaR\") + \"#\";\n   dato = dato + global.get(\"PiletaG\") + \"#\";\n   dato = dato + global.get(\"PiletaB\") + \"#\";}\nelse{  \n    dato = dato + \"0#0#0#0#\"; \n   }    \n\ndato = dato + \"1#\" + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1950,
-        "y": 40,
+        "x": 2440,
+        "y": 220,
         "wires": [
             [
                 "81271031.4023b",
                 "df2fd2a7.988b8"
+            ],
+            [
+                "87898891.bde368"
             ]
         ]
     },
@@ -26145,8 +26148,8 @@
         "correl": "",
         "expiry": "",
         "broker": "15d926b1.b6d9d9",
-        "x": 2140,
-        "y": 40,
+        "x": 2600,
+        "y": 160,
         "wires": []
     },
     {
@@ -26170,8 +26173,8 @@
         "topic": "",
         "payload": "1",
         "payloadType": "str",
-        "x": 1740,
-        "y": 80,
+        "x": 2350,
+        "y": 380,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26199,8 +26202,8 @@
         "topic": "",
         "payload": "0",
         "payloadType": "str",
-        "x": 1750,
-        "y": 120,
+        "x": 2410,
+        "y": 440,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26219,8 +26222,124 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2140,
-        "y": 100,
+        "x": 2610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1ffabaa.708bb45",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Bomba pileta",
+        "pin": "80",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2250,
+        "y": 200,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "e52fe1ab.724fc",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Reflector patio",
+        "pin": "81",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2250,
+        "y": 240,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "888aaad9.2c9a68",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Luz Deck",
+        "pin": "82",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2260,
+        "y": 280,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "c0ec255a.d1c588",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Luz pileta",
+        "pin": "83",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2260,
+        "y": 320,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "b0148549.5f1918",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "ESP/Pileta/Envio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "15d926b1.b6d9d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 2240,
+        "y": 120,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "7f24214d.5a301",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "ESP/Pileta/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "15d926b1.b6d9d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 2240,
+        "y": 80,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
+            ]
+        ]
+    },
+    {
+        "id": "87898891.bde368",
+        "type": "blynk-ws-out-write",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 2630,
+        "y": 260,
         "wires": []
     }
 ]
