@@ -26165,8 +26165,8 @@
         "topic": "",
         "payload": "1",
         "payloadType": "str",
-        "x": 2350,
-        "y": 380,
+        "x": 2370,
+        "y": 400,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26259,7 +26259,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 2260,
-        "y": 280,
+        "y": 320,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26275,7 +26275,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 2260,
-        "y": 320,
+        "y": 360,
         "wires": [
             [
                 "c0d014d5.a92f68"
@@ -26377,6 +26377,22 @@
         "wires": [
             [
                 "5cb70fc5.ddfb1"
+            ]
+        ]
+    },
+    {
+        "id": "1c4afaa0.c4c0f5",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Reflector Deck",
+        "pin": "84",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2240,
+        "y": 280,
+        "wires": [
+            [
+                "c0d014d5.a92f68"
             ]
         ]
     }
