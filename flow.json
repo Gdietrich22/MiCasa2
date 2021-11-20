@@ -3543,7 +3543,7 @@
         "type": "function",
         "z": "73083520.75304c",
         "name": "llenado de tanque",
-        "func": "context.nivelAnterior = context.nivelAnterior || 0;\ncontext.estadoAnterior = context.estadoAnterior || 0;\n\ncontext.nivelArranco = context.nivelArranco ||0;\ncontext.tiempoArrancoLLenado =context.tiempoArrancoLLenado ||0;\n// context.avisoTanque = context.avisoTanque || 0;\ncontext.llenadoAnulado = context.llenadoAnulado || 0;\ncontext.tiempoLlenado = context.tiempoLlenado || 0;\ncontext.tiempoRestante = context.tiempoRestante || 0; // 0 == por nivel\ncontext.nivelInicioLlenado = context.nivelInicioLlenado || 0;\ncontext.tiempoInicioLlenado = context.tiempoInicioLlenado || 0;\nif (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\nif (global.get(\"bombaPozo\") === undefined || global.get(\"bombaPozo\") == isNaN)global.set(\"bombaPozo\", 0);\nif (global.get(\"tipoRiego\") === undefined || global.get(\"tipoRiego\") == isNaN)global.set(\"tipoRiego\", 0);\n\n\n    context.errorLlenadoAuto = context.errorLlenadoAuto || 0;\n  if (global.get(\"tiempoInicioLlenado\") === undefined)global.set(\"tiempoInicioLlenado\", 0);\n  // if (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\n\n  var date = new Date();\n  // var dato = JSON.parse(msg.payload);\n  var topic = msg.topic;\n  var pin = parseInt(msg.pin);\n  var nivMaximo = 400;\n  var nivMinimo = 250;\n  var timerLuces = 12000;\n  var tasaLlenado = 0;\n\n  if (global.get(\"dateRiegoFrente\") === undefined || isNaN(global.get(\"dateRiegoFrente\")))global.set(\"dateRiegoFrente\", 0);\n  if (global.get(\"dateRiegoPatio\") === undefined || isNaN(global.get(\"dateRiegoPatio\")))global.set(\"dateRiegoPatio\", 0);\n  if (global.get(\"fallasLavadero\") === undefined || isNaN(global.get(\"fallasLavadero\")))global.set(\"fallasLavadero\", 0);\n  if (global.get(\"luzLavadero\") === undefined || isNaN(global.get(\"luzLavadero\")))global.set(\"luzLavadero\", 0);\n  if (global.get(\"luzAlacenaLavadero\" || isNaN(global.get(\"luzAlacenaLavadero\"))) === undefined)global.set(\"luzAlacenaLavadero\", 0);\n  if (global.get(\"bombaPozo\") === undefined || isNaN(global.get(\"bombaPozo\")))global.set(\"bombaPozo\", 0);\n  if (global.get(\"valvulaTanque\") === undefined || isNaN(global.get(\"valvulaTanque\")))global.set(\"valvulaTanque\", 0);\n  if (global.get(\"riegoFrente\") === undefined || isNaN(global.get(\"riegoFrente\")))global.set(\"riegoFrente\", 0);\n  if (global.get(\"estadoEspTanque\") === undefined || isNaN(global.get(\"estadoEspTanque\")))global.set(\"estadoEspTanque\", 1);\n  if (global.get(\"tasaLlenadoTanque\") === undefined || isNaN(global.get(\"tasaLlenadoTanque\")))global.set(\"tasaLlenadoTanque\", 0);\n\n  if (global.get(\"modoRiegoPatio\") === undefined || isNaN(global.get(\"modoRiegoPatio\")))global.set(\"modoRiegoPatio\", 0);\n  if (global.get(\"modoRiegoFrente\") === undefined || isNaN(global.get(\"modoRiegoFrente\")))global.set(\"modoRiegoFrente\", 0);\n\nglobal.set(\"minimoTanque\", 180);\nglobal.set(\"maximoTanque\", 370);\n  if (global.get(\"alturaTanque\") === undefined)global.set(\"alturaTanque\", 680);\n\n  // node.status({text: global.get(\"estadoAlarma\") + \" -- \"  + global.get(\"luzLavadero\")});\n\n  if (topic == \"blynk/marchaBomba\")pin = 2;\n  if (topic == \"blynk/llenarTanque\")pin = 34;\n\n  if (topic == \"aviso/Alarma\"){\n    if (global.get(\"estadoAlarma\") === 1)apagadoLuces();\n  }\n\n  // if (topic == \"google/Alarma\" || topic == \"aviso/Alarma\"){\n  //   if (global.get(\"luzAlacenaLavadero\") === 1 || global.get(\"luzLavadero\") === 1){\n  //     node.status({text: global.get(\"estadoAlarma\") + \" -ppp- \"  + global.get(\"luzLavadero\")});\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 0){setTimeout(apagadoLuces, timerLuces);}\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 1)apagadoLuces();\n  //   }\n  // } \n\n  if (topic == \"google/Lavadero\" || topic == \"crepMQTT\"){\n    enviarBlynk();\n    enviarDatos();\n  }   \n\n  if (parseInt(global.get(\"tipoRiego\")) === 1){\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        var valor = (parseInt(global.get(\"dateRiegoFrente\")) + parseInt(global.get(\"tiempoRiegoFrente\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n            global.set(\"tipoRiego\", 2);\n            valor  = parseInt(date.getTime());\n            global.set(\"dateRiegoPatio\", valor);   \n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto SI\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);          \n        }\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0);\n      dato = global.get(\"hsCpu\") + \" - riego Frente Auto NO\" + '\\n';\n      msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);        \n        valor = \"riego\" + global.get(\"tipoRiego\"); \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n        }\n    }\n    }\n      if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 1){\n        global.set(\"tipoRiego\", 2);\n        valor  = parseInt(date.getTime());\n        global.set(\"dateRiegoPatio\", valor);\n    }\n\n  if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n      if (parseInt(global.get(\"tipoRiego\")) === 2){\n        var valor = (parseInt(global.get(\"dateRiegoPatio\")) + parseInt(global.get(\"tiempoRiegoPatio\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");     \n            msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto NO\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);              \n        }\n      }\n    }\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) !== 0){\n        global.set(\"tipoRiego\", 0); \n        dato = global.get(\"hsCpu\") + \" - riego frente Auto NO\" + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);  \n        }        \n    if (parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 2)global.set(\"tipoRiego\", 0);\n\n  if (topic == \"ESP/Lavadero/riego\"){\n        valor = \"riego\" + global.get(\"tipoRiego\");     \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]); \n        dato = global.get(\"hsCpu\") + \" - riego desde blynk: \" + global.get(\"tipoRiego\") + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);         \n        return;\n  }\n\n  if (topic == \"ESP/Lavadero/Envio\"){\n    if (msg.payload === \"\")return;\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasSI\"){msg = {pin: 74, payload: 1}; node.send([null, msg]); return;}\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasNO\"){msg = {pin: 74, payload: 0}; node.send([null, msg]); return;}\n    // if (msg.substring(0, 6) == \"Buzzer\") msg = msg.substring(6);\n\n    if (msg.payload.substring(0, 6) == \"$riego\"){\n        var valor = msg.payload.substring(6);\n        if (parseInt(valor) === 0){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");\n            msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        }\n        if (parseInt(valor) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0)global.set(\"tipoRiego\", 2);\n        }\n        if (parseInt(valor) === 2){\n            if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                global.set(\"tipoRiego\", 2);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoPatio\", valor);  \n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego patio Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n                }              \n            if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        }\n    }\n\n    var dato = msg.payload.substring(1);\n    // msg.payload = dato; return msg;\n    dato = msg.payload.split(\"#\");\n    global.set(\"bombaPozo\", parseInt(dato[0])); \n    global.set(\"riegoFrente\", parseInt(dato[1])); \n    global.set(\"luzLavadero\", parseInt(dato[2])); \n    global.set(\"luzAlacenaLavadero\", parseInt(dato[3])); \n\n    // node.status({text: global.get(\"riegoFrente\")});\n\n    // if (parseInt(global.get(\"riegoFrente\")) === 1){\n    //     global.set(\"bombaPozo\", 1);\n    //     global.set(\"riegoFrente\", 1);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }\n    // if (parseInt(global.get(\"riegoFrente\")) === 0){\n    //     global.set(\"bombaPozo\", 0);\n    //     global.set(\"riegoFrente\", 0);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }    \n  //   if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n    enviarBlynk();\n    return;\n  }\n\n  if (topic == \"ESP/TanqueAgua/Desconectado\"){\n    var restante = parseInt(nivMaximo) - parseInt(global.get(\"nivTanque\"));\n    var tiempoRestante = (parseInt(restante) * 209) / 104;\n    context.tiempoRestante = parseInt(tiempoRestante * 1000);\n    global.set(\"estadoEspTanque\", 0);// 0 = Desconectado\n    return;\n  }  \n\n  if (topic == \"ESP/TanqueAgua/Inicio\"){\n    global.set(\"estadoEspTanque\", 1);\n    var datos = \"config\" + global.get(\"minimoTanque\") + \"#\" + global.get(\"maximoTanque\") + \"#\" + global.get(\"alturaTanque\");\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: datos}; node.send([msg, null]);\n    // enviarDatos();    \n    return;\n  }   \n\n  // if (global.get(\"estadoEspTanque\") === 0 && global.get(\"llenarTanque\") === 1 && date.getTime() > parseInt(context.tiempoRestante)){\n  //   global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n  //   msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por tiempo\"}; node.send(msg);\n  //   enviarBlynk(); \n  //   enviarDatos();  \n  // }\n\n  // if (dato.topic == \"bombaRF\"){\n  //   if (global.get(\"bombaPozo\") === 0){global.set(\"bombaPozo\", 1);}else{global.set(\"bombaPozo\", 0);}\n  //   enviarBlynk(); \n  //   enviarDatos(); //return;\n  // }\n\n  if (parseInt(global.get(\"llenarTanque\")) === 1 && parseInt(date.getTime()) > parseInt(context.tiempoLlenado)){\n    context.tiempoLlenado = date.getTime() + 60000;\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: \" \"}; node.send([msg, null]); \n    return;\n  }\n\n  // sube el nivel a razon de 104mm cada 209\"     42mm en 91\"\nif (topic == \"ESP/TanqueAgua/Envio\"){\n    global.set(\"nivTanque\", parseInt(msg.payload));\n\n     if (parseInt(global.get(\"nivTanque\")) < 50){\n        // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Tanque con poca agua, nivel: \" + global.get(\"nivTanque\") + \"\\n\"}; node.send([msg, null]);\n     }\n\n    if (parseInt(global.get(\"llenarTanque\")) === 1){\n        var tiempoLlenando = parseInt(global.get(\"tiempoInicioLlenado\")) + 1200000;\n        if(parseInt(date.getTime()) > parseInt(tiempoLlenando)){\n            context.errorLlenadoAuto = 1;\n            global.set(\"llenarTanque\", 0);\n            global.set(\"bombaPozo\",  0);\n            global.set(\"valvulaTanque\", 0);        \n            msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);        \n            msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);\n            enviarBlynk(); \n            msg.topic = \"ESP/Lavadero/Inicio\";\n            enviarDatos(); \n        }\n    } \n\n    if (parseInt(global.get(\"nivTanque\")) < parseInt(global.get(\"minimoTanque\")) && global.get(\"llenarTanque\") === 0 && context.llenadoAnulado === 0 && context.errorLlenadoAuto === 0){\n        if(parseInt(global.get(\"nivTanque\")) === 0)return;\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio llenando tanque\\n\"}; node.send([msg, null]);\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();  \n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.tiempoLlenado = date.getTime() + 60000;\n        context.estadoAnterior = 1;\n        global.set(\"llenarTanque\", 1);\n        // global.set(\"bombaPozo\",  1);\n        global.set(\"valvulaTanque\", 1);\n        //   msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio AUTO llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"llenando1\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;    \n    }\n    \n    if (parseInt(global.get(\"nivTanque\")) >= parseInt(global.get(\"maximoTanque\")) && parseInt(global.get(\"llenarTanque\")) === 1){// && parseInt(global.get(\"estadoEspTanque\")) === 1){ //&& context.avisoTanque === 0 && global.get(\"estadoEspTanque\") === 1){\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n        tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);        \n        global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n        var ponele3 = parseInt(global.get(\"nivTanque\")) - context.nivelInicioLlenado;\n        node.status({text: \"FIN Auto nivelInicio: \" + ponele3 + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro AUTO Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        // msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por nivel\"}; node.send(msg);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        mensaje = tiempoLL / 1000;\n        var minutosLL = parseInt(parseInt(mensaje)/60);\n        var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n        if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n        if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n        minutosLL = minutosLL + \":\" + segundosLL;        \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"        \n\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        topicNuevo = \"ESP/Lavadero/Inicio\";\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;\n    }  \n\n    if (global.get(\"nivTanque\") != context.nivelAnterior){\n      context.nivelAnterior = global.get(\"nivTanque\");\n        if (parseInt(global.get(\"llenarTanque\")) === 1){// parseInt(global.get(\"nivTanque\")) < parseInt(nivMaximo)){\n          var var1 = global.get(\"nivTanque\");\n          tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n          tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n          context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n          context.tiempoInicioLlenado = date.getTime();\n          global.set(\"tasaLlenadoTanque\", tasaLlenado);      \n          msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n          msg = {topic: \"Blynk/actualizar/estado\", payload: 1}; node.send([msg, null]);\n      }\n    }  \n\n} \n\n  if (topic == \"ESP/Lavadero/Inicio\") {\n    enviarDatos(); \n  valor = \"riego\" + global.get(\"tipoRiego\");\n  msg = {delay: 2000, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);    \n    return;\n  }\n\n  switch (pin){\n    case 2:\n    global.set(\"bombaPozo\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;\n\n    case 200:\n        // global.set(\"bombaPozo\", parseInt(msg.payload));\n        // global.set(\"riegoFrente\", parseInt(msg.payload));\n        if (parseInt(msg.payload) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente auto SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n                if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                    global.set(\"tipoRiego\", 2);\n                    valor  = parseInt(date.getTime());\n                    global.set(\"dateRiegoPatio\", valor);  \n                    valor = \"riego\" + global.get(\"tipoRiego\");\n                    msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                    dato = global.get(\"hsCpu\") + \" - riego patio auto SI\" + '\\n';\n                    msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n                    }              \n                if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n            }\n        }\n\n\n        // if (parseInt(msg.payload) === 1){\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        //         global.set(\"tipoRiego\", 1);\n        //         valor  = parseInt(date.getTime());\n        //         global.set(\"dateRiegoFrente\", valor);\n        //         valor = \"riego\" + global.get(\"tipoRiego\");\n        //         msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //     }\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n        //         if (parseInt(global.set(\"modoRiegoPatio\")) === 1){\n        //             global.set(\"tipoRiego\", 2);\n        //             valor  = parseInt(date.getTime());\n        //             global.set(\"dateRiegoPatio\", valor);  \n        //             valor = \"riego\" + global.get(\"tipoRiego\");\n        //             msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //             }\n        //             }              \n        //         if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        // }\n        // enviarBlynk();\n        // enviarDatos(); //return;      \n      break;      \n\n    case 34:\n      context.errorLlenadoAuto = 0;\n      context.estadoAnterior = msg.payload;\n      global.set(\"llenarTanque\", parseInt(msg.payload));\n      global.set(\"bombaPozo\",  parseInt(msg.payload));\n      global.set(\"valvulaTanque\",parseInt( msg.payload));\n      context.tiempoLlenado = date.getTime() + 60000;\n      if (parseInt(msg.payload) === 0) {\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - context.tiempoInicioLlenado) / 60000;        \n        parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        var ponele = var1 - context.nivelInicioLlenado;\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro MANUAL Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n    mensaje = tiempoLL / 1000;\n    var minutosLL = parseInt(parseInt(mensaje)/60);\n    var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n    if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n    if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n    minutosLL = minutosLL + \":\" + segundosLL;       \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);      \n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        node.status({text: \"FIN Man nivelInicio: \" + ponele + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        context.llenadoAnulado = 1;\n      }\n      if (parseInt(msg.payload) === 1) {\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();\n        context.nivelArranco = global.get(\"nivTanque\");\n        context.tiempoArrancoLLenado = date.getTime();\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio MANUAL llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - Inicio llenado tanque\\n\"}; node.send([msg, null]);\n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.llenadoAnulado = 0;\n        }\n      enviarBlynk();\n      enviarDatos(); //return;\n      break;  \n\n    case 35:\n      // if (parseInt(msg.payload) === 1) global.set(\"luzLavadero\", 0);\n      // if (parseInt(msg.payload) === 0) global.set(\"luzLavadero\", 1);\n      global.set(\"luzLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -fff- \"  + global.get(\"luzLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 36:\n      global.set(\"luzAlacenaLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -ggg- \"  + global.get(\"luzAlacenaLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 37:\n      global.set(\"PresurizadoraFria\", parseInt(msg.payload));\n      msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: global.get(\"PresurizadoraFria\")}; node.send([msg, null]);\n      return;\n      break;   \n\n    case 38:\n      global.set(\"valvulaTanque\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;                  \n  }\n\n  function enviarBlynk(){\n    msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null, msg]);\n    msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null, msg]);\n    msg = {pin: 35, payload: global.get(\"luzLavadero\")}; node.send([null, msg]);\n    msg = {pin: 36, payload: global.get(\"luzAlacenaLavadero\")}; node.send([null, msg]);\n    msg = {pin: 37, payload: global.get(\"riegoFrente\")}; node.send([null, msg]);\n    msg = {pin: 38, payload: global.get(\"valvulaTanque\")}; node.send([null, msg]);\n  }\n\n  function enviarDatos(){//return;\n    var topicNuevo = msg.topic;\n    msg = global.get(\"bombaPozo\") + \"#\";\n    msg += global.get(\"valvulaTanque\") + \"#\";\n    msg += global.get(\"riegoFrente\") + \"#\";\n    msg += global.get(\"luzLavadero\") + \"#\";\n    msg += global.get(\"luzAlacenaLavadero\") + \"#\";\n    msg += \"3#\";\n    // msg += global.get(\"1\") + \"1#\";\n    msg += global.get(\"pwmMinLed\") + \"#\";\n    msg += global.get(\"Dia\");\n    if (topicNuevo == \"crepMQTT\" || topicNuevo == \"ESP/Lavadero/Inicio\" || topicNuevo == \"aviso/Alarma\")msg += \"#\";\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: msg}; node.send([msg, null]);\n\n\n    // if (global.get(\"valvulaTanque\") === 1) {context.avisoTanque = 0;}\n    // msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null,msg]);\n    // msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null,msg]);\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"most\\\",\\\"payload\\\":\" + msg.payload + \"}\"}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: global.get(\"bombaPozo\")}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: global.get(\"valvulaTanque\")}; node.send(msg);    \n    // node.status({text: \"Bomba: \" + global.get(\"bombaPozo\") + \"  Valvula: \" + global.get(\"valvulaTanque\") + \" - \" + global.get(\"nivTanque\") + \" - \" + global.get(\"llenarTanque\") + \" - \" + context.estadoAnterior});\n  }\n\n  function apagadoLuces(){\n      node.status({text: \"apagado auto\"});\n      global.set(\"luzLavadero\", 0);\n      global.set(\"luzAlacenaLavadero\", 0);\n      enviarBlynk();\n      enviarDatos();\n  }\n\n",
+        "func": "context.nivelAnterior = context.nivelAnterior || 0;\ncontext.estadoAnterior = context.estadoAnterior || 0;\n\ncontext.nivelArranco = context.nivelArranco ||0;\ncontext.tiempoArrancoLLenado =context.tiempoArrancoLLenado ||0;\n// context.avisoTanque = context.avisoTanque || 0;\ncontext.llenadoAnulado = context.llenadoAnulado || 0;\ncontext.tiempoLlenado = context.tiempoLlenado || 0;\ncontext.tiempoRestante = context.tiempoRestante || 0; // 0 == por nivel\ncontext.nivelInicioLlenado = context.nivelInicioLlenado || 0;\ncontext.tiempoInicioLlenado = context.tiempoInicioLlenado || 0;\nif (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\nif (global.get(\"bombaPozo\") === undefined || global.get(\"bombaPozo\") == isNaN)global.set(\"bombaPozo\", 0);\nif (global.get(\"tipoRiego\") === undefined || global.get(\"tipoRiego\") == isNaN)global.set(\"tipoRiego\", 0);\n\n\n    context.errorLlenadoAuto = context.errorLlenadoAuto || 0;\n  if (global.get(\"tiempoInicioLlenado\") === undefined)global.set(\"tiempoInicioLlenado\", 0);\n  // if (global.get(\"llenarTanque\") === undefined)global.set(\"llenarTanque\", 0);\n\n  var date = new Date();\n  // var dato = JSON.parse(msg.payload);\n  var topic = msg.topic;\n  var pin = parseInt(msg.pin);\n  var nivMaximo = 400;\n  var nivMinimo = 250;\n  var timerLuces = 12000;\n  var tasaLlenado = 0;\n\n  if (global.get(\"dateRiegoFrente\") === undefined || isNaN(global.get(\"dateRiegoFrente\")))global.set(\"dateRiegoFrente\", 0);\n  if (global.get(\"dateRiegoPatio\") === undefined || isNaN(global.get(\"dateRiegoPatio\")))global.set(\"dateRiegoPatio\", 0);\n  if (global.get(\"fallasLavadero\") === undefined || isNaN(global.get(\"fallasLavadero\")))global.set(\"fallasLavadero\", 0);\n  if (global.get(\"luzLavadero\") === undefined || isNaN(global.get(\"luzLavadero\")))global.set(\"luzLavadero\", 0);\n  if (global.get(\"luzAlacenaLavadero\" || isNaN(global.get(\"luzAlacenaLavadero\"))) === undefined)global.set(\"luzAlacenaLavadero\", 0);\n  if (global.get(\"bombaPozo\") === undefined || isNaN(global.get(\"bombaPozo\")))global.set(\"bombaPozo\", 0);\n  if (global.get(\"valvulaTanque\") === undefined || isNaN(global.get(\"valvulaTanque\")))global.set(\"valvulaTanque\", 0);\n  if (global.get(\"riegoFrente\") === undefined || isNaN(global.get(\"riegoFrente\")))global.set(\"riegoFrente\", 0);\n  if (global.get(\"estadoEspTanque\") === undefined || isNaN(global.get(\"estadoEspTanque\")))global.set(\"estadoEspTanque\", 1);\n  if (global.get(\"tasaLlenadoTanque\") === undefined || isNaN(global.get(\"tasaLlenadoTanque\")))global.set(\"tasaLlenadoTanque\", 0);\n\n  if (global.get(\"modoRiegoPatio\") === undefined || isNaN(global.get(\"modoRiegoPatio\")))global.set(\"modoRiegoPatio\", 0);\n  if (global.get(\"modoRiegoFrente\") === undefined || isNaN(global.get(\"modoRiegoFrente\")))global.set(\"modoRiegoFrente\", 0);\n\nglobal.set(\"minimoTanque\", 180);\nglobal.set(\"maximoTanque\", 370);\n  if (global.get(\"alturaTanque\") === undefined)global.set(\"alturaTanque\", 680);\n\n  // node.status({text: global.get(\"estadoAlarma\") + \" -- \"  + global.get(\"luzLavadero\")});\n\n  if (topic == \"blynk/marchaBomba\")pin = 2;\n  if (topic == \"blynk/llenarTanque\")pin = 34;\n\n  if (topic == \"aviso/Alarma\"){\n    if (global.get(\"estadoAlarma\") === 1)apagadoLuces();\n  }\n\n  // if (topic == \"google/Alarma\" || topic == \"aviso/Alarma\"){\n  //   if (global.get(\"luzAlacenaLavadero\") === 1 || global.get(\"luzLavadero\") === 1){\n  //     node.status({text: global.get(\"estadoAlarma\") + \" -ppp- \"  + global.get(\"luzLavadero\")});\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 0){setTimeout(apagadoLuces, timerLuces);}\n  //     if (global.get(\"estadoAlarma\") === 1 && global.get(\"Dia\") === 1)apagadoLuces();\n  //   }\n  // } \n\n  if (topic == \"google/Lavadero\" || topic == \"crepMQTT\"){\n    enviarBlynk();\n    enviarDatos();\n  }   \n\n  if (parseInt(global.get(\"tipoRiego\")) === 1){\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        var valor = (parseInt(global.get(\"dateRiegoFrente\")) + parseInt(global.get(\"tiempoRiegoFrente\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n            global.set(\"tipoRiego\", 2);\n            valor  = parseInt(date.getTime());\n            global.set(\"dateRiegoPatio\", valor);   \n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto SI\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);          \n        }\n        if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0);\n      dato = global.get(\"hsCpu\") + \" - riego Frente Auto NO\" + '\\n';\n      msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);        \n        valor = \"riego\" + global.get(\"tipoRiego\"); \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n        }\n    }\n    }\n      if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 1){\n        global.set(\"tipoRiego\", 2);\n        valor  = parseInt(date.getTime());\n        global.set(\"dateRiegoPatio\", valor);\n    }\n\n  if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n      if (parseInt(global.get(\"tipoRiego\")) === 2){\n        var valor = (parseInt(global.get(\"dateRiegoPatio\")) + parseInt(global.get(\"tiempoRiegoPatio\")) * 1000 * 60);\n        if (parseInt(date.getTime()) > parseInt(valor)){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");     \n            msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]);\n            dato = global.get(\"hsCpu\") + \" - riego Patio Auto NO\" + '\\n';\n            msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);              \n        }\n      }\n    }\n    if (parseInt(global.get(\"modoRiegoFrente\")) === 0 && parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) !== 0){\n        global.set(\"tipoRiego\", 0); \n        dato = global.get(\"hsCpu\") + \" - riego frente Auto NO\" + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);  \n        }        \n    if (parseInt(global.get(\"modoRiegoPatio\")) === 0 && parseInt(global.get(\"tipoRiego\")) === 2)global.set(\"tipoRiego\", 0);\n\n  if (topic == \"ESP/Lavadero/riego\"){\n        valor = \"riego\" + global.get(\"tipoRiego\");     \n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([msg, null]); \n        dato = global.get(\"hsCpu\") + \" - riego desde blynk: \" + global.get(\"tipoRiego\") + '\\n';\n        msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);         \n        return;\n  }\n\n  if (topic == \"ESP/Lavadero/Envio\"){\n    if (msg.payload === \"\")return;\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasSI\"){msg = {pin: 74, payload: 1}; node.send([null, msg]); return;}\n    if (msg.payload.substring(0, 13) == \"bloqueoTeclasNO\"){msg = {pin: 74, payload: 0}; node.send([null, msg]); return;}\n    // if (msg.substring(0, 6) == \"Buzzer\") msg = msg.substring(6);\n\n    if (msg.payload.substring(0, 6) == \"$riego\"){\n        var valor = msg.payload.substring(6);\n        if (parseInt(valor) === 0){\n            global.set(\"tipoRiego\", 0);\n            valor = \"riego\" + global.get(\"tipoRiego\");\n            msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        }\n        if (parseInt(valor) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0)global.set(\"tipoRiego\", 2);\n        }\n        if (parseInt(valor) === 2){\n            if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                global.set(\"tipoRiego\", 2);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoPatio\", valor);  \n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego patio Man SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);                \n                }              \n            if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        }\n    }\n\n    var dato = msg.payload.substring(1);\n    // msg.payload = dato; return msg;\n    dato = msg.payload.split(\"#\");\n    global.set(\"bombaPozo\", parseInt(dato[0])); \n    global.set(\"riegoFrente\", parseInt(dato[1])); \n    global.set(\"luzLavadero\", parseInt(dato[2])); \n    global.set(\"luzAlacenaLavadero\", parseInt(dato[3])); \n\n    // node.status({text: global.get(\"riegoFrente\")});\n\n    // if (parseInt(global.get(\"riegoFrente\")) === 1){\n    //     global.set(\"bombaPozo\", 1);\n    //     global.set(\"riegoFrente\", 1);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }\n    // if (parseInt(global.get(\"riegoFrente\")) === 0){\n    //     global.set(\"bombaPozo\", 0);\n    //     global.set(\"riegoFrente\", 0);\n    //     enviarBlynk();\n    //     enviarDatos(); \n    // }    \n  //   if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n    enviarBlynk();\n    return;\n  }\n\n  if (topic == \"ESP/TanqueAgua/Desconectado\"){\n    var restante = parseInt(nivMaximo) - parseInt(global.get(\"nivTanque\"));\n    var tiempoRestante = (parseInt(restante) * 209) / 104;\n    context.tiempoRestante = parseInt(tiempoRestante * 1000);\n    global.set(\"estadoEspTanque\", 0);// 0 = Desconectado\n    return;\n  }  \n\n  if (topic == \"ESP/TanqueAgua/Inicio\"){\n    global.set(\"estadoEspTanque\", 1);\n    var datos = \"config\" + global.get(\"minimoTanque\") + \"#\" + global.get(\"maximoTanque\") + \"#\" + global.get(\"alturaTanque\");\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: datos}; node.send([msg, null]);\n    // enviarDatos();    \n    return;\n  }   \n\n  // if (global.get(\"estadoEspTanque\") === 0 && global.get(\"llenarTanque\") === 1 && date.getTime() > parseInt(context.tiempoRestante)){\n  //   global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n  //   msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por tiempo\"}; node.send(msg);\n  //   enviarBlynk(); \n  //   enviarDatos();  \n  // }\n\n  // if (dato.topic == \"bombaRF\"){\n  //   if (global.get(\"bombaPozo\") === 0){global.set(\"bombaPozo\", 1);}else{global.set(\"bombaPozo\", 0);}\n  //   enviarBlynk(); \n  //   enviarDatos(); //return;\n  // }\n\n  if (parseInt(global.get(\"llenarTanque\")) === 1 && parseInt(date.getTime()) > parseInt(context.tiempoLlenado)){\n    context.tiempoLlenado = date.getTime() + 60000;\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: \" \"}; node.send([msg, null]); \n    return;\n  }\n\n  // sube el nivel a razon de 104mm cada 209\"     42mm en 91\"\nif (topic == \"ESP/TanqueAgua/Envio\"){\n    global.set(\"nivTanque\", parseInt(msg.payload));\n\n     if (parseInt(global.get(\"nivTanque\")) < 50){\n        // msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Tanque con poca agua, nivel: \" + global.get(\"nivTanque\") + \"\\n\"}; node.send([msg, null]);\n     }\n\n    if (parseInt(global.get(\"llenarTanque\")) === 1){\n        var tiempoLlenando = parseInt(global.get(\"tiempoInicioLlenado\")) + 1200000;\n        if(parseInt(date.getTime()) > parseInt(tiempoLlenando)){\n            context.errorLlenadoAuto = 1;\n            global.set(\"llenarTanque\", 0);\n            global.set(\"bombaPozo\",  0);\n            global.set(\"valvulaTanque\", 0);        \n            msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);        \n            msg = {topic: \"notifyBlynk\", payload: global.get(\"fechaCompleta\") + \" Error llenando tanque\\n\"}; node.send([msg, null]);\n            enviarBlynk(); \n            msg.topic = \"ESP/Lavadero/Inicio\";\n            enviarDatos(); \n        }\n    } \n\n    if (parseInt(global.get(\"nivTanque\")) < parseInt(global.get(\"minimoTanque\")) && global.get(\"llenarTanque\") === 0 && context.llenadoAnulado === 0 && context.errorLlenadoAuto === 0){\n        if(parseInt(global.get(\"nivTanque\")) === 0)return;\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio llenando tanque\\n\"}; node.send([msg, null]);\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();  \n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.tiempoLlenado = date.getTime() + 60000;\n        context.estadoAnterior = 1;\n        global.set(\"llenarTanque\", 1);\n        // global.set(\"bombaPozo\",  1);\n        global.set(\"valvulaTanque\", 1);\n        //   msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio AUTO llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"llenando1\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;    \n    }\n    \n    if (parseInt(global.get(\"nivTanque\")) >= parseInt(global.get(\"maximoTanque\")) && parseInt(global.get(\"llenarTanque\")) === 1){// && parseInt(global.get(\"estadoEspTanque\")) === 1){ //&& context.avisoTanque === 0 && global.get(\"estadoEspTanque\") === 1){\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n        tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);        \n        global.set(\"llenarTanque\", 0); global.set(\"bombaPozo\", 0);  global.set(\"valvulaTanque\", 0); \n        var ponele3 = parseInt(global.get(\"nivTanque\")) - context.nivelInicioLlenado;\n        node.status({text: \"FIN Auto nivelInicio: \" + ponele3 + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro AUTO Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        // msg = {topic: \"notifyBlynk\", payload:\"tanque lleno por nivel\"}; node.send(msg);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        mensaje = tiempoLL / 1000;\n        var minutosLL = parseInt(parseInt(mensaje)/60);\n        var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n        if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n        if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n        minutosLL = minutosLL + \":\" + segundosLL;        \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"        \n\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        topicNuevo = \"ESP/Lavadero/Inicio\";\n        enviarBlynk(); \n        msg.topic = \"ESP/Lavadero/Inicio\";\n        enviarDatos();\n        return;\n    }  \n\n    if (global.get(\"nivTanque\") != context.nivelAnterior){\n      context.nivelAnterior = global.get(\"nivTanque\");\n        if (parseInt(global.get(\"llenarTanque\")) === 1){// parseInt(global.get(\"nivTanque\")) < parseInt(nivMaximo)){\n          var var1 = global.get(\"nivTanque\");\n          tasaLlenado = (date.getTime() - parseInt(context.tiempoInicioLlenado)) / 60000;\n          tasaLlenado = parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n          context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n          context.tiempoInicioLlenado = date.getTime();\n          global.set(\"tasaLlenadoTanque\", tasaLlenado);      \n          msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n          msg = {topic: \"Blynk/actualizar/estado\", payload: 1}; node.send([msg, null]);\n      }\n    }  \n\n} \n\n  if (topic == \"ESP/Lavadero/Inicio\") {\n    enviarDatos(); \n  valor = \"riego\" + global.get(\"tipoRiego\");\n  msg = {delay: 2000, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);    \n    return;\n  }\n\n  switch (pin){\n    case 2:\n    global.set(\"bombaPozo\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;\n\n    case 200:\n        // global.set(\"bombaPozo\", parseInt(msg.payload));\n        // global.set(\"riegoFrente\", parseInt(msg.payload));\n        if (parseInt(msg.payload) === 1){\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n                global.set(\"tipoRiego\", 1);\n                valor  = parseInt(date.getTime());\n                global.set(\"dateRiegoFrente\", valor);\n                valor = \"riego\" + global.get(\"tipoRiego\");\n                msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                dato = global.get(\"hsCpu\") + \" - riego frente auto SI\" + '\\n';\n                msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n            }\n            if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n                if (parseInt(global.get(\"modoRiegoPatio\")) === 1){\n                    global.set(\"tipoRiego\", 2);\n                    valor  = parseInt(date.getTime());\n                    global.set(\"dateRiegoPatio\", valor);  \n                    valor = \"riego\" + global.get(\"tipoRiego\");\n                    msg = {delay: 300, topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n                    dato = global.get(\"hsCpu\") + \" - riego patio auto SI\" + '\\n';\n                    msg = {topic: \"terminalBlynk\", payload: dato}; node.send([msg, null, null]);\n                    }              \n                if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n            }\n        }\n\n\n        // if (parseInt(msg.payload) === 1){\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 1){\n        //         global.set(\"tipoRiego\", 1);\n        //         valor  = parseInt(date.getTime());\n        //         global.set(\"dateRiegoFrente\", valor);\n        //         valor = \"riego\" + global.get(\"tipoRiego\");\n        //         msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //     }\n        //     if (parseInt(global.get(\"modoRiegoFrente\")) === 0){\n        //         if (parseInt(global.set(\"modoRiegoPatio\")) === 1){\n        //             global.set(\"tipoRiego\", 2);\n        //             valor  = parseInt(date.getTime());\n        //             global.set(\"dateRiegoPatio\", valor);  \n        //             valor = \"riego\" + global.get(\"tipoRiego\");\n        //             msg = {topic: \"ESP/Lavadero/Recibo\", payload: valor}; node.send([null, null, msg]);\n        //             }\n        //             }              \n        //         if (parseInt(global.get(\"modoRiegoPatio\")) === 0)global.set(\"tipoRiego\", 0); \n        // }\n        // enviarBlynk();\n        // enviarDatos(); //return;      \n      break;      \n\n    case 34:\n      context.errorLlenadoAuto = 0;\n      context.estadoAnterior = msg.payload;\n      global.set(\"llenarTanque\", parseInt(msg.payload));\n      global.set(\"bombaPozo\",  parseInt(msg.payload));\n      global.set(\"valvulaTanque\",parseInt( msg.payload));\n      context.tiempoLlenado = date.getTime() + 60000;\n      if (parseInt(msg.payload) === 0) {\n        var var1 = global.get(\"nivTanque\");\n        tasaLlenado = (date.getTime() - context.tiempoInicioLlenado) / 60000;        \n        parseFloat((var1 - context.nivelInicioLlenado) / tasaLlenado).toFixed(2);\n        var ponele = var1 - context.nivelInicioLlenado;\n        global.set(\"tasaLlenadoTanque\", tasaLlenado);\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Paro MANUAL Llenado tanque, \" + var1 + \"mm\\n\"}; node.send([msg, null]);\n        var tasa = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n        tasa = parseInt(tasa) / 60000;\n        var tasa2 = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        tasa = parseFloat(tasa2) / tasa;\n        tasa = parseFloat(tasa).toFixed(1);\n\n        var diferencia = parseInt(global.get(\"nivTanque\")) - parseInt(context.nivelArranco);\n        var tiempoLL = parseInt(date.getTime()) - parseInt(context.tiempoArrancoLLenado);\n    mensaje = tiempoLL / 1000;\n    var minutosLL = parseInt(parseInt(mensaje)/60);\n    var segundosLL = parseInt(((parseInt(mensaje)/60) - minutosLL)*60);\n    if (parseInt(minutosLL) < 10) minutosLL = \"0\" + minutosLL;\n    if (parseInt(segundosLL) < 10) segundosLL = \"0\" + segundosLL;\n    minutosLL = minutosLL + \":\" + segundosLL;       \n\n        var mensaje = global.get(\"hsCpu\") + \" - Termino llenado tanque, tasa: \" + tasa + \"mm/min, diferencia nivel: \" + diferencia + \"mm, tiempo llenando: \" + minutosLL + \"\\n\"\n        msg = {topic: \"notifyBlynk\", payload: mensaje}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: mensaje}; node.send([msg, null]);      \n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        node.status({text: \"FIN Man nivelInicio: \" + ponele + \"  TiempoLlenado: \" + parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)});\n        context.llenadoAnulado = 1;\n      }\n      if (parseInt(msg.payload) === 1) {\n        global.set(\"tiempoInicioLlenado\", date.getTime());\n        context.nivelInicioLlenado = parseInt(global.get(\"nivTanque\"));\n        context.tiempoInicioLlenado = date.getTime();\n        context.nivelArranco = global.get(\"nivTanque\");\n        context.tiempoArrancoLLenado = date.getTime();\n        // msg = {topic: \"terminalBlynk\", payload: global.get(\"fechaCompleta\") + \" Inicio MANUAL llenado tanque, \" + context.nivelInicioLlenado + \"mm\\n\"}; node.send([msg, null]);\n        msg = {topic: \"informarNivel\", payload: 1}; node.send([msg, null]);\n        msg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" - Inicio llenado tanque\\n\"}; node.send([msg, null]);\n        node.status({text: \"nivelInicio: \" + context.nivelInicioLlenado + \"  tiempoInicio: \" + context.tiempoInicioLlenado});\n        context.llenadoAnulado = 0;\n        }\n      enviarBlynk();\n      enviarDatos(); //return;\n      break;  \n\n    case 35:\n      // if (parseInt(msg.payload) === 1) global.set(\"luzLavadero\", 0);\n      // if (parseInt(msg.payload) === 0) global.set(\"luzLavadero\", 1);\n      global.set(\"luzLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -fff- \"  + global.get(\"luzLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 36:\n      global.set(\"luzAlacenaLavadero\", parseInt(msg.payload));\n      node.status({text: global.get(\"estadoAlarma\") + \" -ggg- \"  + global.get(\"luzAlacenaLavadero\")});\n      enviarDatos(); //return;\n      break;\n\n    case 37:\n      global.set(\"PresurizadoraFria\", parseInt(msg.payload));\n      msg = {topic: \"ESP/Lavadero/Presurizadora\", payload: global.get(\"PresurizadoraFria\")}; node.send([msg, null]);\n      return;\n      break;   \n\n    case 38:\n      global.set(\"valvulaTanque\", parseInt(msg.payload));\n      enviarDatos(); //return;\n      break;                  \n  }\n\n  function enviarBlynk(){\n    msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null, msg]);\n    msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null, msg]);\n    msg = {pin: 35, payload: global.get(\"luzLavadero\")}; node.send([null, msg]);\n    msg = {pin: 36, payload: global.get(\"luzAlacenaLavadero\")}; node.send([null, msg]);\n    msg = {pin: 37, payload: global.get(\"riegoFrente\")}; node.send([null, msg]);\n    msg = {pin: 38, payload: global.get(\"valvulaTanque\")}; node.send([null, msg]);\n  }\n\n  function enviarDatos(){//return;\n    var topicNuevo = msg.topic;\n    msg = global.get(\"bombaPozo\") + \"#\";\n    // msg += global.get(\"valvulaTanque\") + \"#\";\n    msg += global.get(\"tipoRiego\") + \"#\";\n    msg += global.get(\"luzLavadero\") + \"#\";\n    msg += global.get(\"luzAlacenaLavadero\") + \"#\";\n    msg += \"3#\";\n    // msg += global.get(\"1\") + \"1#\";\n    msg += global.get(\"pwmMinLed\") + \"#\";\n    msg += global.get(\"Dia\");\n    if (topicNuevo == \"crepMQTT\" || topicNuevo == \"ESP/Lavadero/Inicio\" || topicNuevo == \"aviso/Alarma\")msg += \"#\";\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: msg}; node.send([msg, null]);\n\n\n    // if (global.get(\"valvulaTanque\") === 1) {context.avisoTanque = 0;}\n    // msg = {pin: 2, payload: global.get(\"bombaPozo\")}; node.send([null,msg]);\n    // msg = {pin: 34, payload: global.get(\"llenarTanque\")}; node.send([null,msg]);\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"most\\\",\\\"payload\\\":\" + msg.payload + \"}\"}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: global.get(\"bombaPozo\")}; node.send(msg);\n    // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: global.get(\"valvulaTanque\")}; node.send(msg);    \n    // node.status({text: \"Bomba: \" + global.get(\"bombaPozo\") + \"  Valvula: \" + global.get(\"valvulaTanque\") + \" - \" + global.get(\"nivTanque\") + \" - \" + global.get(\"llenarTanque\") + \" - \" + context.estadoAnterior});\n  }\n\n  function apagadoLuces(){\n      node.status({text: \"apagado auto\"});\n      global.set(\"luzLavadero\", 0);\n      global.set(\"luzAlacenaLavadero\", 0);\n      enviarBlynk();\n      enviarDatos();\n  }\n\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -4599,7 +4599,7 @@
         "type": "debug",
         "z": "73083520.75304c",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -4712,7 +4712,7 @@
         "type": "debug",
         "z": "950c1426.ff4008",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -5339,7 +5339,7 @@
         "type": "debug",
         "z": "950c1426.ff4008",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -7750,7 +7750,7 @@
         "type": "debug",
         "z": "7ac92c99.66ea94",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -17613,22 +17613,6 @@
         "wires": []
     },
     {
-        "id": "4a38cd91.3f1d44",
-        "type": "blynk-ws-in-write",
-        "z": "f682d492.22a758",
-        "name": "",
-        "pin": "100",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 2014,
-        "y": 476,
-        "wires": [
-            [
-                "da78fbf0.e73618"
-            ]
-        ]
-    },
-    {
         "id": "e7d5737f.8d663",
         "type": "mqtt in",
         "z": "9c63fd61.9908c",
@@ -17786,53 +17770,6 @@
         "complete": "false",
         "x": 482.0833206176758,
         "y": 1402.500030040741,
-        "wires": []
-    },
-    {
-        "id": "da78fbf0.e73618",
-        "type": "function",
-        "z": "f682d492.22a758",
-        "name": "",
-        "func": "if (global.get(\"estado-TanqueAgua\") === undefined)global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined)global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined)global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined)global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined)global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined)global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined)global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined)global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\n\n\nif (msg.payload == \"0\")return;\n// node.send(msg.payload);\nmsg.payload = \"\";\nfor (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\nnode.send(msg);\n\nmsg =  \"Tanque  : \" + global.get(\"estado-TanqueAgua\");// + \"\\n\";// + \"\\n\";\nmsg += \"Lav.    : \" + global.get(\"estado-Lavadero\");// + \"\\n\";// + \"\\n\"; + \"\\n\";\nmsg += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");// + \"\\n\";// + \"\\n\"; + \"\\n\";\nmsg += \"Termo   : \" + global.get(\"estado-TermoSolar\");// + \"\\n\";// + \"\\n\"; + \"\\n\";\nmsg += \"Bano    : \" + global.get(\"estado-Bano\");// + \"\\n\\n\";// + \"\\n\"; + \"\\n\";\nmsg += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");// + \"\\n\\n\";// + \"\\n\"; + \"\\n\";\nmsg += \"Escalera: \" + global.get(\"estado-Escaleras\");// + \"\\n\\n\";// + \"\\n\"; + \"\\n\";Caldera\nmsg += \"Porche  : \" + global.get(\"estado-Porche\");\nmsg += \"Deck    : \" + global.get(\"estado-estadoDeck\");\nmsg += \"\\n\";\n\nmsg = {topic: \"terminalBlynk\", payload: msg};\nnode.send(msg);",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 2226.66650390625,
-        "y": 471.6666564941406,
-        "wires": [
-            [
-                "d684a422.1c7d88",
-                "86f4eda8.a214c"
-            ]
-        ]
-    },
-    {
-        "id": "d684a422.1c7d88",
-        "type": "mqtt out",
-        "z": "f682d492.22a758",
-        "name": "",
-        "topic": "terminalBlynk",
-        "qos": "",
-        "retain": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 2391.66650390625,
-        "y": 464.9999694824219,
-        "wires": []
-    },
-    {
-        "id": "86f4eda8.a214c",
-        "type": "debug",
-        "z": "f682d492.22a758",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 2373.333251953125,
-        "y": 526.6666259765625,
         "wires": []
     },
     {
@@ -19677,8 +19614,8 @@
         "func": "msg = {pin: 200, payload: \"1\"};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 577.5,
-        "y": 91,
+        "x": 560,
+        "y": 80,
         "wires": [
             [
                 "9f837dbe.a7563"
@@ -21200,7 +21137,8 @@
         "wires": [
             [
                 "cb4da61.1e50058",
-                "fe494e9c.4bae6"
+                "fe494e9c.4bae6",
+                "48cb5a84.467c04"
             ]
         ]
     },
@@ -21302,8 +21240,7 @@
         "y": 600,
         "wires": [
             [
-                "39a95d5a.ea8d72",
-                "6fea480e.9f5238"
+                "39a95d5a.ea8d72"
             ]
         ]
     },
@@ -21312,6 +21249,18 @@
         "type": "inject",
         "z": "17cadfaf.12d97",
         "name": "noche",
+        "props": [
+            {
+                "p": "payload",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "v": "ESP/TermoSolar/Crepuscular",
+                "vt": "string"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": false,
@@ -21332,7 +21281,7 @@
         "type": "function",
         "z": "17cadfaf.12d97",
         "name": "",
-        "func": "var payload = parseInt(msg.payload);\ncontext.inicioDia = context.inicioDia || 0;\nvar date = new Date();\n\nif (payload === 1){// payload == valor analogico dia/noche\n\tcontext.inicioDia = date.getTime();\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAmanecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de dia \" + global.get(\"hsAmanecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\n\tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de dia\\n\"}; node.send(msg);\n\tmsg = {payload: global.get(\"fechaCompleta\") + \" se hizo de dia\\n\"}; node.send([null, msg]);\n\tglobal.set(\"avisoMail\", \" se hizo de dia:  \" + global.get(\"hsAmanecer\"));\n}\nif (payload === 0){\n\tvar finDia = date.getTime() - context.inicioDia;\n\tfinDia = finDia / 1000;\n\tvar hhFinDia = parseFloat(finDia / 3600);\n\tvar mmFinDia = parseInt((finDia - hhFinDia) * 60);\n\tvar horasDia = parseInt(hhFinDia) + \".\" + parseInt(mmFinDia);\n\tglobal.set(\"horasDia\",horasDia);\n\tglobal.set(\"Dia\", payload);\n\tglobal.set(\"hsAnochecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de noche \" + global.get(\"hsAnochecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\t//fechaCompleta\n\tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de noche\\n\"}; node.send(msg);\n\tmsg = {payload: global.get(\"fechaCompleta\") + \" se hizo de noche\\n\"}; node.send([null, msg]);\n\tglobal.set(\"avisoMail\", \" se hizo de noche:  \" + global.get(\"hsAnochecer\"));\n}\nif (global.get(\"Dia\") === 1)node.status({text: \"amanecio: \" + global.get(\"hsAmanecer\")})\n\tif (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n\n// if (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n",
+        "func": "//------------------------------------------------------------------------------\n// File generated by LCD Assistant\n// http://en.radzio.dxp.pl/bitmap_converter/\n//------------------------------------------------------------------------------\n\nvar payload = parseInt(msg.payload);\ncontext.inicioDia = context.inicioDia || 0;\nvar date = new Date();\n\nif (parseInt(global.get(\"sensorCrep\")) > parseInt(global.get(\"valorDia\")) && parseInt(global.get(\"Dia\")) === 0){// payload == valor analogico dia/noche\n\tcontext.inicioDia = date.getTime();\n\tglobal.set(\"Dia\", 1);\n\tglobal.set(\"hsAmanecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de dia \" + global.get(\"hsAmanecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\n\tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de dia\\n\"}; node.send(msg);\n\tmsg = {payload: global.get(\"fechaCompleta\") + \" se hizo de dia\\n\"}; node.send([null, msg]);\n\tglobal.set(\"avisoMail\", \" se hizo de dia:  \" + global.get(\"hsAmanecer\"));\n}\nif (parseInt(global.get(\"sensorCrep\")) < parseInt(global.get(\"valorNoche\")) && parseInt(global.get(\"Dia\")) === 1){\n\tvar finDia = date.getTime() - context.inicioDia;\n\tfinDia = finDia / 1000;\n\tvar hhFinDia = parseFloat(finDia / 3600);\n\tvar mmFinDia = parseInt((finDia - hhFinDia) * 60);\n\tvar horasDia = parseInt(hhFinDia) + \".\" + parseInt(mmFinDia);\n\tglobal.set(\"horasDia\",horasDia);\n\tglobal.set(\"Dia\", 0);\n\tglobal.set(\"hsAnochecer\",  global.get(\"hsCpu\"));\n\tmsg = {topic: \"notifyBlynk\", payload: \"Se hizo de noche \" + global.get(\"hsAnochecer\")}; node.send(msg);\n\tmsg = {topic: \"crepMQTT\", payload: payload}; node.send(msg);\t//fechaCompleta\n\tmsg = {topic: \"terminalBlynk\", payload: global.get(\"hsCpu\") + \" se hizo de noche\\n\"}; node.send(msg);\n\tmsg = {payload: global.get(\"fechaCompleta\") + \" se hizo de noche\\n\"}; node.send([null, msg]);\n\tglobal.set(\"avisoMail\", \" se hizo de noche:  \" + global.get(\"hsAnochecer\"));\n}\nif (global.get(\"Dia\") === 1)node.status({text: \"amanecio: \" + global.get(\"hsAmanecer\")})\n\tif (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n\n// if (global.get(\"Dia\") === 0)node.status({text: \"hs Dia: \" + global.get(\"horasDia\")})\n\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -21403,7 +21352,7 @@
         "type": "debug",
         "z": "17cadfaf.12d97",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -24497,35 +24446,6 @@
         ]
     },
     {
-        "id": "341c1395.1f93cc",
-        "type": "inject",
-        "z": "f682d492.22a758",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 2090,
-        "y": 580,
-        "wires": [
-            [
-                "da78fbf0.e73618"
-            ]
-        ]
-    },
-    {
         "id": "45816a86.3358b4",
         "type": "inject",
         "z": "f682d492.22a758",
@@ -26249,7 +26169,7 @@
         "z": "17cadfaf.12d97",
         "name": "back datos termo",
         "filename": "/home/pi/BackUpNodeRed/crepuscular.txt",
-        "appendNewline": false,
+        "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "x": 670,
@@ -26452,19 +26372,19 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "5",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 180,
+        "x": 190,
         "y": 20,
         "wires": [
             [
-                "c51843c.e8b70c",
-                "fcfe1a44.557908"
+                "fcfe1a44.557908",
+                "b95a8f92.42a45"
             ]
         ]
     },
@@ -26475,14 +26395,14 @@
         "name": "",
         "topic": "potenciaWifi",
         "qos": "",
-        "retain": "",
+        "retain": "true",
         "respTopic": "",
         "contentType": "",
         "userProps": "",
         "correl": "",
         "expiry": "",
         "broker": "15d926b1.b6d9d9",
-        "x": 410,
+        "x": 510,
         "y": 20,
         "wires": []
     },
@@ -26679,7 +26599,7 @@
         "rap": true,
         "rh": 0,
         "x": 170,
-        "y": 520,
+        "y": 560,
         "wires": [
             [
                 "112bfeb1.fe5051"
@@ -26709,14 +26629,14 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalTanque\", 0);\nglobal.set(\"senalLiving\", 0);\nglobal.set(\"senalLavadero\", 0);\nglobal.set(\"senalPatioLuz\", 0);\nglobal.set(\"senalPileta\", 0);\nglobal.set(\"senalBano\", 0);\nglobal.set(\"senalCocina\", 0);\nglobal.set(\"senalPorche\", 0);\nglobal.set(\"senalEscaleras\", 0);\nglobal.set(\"senalTermoSolar\", 0);\nglobal.set(\"pruebaMQTT\", 0);\nreturn msg;",
+        "func": "global.set(\"senalTanque\", \"(0)\");\nglobal.set(\"senalLiving\", \"(0)\");\nglobal.set(\"senalLavadero\", \"(0)\");\nglobal.set(\"senalPatioLuz\", \"(0)\");\nglobal.set(\"senalPileta\", \"(0)\");\nglobal.set(\"senalBano\", \"(0)\");\nglobal.set(\"senalCocina\", \"(0)\");\nglobal.set(\"senalPorche\", \"(0)\");\nglobal.set(\"senalEscaleras\", \"(0)\");\nglobal.set(\"senalTermoSolar\", \"(0)\");\nglobal.set(\"pruebaMQTT\", \"(0)\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1140,
-        "y": 60,
+        "x": 1080,
+        "y": 20,
         "wires": [
             [
                 "b22da73b.471818"
@@ -26771,8 +26691,8 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "var cadena = \"\\nsenalTanque: \" + global.get(\"senalTanque\") + \"\\n\";\ncadena += \"senalLiving: \" + global.get(\"senalLiving\") + \"\\n\";\ncadena += \"senalLavadero: \" + global.get(\"senalLavadero\") + \"\\n\";\ncadena += \"senalPatioLuz: \" + global.get(\"senalPatioLuz\") + \"\\n\";\ncadena += \"senalBano: \" + global.get(\"senalBano\") + \"\\n\";\ncadena += \"senalCocina: \" + global.get(\"senalCocina\") + \"\\n\";\ncadena += \"senalPorche: \" + global.get(\"senalPorche\") + \"\\n\";\ncadena += \"senalEscaleras: \" + global.get(\"senalEscaleras\") + \"\\n\";\ncadena += \"senalTermoSolar: \" + global.get(\"senalTermoSolar\") + \"\\n\";\ncadena += \"senalPileta: \" + global.get(\"senalPileta\") + \"\\n\";\ncadena += \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\nmsg.payload = cadena;\nreturn msg;",
-        "outputs": 1,
+        "func": "var cadena = \" \\nsenalTanque:     \" + global.get(\"senalTanque\") + \"\\n\";\ncadena +=       \"senalLiving:     \" + global.get(\"senalLiving\") + \"\\n\";\ncadena +=       \"senalLavadero:   \" + global.get(\"senalLavadero\") + \"\\n\";\ncadena +=       \"senalPatioLuz:   \" + global.get(\"senalPatioLuz\") + \"\\n\";\ncadena +=       \"senalBano:       \" + global.get(\"senalBano\") + \"\\n\";\ncadena +=       \"senalCocina:     \" + global.get(\"senalCocina\") + \"\\n\";\ncadena +=       \"senalPorche:     \" + global.get(\"senalPorche\") + \"\\n\";\ncadena +=       \"senalEscaleras:  \" + global.get(\"senalEscaleras\") + \"\\n\";\ncadena +=       \"senalTermoSolar: \" + global.get(\"senalTermoSolar\") + \"\\n\";\ncadena +=       \"senalPileta:     \" + global.get(\"senalPileta\") + \"\\n\";\ncadena +=       \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\nmsg.payload = cadena;\nnode.send([msg, null]);\n// msg = {pin: 160, payload: global.get(\"senalTanque\").substring(1, global.get(\"senalTanque\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 161, payload: global.get(\"senalLiving\").substring(1, global.get(\"senalLiving\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 162, payload: global.get(\"senalLavadero\").substring(1, global.get(\"senalLavadero\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 163, payload: global.get(\"senalPatioLuz\").substring(1, global.get(\"senalPatioLuz\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 164, payload: global.get(\"senalBano\").substring(1, global.get(\"senalBano\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 165, payload: global.get(\"senalCocina\").substring(1, global.get(\"senalCocina\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 166, payload: global.get(\"senalPorche\").substring(1, global.get(\"senalPorche\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 167, payload: global.get(\"senalEscaleras\").substring(1, global.get(\"senalEscaleras\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 168, payload: global.get(\"senalTermoSolar\").substring(1, global.get(\"senalTermoSolar\").indexOf(\")\"))};node.send([null, msg]);\n// msg = {pin: 169, payload: global.get(\"senalPileta\").substring(1, global.get(\"senalPileta\").indexOf(\")\"))};node.send([null, msg]);",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -26781,7 +26701,11 @@
         "y": 100,
         "wires": [
             [
-                "6a7e48ac.962958"
+                "c30ddb0f.3b2448"
+            ],
+            [
+                "10878cff.835cf3",
+                "a5efc48f.aca8e8"
             ]
         ]
     },
@@ -26799,8 +26723,8 @@
         "correl": "",
         "expiry": "",
         "broker": "15d926b1.b6d9d9",
-        "x": 1160,
-        "y": 100,
+        "x": 1240,
+        "y": 200,
         "wires": []
     },
     {
@@ -26820,47 +26744,11 @@
         ]
     },
     {
-        "id": "43569b14.c8dc24",
-        "type": "mqtt out",
-        "z": "fed3306.30c1fd",
-        "name": "",
-        "topic": "potenciaWifi",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "15d926b1.b6d9d9",
-        "x": 1190,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "c7521c66.424f",
-        "type": "mqtt out",
-        "z": "fed3306.30c1fd",
-        "name": "",
-        "topic": "pruebaMQTT/potenciaWifi",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "15d926b1.b6d9d9",
-        "x": 1230,
-        "y": 200,
-        "wires": []
-    },
-    {
         "id": "9da3524e.3b304",
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "if (parseInt(msg.payload) === 1)return msg;",
+        "func": "if (parseInt(msg.payload) === 1){\n    var cadena = \"\\nGastonTP:\\n\";\n    cadena +=       \"senalPatioLuz:   \" + global.get(\"senalPatioLuz\") + \"\\n\";\n    cadena +=       \"senalLavadero:   \" + global.get(\"senalLavadero\") + \"\\n\";    \n    cadena +=       \"senalCocina:     \" + global.get(\"senalCocina\") + \"\\n\";\n    cadena +=       \"senalBano:       \" + global.get(\"senalBano\") + \"\\n\";\n    cadena +=       \"senalLiving:     \" + global.get(\"senalLiving\") + \"\\n\";\n    cadena += \"\\nRep_TermoSolar:\\n\";\n    cadena +=       \"senalTanque:     \" + global.get(\"senalTanque\") + \"\\n\";\n    cadena +=       \"senalTermoSolar: \" + global.get(\"senalTermoSolar\") + \"\\n\";\n    cadena +=       \"senalEscaleras:  \" + global.get(\"senalEscaleras\") + \"\\n\"; \n    cadena +=       \"senalPorche:     \" + global.get(\"senalPorche\") + \"\\n\";\n    cadena +=       \"senalPileta:     \" + global.get(\"senalPileta\") + \"\\n\";\n    cadena +=       \"senalCaldera:    \" + global.get(\"senalCaldera\") + \"\\n\";\n    cadena +=       \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\n    msg.payload = cadena;\n    return msg\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26870,8 +26758,7 @@
         "y": 180,
         "wires": [
             [
-                "43569b14.c8dc24",
-                "c7521c66.424f"
+                "6a7e48ac.962958"
             ]
         ]
     },
@@ -26900,7 +26787,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalTanque\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalTanque\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26919,7 +26806,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalLiving\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalLiving\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26938,7 +26825,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalLavadero\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalLavadero\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26957,7 +26844,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalTermoSolar\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalTermoSolar\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26976,7 +26863,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalPatioLuz\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalPatioLuz\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -26995,7 +26882,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalPileta\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalPileta\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -27014,7 +26901,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalBano\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalBano\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -27033,7 +26920,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalCocina\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalCocina\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -27052,7 +26939,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalPorche\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalPorche\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -27071,7 +26958,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"senalEscaleras\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"senalEscaleras\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -27090,14 +26977,14 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "global.set(\"pruebaMQTT\", msg.payload);\nreturn msg;",
+        "func": "global.set(\"pruebaMQTT\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 400,
-        "y": 520,
+        "y": 560,
         "wires": [
             [
                 "8cacbf2.a6cce4"
@@ -27109,7 +26996,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27125,7 +27012,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27141,7 +27028,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27157,7 +27044,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27173,7 +27060,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27189,7 +27076,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27205,7 +27092,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27221,7 +27108,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27237,7 +27124,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27253,7 +27140,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27269,7 +27156,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -27277,7 +27164,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 550,
-        "y": 520,
+        "y": 560,
         "wires": []
     },
     {
@@ -27306,6 +27193,702 @@
         "wires": [
             [
                 "fcfe1a44.557908"
+            ]
+        ]
+    },
+    {
+        "id": "17417e63.456902",
+        "type": "inject",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1160,
+        "y": 480,
+        "wires": [
+            [
+                "44f4ed84.dd3f84"
+            ]
+        ]
+    },
+    {
+        "id": "44f4ed84.dd3f84",
+        "type": "mqtt out",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "topic": "pruebaMQTT",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "15d926b1.b6d9d9",
+        "x": 1370,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "48cb5a84.467c04",
+        "type": "debug",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "2a076667.642eaa",
+        "type": "function",
+        "z": "f682d492.22a758",
+        "name": "",
+        "func": "if (msg.topic.includes(\"desconectado\") || msg.topic.includes(\"Desconectado\")){\n    global.set(\"estado-Cocina\", global.get(\"fechaCompleta\") + \" - Desc\\n\");\n    node.send(msg);}\nif (msg.topic.includes(\"Inicio\")){\n    global.set(\"estado-Cocina\", global.get(\"fechaCompleta\") + \" - Con\\n\");\n    node.send(msg);}    \n    \nnode.status({text: global.get(\"estado-Cocina\")});    ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2880,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6c7704d.9d5b3",
+        "type": "mqtt in",
+        "z": "f682d492.22a758",
+        "name": "",
+        "topic": "ESP/Cocina/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 2700.484687805176,
+        "y": 367.06058406829834,
+        "wires": [
+            [
+                "2a076667.642eaa"
+            ]
+        ]
+    },
+    {
+        "id": "b6e3dab4.9091b8",
+        "type": "mqtt in",
+        "z": "f682d492.22a758",
+        "name": "",
+        "topic": "ESP/Cocina/Desconectado",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 2663.111083984375,
+        "y": 325.44441318511963,
+        "wires": [
+            [
+                "2a076667.642eaa"
+            ]
+        ]
+    },
+    {
+        "id": "b95a8f92.42a45",
+        "type": "delay",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "100",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 350,
+        "y": 20,
+        "wires": [
+            [
+                "c51843c.e8b70c"
+            ]
+        ]
+    },
+    {
+        "id": "de01c9a.d73f838",
+        "type": "inject",
+        "z": "f682d492.22a758",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Cocina/Desconectado",
+        "payload": "",
+        "payloadType": "date",
+        "x": 2710,
+        "y": 420,
+        "wires": [
+            [
+                "2a076667.642eaa"
+            ]
+        ]
+    },
+    {
+        "id": "7c72fd26.f3c9a4",
+        "type": "inject",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1380,
+        "y": 20,
+        "wires": [
+            [
+                "f01c1d28.378e6"
+            ]
+        ]
+    },
+    {
+        "id": "f01c1d28.378e6",
+        "type": "function",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "func": "msg.payload= global.get(\"senalTanque\").substring(1, global.get(\"senalTanque\").indexOf(\")\"));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1560,
+        "y": 40,
+        "wires": [
+            [
+                "f7ba2977.9527b8",
+                "ffe10967.a23a78"
+            ]
+        ]
+    },
+    {
+        "id": "f7ba2977.9527b8",
+        "type": "debug",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1730,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "ffe10967.a23a78",
+        "type": "mqtt out",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "topic": "terminalBlynk",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "15d926b1.b6d9d9",
+        "x": 1750,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "10878cff.835cf3",
+        "type": "blynk-ws-out-write",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "pin": "0",
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 1240,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "c30ddb0f.3b2448",
+        "type": "debug",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a5efc48f.aca8e8",
+        "type": "debug",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1426,
+        "y": 158,
+        "wires": []
+    },
+    {
+        "id": "4ea837cd.b7d1c8",
+        "type": "mqtt in",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "topic": "ESP/Caldera/potenciaWifi",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "15d926b1.b6d9d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 150,
+        "y": 520,
+        "wires": [
+            [
+                "eba0aff3.386c5"
+            ]
+        ]
+    },
+    {
+        "id": "eba0aff3.386c5",
+        "type": "function",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "func": "global.set(\"senalCaldera\", msg.payload.substring(0, msg.payload.indexOf(\"Mac\")-3));\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "ce8904d7.351398"
+            ]
+        ]
+    },
+    {
+        "id": "ce8904d7.351398",
+        "type": "debug",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "fd6d214.20b4fe",
+        "type": "mqtt in",
+        "z": "f682d492.22a758",
+        "name": "",
+        "topic": "ESP/Caldera/Desconectado",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 2760,
+        "y": 500,
+        "wires": [
+            [
+                "2230fd5d.258602"
+            ]
+        ]
+    },
+    {
+        "id": "2230fd5d.258602",
+        "type": "function",
+        "z": "f682d492.22a758",
+        "name": "",
+        "func": "if (msg.topic.includes(\"desconectado\") || msg.topic.includes(\"Desconectado\")){\n    global.set(\"estado-estadoCaldera\", global.get(\"fechaCompleta\") + \" - Desc\\n\");\n    node.send(msg);}\nif (msg.topic.includes(\"Inicio\")){\n    global.set(\"estado-estadoCaldera\", global.get(\"fechaCompleta\") + \" - Con\\n\");\n    node.send(msg);}    \n    \nnode.status({text: global.get(\"estado-estadoCaldera\")});    ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2966.888916015625,
+        "y": 554.5555868148804,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "880ed54c.49cb18",
+        "type": "mqtt in",
+        "z": "f682d492.22a758",
+        "name": "",
+        "topic": "ESP/Caldera/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 2787.373603820801,
+        "y": 541.6161708831787,
+        "wires": [
+            [
+                "2230fd5d.258602"
+            ]
+        ]
+    },
+    {
+        "id": "806d1a55.2661d8",
+        "type": "inject",
+        "z": "f682d492.22a758",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Caldera/Inicio",
+        "payload": "",
+        "payloadType": "date",
+        "x": 2796.888916015625,
+        "y": 594.5555868148804,
+        "wires": [
+            [
+                "2230fd5d.258602"
+            ]
+        ]
+    },
+    {
+        "id": "fc5bb3c1.c2b96",
+        "type": "function",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "func": "if (global.get(\"estado-TanqueAgua\") === undefined)global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined)global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined)global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined)global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined)global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined)global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined)global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined)global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\nif (global.get(\"estado-Cocina\") === undefined)global.set(\"estado-Cocina\", null);\n// if (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\n\nif (msg.payload == \"0\")return;\n// node.send(msg.payload);\nmsg.payload = \"\";\nfor (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\nnode.send(msg);\n\nmsg = \"GastonTP:\\n\";\nmsg += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");\nmsg += \"Lav.    : \" + global.get(\"estado-Lavadero\");\nmsg += \"Cocina  : \" + global.get(\"estado-Cocina\");\nmsg += \"Bano    : \" + global.get(\"estado-Bano\");\nmsg += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");\nmsg += \"\\nRep_TermoSolar:\\n\";\nmsg +=  \"Tanque  : \" + global.get(\"estado-TanqueAgua\");\nmsg += \"Termo   : \" + global.get(\"estado-TermoSolar\");\nmsg += \"Escalera: \" + global.get(\"estado-Escaleras\");\nmsg += \"Porche  : \" + global.get(\"estado-Porche\");\nmsg += \"Deck    : \" + global.get(\"estado-estadoDeck\");\nmsg += \"Caldera : \" + global.get(\"estado-estadoCaldera\");\nmsg += \"\\n\";\n\nmsg = {topic: \"terminalBlynk\", payload: msg};\nnode.send(msg);",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1180,
+        "y": 300,
+        "wires": [
+            [
+                "f6ba70eb.7d02b",
+                "ddd287d.8af6078"
+            ]
+        ]
+    },
+    {
+        "id": "4628c734.8722d8",
+        "type": "blynk-ws-in-write",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "pin": "100",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 967.33349609375,
+        "y": 304.3333435058594,
+        "wires": [
+            [
+                "fc5bb3c1.c2b96"
+            ]
+        ]
+    },
+    {
+        "id": "c52b28fe.ead718",
+        "type": "inject",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1043.33349609375,
+        "y": 408.3333435058594,
+        "wires": [
+            [
+                "fc5bb3c1.c2b96"
+            ]
+        ]
+    },
+    {
+        "id": "f6ba70eb.7d02b",
+        "type": "mqtt out",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "topic": "terminalBlynk",
+        "qos": "",
+        "retain": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1345,
+        "y": 293.33331298828125,
+        "wires": []
+    },
+    {
+        "id": "ddd287d.8af6078",
+        "type": "debug",
+        "z": "fed3306.30c1fd",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1326.666748046875,
+        "y": 354.9999694824219,
+        "wires": []
+    },
+    {
+        "id": "aadab959.a13e38",
+        "type": "mqtt in",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "topic": "ESP/TermoSolar/Envio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 120,
+        "y": 480,
+        "wires": [
+            [
+                "c245779d.b80d78"
+            ]
+        ]
+    },
+    {
+        "id": "c245779d.b80d78",
+        "type": "delay",
+        "z": "17cadfaf.12d97",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 300,
+        "y": 480,
+        "wires": [
+            [
+                "6fea480e.9f5238"
+            ]
+        ]
+    },
+    {
+        "id": "b308302a.cc80d",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "ESP/Porche/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": false,
+        "x": 230,
+        "y": 780,
+        "wires": [
+            [
+                "78364cb0.17f444"
+            ]
+        ]
+    },
+    {
+        "id": "829742c6.24de9",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "func": "mensaje = \"bomba\" + global.get(\"bombaCascada\");\nmsg = {topic: \"PatioLuz/Recibo\", payload: mensaje};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2510,
+        "y": 560,
+        "wires": [
+            [
+                "8b339fcd.768eb"
+            ]
+        ]
+    },
+    {
+        "id": "ba6d48a.e43ceb8",
+        "type": "mqtt out",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "15d926b1.b6d9d9",
+        "x": 2830,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "622ede0b.36f3c",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "PatioLuz/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2340,
+        "y": 560,
+        "wires": [
+            [
+                "829742c6.24de9"
+            ]
+        ]
+    },
+    {
+        "id": "8b339fcd.768eb",
+        "type": "delay",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 2690,
+        "y": 560,
+        "wires": [
+            [
+                "ba6d48a.e43ceb8"
+            ]
+        ]
+    },
+    {
+        "id": "a16e24b0.8a0508",
+        "type": "inject",
+        "z": "73083520.75304c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ESP/Lavadero/Inicio",
+        "payload": "",
+        "payloadType": "date",
+        "x": 320,
+        "y": 500,
+        "wires": [
+            [
+                "9f837dbe.a7563"
             ]
         ]
     }
