@@ -921,8 +921,8 @@
         "topic7": "tempExterior",
         "topic8": "estQuemador",
         "endpoint": "https://thingspeak.com",
-        "x": 703.761890411377,
-        "y": 337.47623348236084,
+        "x": 710,
+        "y": 320,
         "wires": []
     },
     {
