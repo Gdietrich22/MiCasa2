@@ -26180,8 +26180,8 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var cadena = msg.payload;\n\n\ncadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\ncadena = cadena.substring(cadena.indexOf(\"changePcr\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar por = cadena.substring(0, cadena.indexOf(\",\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\ncadena = cadena.substring(cadena.indexOf(\"_turnover\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\ncadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\ncadena = cadena.substring(cadena.indexOf(\"bid\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar compra = cadena.substring(0, cadena.indexOf(\",\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\ncadena = cadena.substring(cadena.indexOf(\"ask\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\nmsg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\nmsg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n//- V: \" + volumen;\nreturn msg;\n",
-        "outputs": 1,
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\nif (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    cadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"changePcr\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"_turnover\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    msg = { topic: \"CompTesla\", payload: compra };\n    node.send([msg, null]);\n    msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n}\n// return msg;\n",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -26191,7 +26191,11 @@
         "wires": [
             [
                 "84a73fbac89d9b4f",
-                "5a0adf15f4ed20fa"
+                "927cf5fcd14fa782"
+            ],
+            [
+                "5a0adf15f4ed20fa",
+                "963063d6b669006d"
             ]
         ]
     },
@@ -26207,8 +26211,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 940,
-        "y": 400,
+        "x": 1140,
+        "y": 220,
         "wires": []
     },
     {
@@ -26221,6 +26225,41 @@
         "client": "2c18e412.5f5cbc",
         "x": 1100,
         "y": 340,
+        "wires": []
+    },
+    {
+        "id": "927cf5fcd14fa782",
+        "type": "thingspeak42",
+        "z": "71fbfc8a.29b834",
+        "name": "66XIJL1M2RANNQ7O",
+        "delay": "1",
+        "topic1": "CompTesla",
+        "topic2": "",
+        "topic3": "",
+        "topic4": "",
+        "topic5": "",
+        "topic6": "",
+        "topic7": "",
+        "topic8": "",
+        "endpoint": "https://thingspeak.com",
+        "x": 1120,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "963063d6b669006d",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 380,
         "wires": []
     },
     {
