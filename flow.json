@@ -1578,6 +1578,7 @@
         "z": "17cadfaf.12d97",
         "name": "back datos termo",
         "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
+        "filenameType": "str",
         "appendNewline": false,
         "createDir": false,
         "overwriteFile": "true",
@@ -26068,6 +26069,158 @@
         "statusType": "auto",
         "x": 700,
         "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2f0e35eac08f4877",
+        "type": "inject",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "370ac1748a13b09e",
+                "7146bb396702a991"
+            ]
+        ]
+    },
+    {
+        "id": "370ac1748a13b09e",
+        "type": "http request",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://es.investing.com/equities/tesla-cedears",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "7b5af496b7165515",
+                "56caef33ea026691"
+            ]
+        ]
+    },
+    {
+        "id": "7b5af496b7165515",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "7146bb396702a991",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7ddcb670231cfd4d",
+        "type": "file",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "filename": "/home/pi/BackUpNodeRed/Cedears.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 830,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56caef33ea026691",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "function 1",
+        "func": "var cadena = msg.payload;\n\n\ncadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\ncadena = cadena.substring(cadena.indexOf(\"changePcr\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar por = cadena.substring(0, cadena.indexOf(\",\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\ncadena = cadena.substring(cadena.indexOf(\"_turnover\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\ncadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\ncadena = cadena.substring(cadena.indexOf(\"bid\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar compra = cadena.substring(0, cadena.indexOf(\",\"));\n// cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\ncadena = cadena.substring(cadena.indexOf(\"ask\"));\ncadena = cadena.substring(cadena.indexOf(\":\") + 1);\nvar venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\nmsg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\nmsg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n//- V: \" + volumen;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 320,
+        "wires": [
+            [
+                "84a73fbac89d9b4f",
+                "5a0adf15f4ed20fa"
+            ]
+        ]
+    },
+    {
+        "id": "84a73fbac89d9b4f",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "5a0adf15f4ed20fa",
+        "type": "blynk-ws-out-write",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "pin": "15",
+        "pinmode": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1100,
+        "y": 340,
         "wires": []
     },
     {
