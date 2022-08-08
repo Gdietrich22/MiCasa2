@@ -635,7 +635,16 @@
         "type": "inject",
         "z": "50119c6e.6ff584",
         "name": "",
-        "repeat": "1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
         "crontab": "",
         "once": true,
         "onceDelay": "0.1",
@@ -655,9 +664,12 @@
         "type": "function",
         "z": "50119c6e.6ff584",
         "name": "",
-        "func": "var date = new Date();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar tiempo = mm%5;\nnode.status({text: global.get(\"hsCpu\")});\nif (tiempo === 0 && ss === 1 || msg.topic == \"tomarMedicion\"){\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"tempExt\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pasillo/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/Living/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\n    msg = {topic: \"salamandra/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pileta/Redonda/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n\n    // if (parseInt(global.get(\"estadoCargador\")) === 0){\n        msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"Baterias/Est/Pedido\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    // }\n     if (parseInt(global.get(\"llenarTanque\")) === 0){msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);}\n}\n",
+        "func": "var date = new Date();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar tiempo = mm%5;\nnode.status({text: global.get(\"hsCpu\")});\n// if (tiempo === 0 && ss === 1 || msg.topic == \"tomarMedicion\"){\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"tempExt\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pasillo/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/Living/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\n    msg = {topic: \"salamandra/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pileta/Redonda/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);\n\n    // // if (parseInt(global.get(\"estadoCargador\")) === 0){\n    //     msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"Baterias/Est/Pedido\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    // // }\n    //  if (parseInt(global.get(\"llenarTanque\")) === 0){msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);}\n// }\n",
         "outputs": 1,
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 312.142915725708,
         "y": 105.71426486968988,
         "wires": [
