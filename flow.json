@@ -560,6 +560,7 @@
         "topic": "ESP/Bano/Debug",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 410,
         "y": 300,
         "wires": [
@@ -576,6 +577,7 @@
         "topic": "ESP/Bano/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 430,
         "y": 380,
         "wires": [
@@ -606,6 +608,7 @@
         "topic": "ESP/Bano/Recibo",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 480,
         "y": 40,
         "wires": [
@@ -782,6 +785,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 300.9166450500488,
         "y": 403.17859333753586,
         "wires": [
@@ -1078,6 +1082,7 @@
         "topic": "ESP/PatioLuz/Sens/Temp/Resp",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 190,
         "y": 340,
         "wires": [
@@ -1129,7 +1134,16 @@
         "type": "inject",
         "z": "50119c6e.6ff584",
         "name": "",
-        "repeat": "1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
         "crontab": "",
         "once": true,
         "onceDelay": "0.1",
@@ -1149,9 +1163,12 @@
         "type": "function",
         "z": "50119c6e.6ff584",
         "name": "",
-        "func": "var date = new Date();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar tiempo = mm%5;\nnode.status({text: global.get(\"hsCpu\")});\nif (tiempo === 0 && ss === 1 || msg.topic == \"tomarMedicion\"){\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"tempExt\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pasillo/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/Living/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\n    msg = {topic: \"salamandra/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pileta/Redonda/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n\n    // if (parseInt(global.get(\"estadoCargador\")) === 0){\n        msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"Baterias/Est/Pedido\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    // }\n     if (parseInt(global.get(\"llenarTanque\")) === 0){msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);}\n}\n",
+        "func": "var date = new Date();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar tiempo = mm%5;\nnode.status({text: global.get(\"hsCpu\")});\n// if (tiempo === 0 && ss === 1 || msg.topic == \"tomarMedicion\"){\n    // msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"tempExt\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    msg = {topic: \"ESP/Lavadero/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pasillo/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/Living/Sens/Temp/Pedido\", payload: 1}; node.send(msg);\n    msg = {topic: \"ESP/TermoSolar/Recibo\", payload: 1}; node.send(msg);\n    msg = {topic: \"salamandra/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/Pileta/Redonda/Recibo\", payload: \"pedidoTemp\"}; node.send(msg);\n    msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);\n\n    // // if (parseInt(global.get(\"estadoCargador\")) === 0){\n    //     msg = {topic: \"USBout\", payload: \"{\\\"topic\\\":\\\"Baterias/Est/Pedido\\\",\\\"payload\\\":1}\"}; node.send(msg);\n    // // }\n    //  if (parseInt(global.get(\"llenarTanque\")) === 0){msg = {topic: \"ESP/TanqueAgua/Recibo\", payload: 1}; node.send(msg);}\n// }\n",
         "outputs": 1,
         "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
         "x": 312.142915725708,
         "y": 105.71426486968988,
         "wires": [
@@ -1230,6 +1247,7 @@
         "topic": "ESP/TermoSolar/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 140,
         "y": 240,
         "wires": [
@@ -1262,6 +1280,7 @@
         "topic": "ESP/Pasillo/Sens/Temp/Resp",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 200,
         "y": 440,
         "wires": [
@@ -1278,6 +1297,7 @@
         "topic": "ESP/Living/Sens/Temp/Resp",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 200,
         "y": 390,
         "wires": [
@@ -1302,6 +1322,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 290,
         "y": 220,
         "wires": [
@@ -1341,6 +1362,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 150,
         "y": 290,
         "wires": [
@@ -1416,6 +1438,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1490,
         "y": 280,
         "wires": [
@@ -1454,6 +1477,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1874.3800048828125,
         "y": 969.5000540869577,
         "wires": [
@@ -1493,6 +1517,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 309.8810577392578,
         "y": 283.8095147269113,
         "wires": [
@@ -1567,6 +1592,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 600,
         "y": 550,
         "wires": [
@@ -1707,6 +1733,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1339.6188926696777,
         "y": 341.9762897491455,
         "wires": [
@@ -1789,6 +1816,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1331.9046592712402,
         "y": 247.97626876831055,
         "wires": [
@@ -1988,6 +2016,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1520,
         "y": 920,
         "wires": [
@@ -2127,6 +2156,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 150,
         "y": 990,
         "wires": [
@@ -2147,6 +2177,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1304.0243225097656,
         "y": 496.452394757952,
         "wires": [
@@ -2172,6 +2203,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1918.1667404174805,
         "y": 223.64285346439908,
         "wires": [
@@ -2223,6 +2255,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2340,
         "y": 380,
         "wires": [
@@ -2384,6 +2417,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1486.095043182373,
         "y": 200.42863273620605,
         "wires": [
@@ -2442,6 +2476,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 420,
         "y": 640,
         "wires": [
@@ -2529,6 +2564,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1520,
         "y": 1000,
         "wires": [
@@ -2588,6 +2624,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 360,
         "y": 950,
         "wires": [
@@ -2728,6 +2765,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 520,
         "y": 460,
         "wires": [
@@ -2887,6 +2925,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1941.3927841186523,
         "y": 635.9643287658691,
         "wires": [
@@ -2903,6 +2942,7 @@
         "topic": "informarNivel",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 322.00000762939453,
         "y": 879.4167108535767,
         "wires": [
@@ -2976,6 +3016,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 360,
         "y": 990,
         "wires": [
@@ -3182,6 +3223,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1460,
         "y": 1110,
         "wires": [
@@ -3257,6 +3299,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 550,
         "y": 360,
         "wires": [
@@ -3317,6 +3360,7 @@
         "topic": "provisoriosMQTT",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 450,
         "y": 80,
         "wires": [
@@ -3379,6 +3423,7 @@
         "topic": "Baterias/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 320,
         "y": 800,
         "wires": [
@@ -3420,6 +3465,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 740,
         "y": 690,
         "wires": [
@@ -3514,6 +3560,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 330,
         "y": 540,
         "wires": [
@@ -3669,6 +3716,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 350,
         "y": 400,
         "wires": [
@@ -3688,6 +3736,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 120,
         "y": 400,
         "wires": [
@@ -3707,6 +3756,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 330,
         "y": 620,
         "wires": [
@@ -3741,6 +3791,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 340,
         "y": 580,
         "wires": [
@@ -3789,6 +3840,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 150,
         "y": 480,
         "wires": [
@@ -3805,6 +3857,7 @@
         "topic": "ESP/TanqueAgua/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 580,
         "y": 570,
         "wires": [
@@ -3869,6 +3922,7 @@
         "topic": "ESP/TanqueAgua/Debug",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 605.714277267456,
         "y": 778.5714244842529,
         "wires": [
@@ -4001,6 +4055,7 @@
         "topic": "ESP/TanqueAgua/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 320,
         "y": 660,
         "wires": [
@@ -4018,6 +4073,7 @@
         "topic": "ESP/TanqueAgua/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 290,
         "y": 320,
         "wires": [
@@ -4047,6 +4103,7 @@
         "topic": "ESP/TanqueAgua/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 320,
         "y": 360,
         "wires": [
@@ -4064,6 +4121,7 @@
         "topic": "ESP/Lavadero/Recibo",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 850,
         "y": 720,
         "wires": [
@@ -4240,6 +4298,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1280,
         "y": 430,
         "wires": [
@@ -4317,6 +4376,7 @@
         "topic": "ESP/TanqueAgua/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1280,
         "y": 380,
         "wires": [
@@ -4333,6 +4393,7 @@
         "topic": "ESP/TanqueAgua/Debug",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1290,
         "y": 520,
         "wires": [
@@ -4429,6 +4490,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1070,
         "y": 210,
         "wires": [
@@ -4522,6 +4584,7 @@
         "topic": "ESP/Lavadero/Debug",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 440,
         "y": 1000,
         "wires": [
@@ -4546,6 +4609,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 780,
         "y": 570,
         "wires": [
@@ -4565,6 +4629,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1650,
         "y": 260,
         "wires": [
@@ -4586,6 +4651,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 350,
         "y": 480,
         "wires": [
@@ -4736,6 +4802,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 750,
         "y": 330,
         "wires": [
@@ -4752,6 +4819,7 @@
         "topic": "ESP/Bano/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 360,
         "y": 310,
         "wires": [
@@ -4768,6 +4836,7 @@
         "topic": "ESP/Bano/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 390,
         "y": 270,
         "wires": [
@@ -4786,6 +4855,7 @@
         "topic": "ESP/Bano/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 390,
         "y": 230,
         "wires": [
@@ -4932,6 +5002,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 490,
         "y": 760,
         "wires": [
@@ -4963,6 +5034,7 @@
         "topic": "google/Baño",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 400,
         "y": 190,
         "wires": [
@@ -5067,6 +5139,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 260,
         "y": 130,
         "wires": [
@@ -5165,6 +5238,7 @@
         "topic": "ESP/Pasillo/Iluminacion",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 360,
         "y": 400,
         "wires": [
@@ -5181,6 +5255,7 @@
         "topic": "ESP/Bano/Debug",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1130,
         "y": 120,
         "wires": [
@@ -5227,6 +5302,7 @@
         "topic": "ESP/Pasillo/Iluminacion/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 350,
         "y": 350,
         "wires": [
@@ -5272,6 +5348,7 @@
         "topic": "bano/nodeRed",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 330,
         "y": 740,
         "wires": [
@@ -5403,6 +5480,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1600,
         "y": 330,
         "wires": [
@@ -5458,6 +5536,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 410,
         "y": 130,
         "wires": [
@@ -5477,6 +5556,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 270,
         "y": 90,
         "wires": [
@@ -5500,6 +5580,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 410,
         "y": 90,
         "wires": [
@@ -5578,6 +5659,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 710,
         "y": 527,
         "wires": [
@@ -5660,6 +5742,7 @@
         "topic": "ESP/Bano/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 280,
         "y": 90,
         "wires": [
@@ -5676,6 +5759,7 @@
         "topic": "ESP/living/Iluminacion/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 240,
         "y": 130,
         "wires": [
@@ -5692,6 +5776,7 @@
         "topic": "ESP/Lavadero/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 270,
         "y": 170,
         "wires": [
@@ -5785,6 +5870,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 620,
         "y": 110,
         "wires": [
@@ -5838,6 +5924,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 340,
         "y": 300,
         "wires": [
@@ -5858,6 +5945,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 340,
         "y": 180,
         "wires": [
@@ -5877,6 +5965,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 390,
         "y": 260,
         "wires": [
@@ -5896,6 +5985,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 385.00000762939453,
         "y": 140.75000190734863,
         "wires": [
@@ -5929,6 +6019,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 240,
         "y": 220,
         "wires": [
@@ -5952,6 +6043,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 803.0952224731445,
         "y": 395.2142400741577,
         "wires": [
@@ -6018,6 +6110,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 390,
         "y": 220,
         "wires": [
@@ -6035,6 +6128,7 @@
         "topic": "Debug/ESP/Living/Iluminacion",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 780,
         "y": 90,
         "wires": [
@@ -6324,6 +6418,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 608.6666259765625,
         "y": 379.00000953674316,
         "wires": [
@@ -6584,6 +6679,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1708.6666259765625,
         "y": 149.00000953674316,
         "wires": [
@@ -6616,6 +6712,7 @@
         "topic": "USBin",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 123.6666259765625,
         "y": 418,
         "wires": [
@@ -6708,6 +6805,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 608.6666259765625,
         "y": 419.00000953674316,
         "wires": [
@@ -6739,6 +6837,7 @@
         "topic": "terminalBlynk",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 138.6666259765625,
         "y": 709.0000095367432,
         "wires": [
@@ -6772,6 +6871,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 487.9761935642782,
         "y": 733.4285719735282,
         "wires": [
@@ -6789,6 +6889,7 @@
         "topic": "ESP/TanqueAgua/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1257.5555114746094,
         "y": 443.4444589614868,
         "wires": [
@@ -6821,6 +6922,7 @@
         "topic": "ESP/TanqueAgua/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1288.4645080566406,
         "y": 480.6161518096924,
         "wires": [
@@ -6853,6 +6955,7 @@
         "topic": "ESP/Lavadero/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1267.5556106567383,
         "y": 516.7777786254883,
         "wires": [
@@ -6869,6 +6972,7 @@
         "topic": "ESP/Lavadero/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1297.5555877685547,
         "y": 551.2222023010254,
         "wires": [
@@ -6885,6 +6989,7 @@
         "topic": "ESP/living/Iluminacion/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1238.6666717529297,
         "y": 585.6666917800903,
         "wires": [
@@ -6901,6 +7006,7 @@
         "topic": "ESP/living/Iluminacion/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1268.1615600585938,
         "y": 627.1818046569824,
         "wires": [
@@ -6933,6 +7039,7 @@
         "topic": "USBin",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1121.6666259765625,
         "y": 1413,
         "wires": [
@@ -7046,6 +7153,7 @@
         "topic": "ESP/TermoSolar/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1246.4444274902344,
         "y": 667.8888750076294,
         "wires": [
@@ -7063,6 +7171,7 @@
         "topic": "ESP/TermoSolar/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1275.9392700195312,
         "y": 704.7575511932373,
         "wires": [
@@ -7110,6 +7219,7 @@
         "topic": "ESP/Bano/Desconectado",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1278.666618347168,
         "y": 365.6666307449341,
         "wires": [
@@ -7127,6 +7237,7 @@
         "topic": "ESP/Bano/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1306.0402221679688,
         "y": 407.2828016281128,
         "wires": [
@@ -7167,6 +7278,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 608.6666259765625,
         "y": 339.00000953674316,
         "wires": [
@@ -7286,6 +7398,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1948.6666259765625,
         "y": 329.00000953674316,
         "wires": [
@@ -7302,6 +7415,7 @@
         "topic": "informarNivel",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 198.6666259765625,
         "y": 859.0000095367432,
         "wires": [
@@ -7359,6 +7473,7 @@
         "topic": "tiempoCargando",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 188.6666259765625,
         "y": 809.0000095367432,
         "wires": [
@@ -7700,6 +7815,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 859.4642906188965,
         "y": 536.7857308387756,
         "wires": [
@@ -8047,6 +8163,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 596.9881582260132,
         "y": 226.92860174179077,
         "wires": [
@@ -8132,6 +8249,7 @@
         "topic": "informarNivel",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2400,
         "y": 570,
         "wires": [
@@ -8189,6 +8307,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 670,
         "y": 600,
         "wires": [
@@ -8320,6 +8439,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 550,
         "y": 90,
         "wires": [
@@ -8706,6 +8826,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 119,
         "y": 416,
         "wires": [
@@ -9195,6 +9316,7 @@
         "topic": "ESP/PatioLuz/Sens/Temp/Resp",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2540,
         "y": 820,
         "wires": [
@@ -9319,6 +9441,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 660,
         "y": 350,
         "wires": [
@@ -9497,6 +9620,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 150,
         "y": 630,
         "wires": [
@@ -9514,6 +9638,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 660,
         "y": 300,
         "wires": [
@@ -9706,6 +9831,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 630,
         "y": 460,
         "wires": [
@@ -9785,6 +9911,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 574.4444694519043,
         "y": 468.88888931274414,
         "wires": [
@@ -12239,8 +12366,8 @@
         "topic7": "tempExterior",
         "topic8": "estQuemador",
         "endpoint": "https://thingspeak.com",
-        "x": 703.761890411377,
-        "y": 337.47623348236084,
+        "x": 710,
+        "y": 320,
         "wires": []
     },
     {
@@ -12344,6 +12471,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 107.77777099609375,
         "y": 926.5555419921875,
         "wires": [
@@ -12407,6 +12535,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 530,
         "y": 40,
         "wires": [
@@ -12472,6 +12601,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2320,
         "y": 440,
         "wires": [
@@ -12612,6 +12742,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 565.9444694519043,
         "y": 554.8888893127441,
         "wires": [
@@ -12635,6 +12766,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 733.9444580078125,
         "y": 573.888916015625,
         "wires": [
@@ -12652,6 +12784,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 536.5556030273438,
         "y": 510.111083984375,
         "wires": [
@@ -12773,6 +12906,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 862.5,
         "y": 738,
         "wires": [
@@ -12850,6 +12984,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 566,
         "y": 595,
         "wires": [
@@ -12923,6 +13058,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 128,
         "y": 169,
         "wires": [
@@ -12982,6 +13118,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 143,
         "y": 112,
         "wires": [
@@ -13042,6 +13179,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 883.5,
         "y": 688,
         "wires": [
@@ -13102,6 +13240,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 555,
         "y": 437,
         "wires": [
@@ -13125,6 +13264,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 762.5,
         "y": 191,
         "wires": [
@@ -13221,6 +13361,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1329.6666793823242,
         "y": 628.6666898727417,
         "wires": [
@@ -13474,6 +13615,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1327.250015258789,
         "y": 576.0000076293945,
         "wires": [
@@ -13671,6 +13813,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1659.7728805541992,
         "y": 433.4091205596924,
         "wires": [
@@ -13688,6 +13831,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1660,
         "y": 606.25,
         "wires": [
@@ -13857,6 +14001,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 2022.5228652954102,
         "y": 463.65911293029785,
         "wires": [
@@ -13964,6 +14109,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 718.5,
         "y": 509,
         "wires": [
@@ -14062,6 +14208,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1505.500015258789,
         "y": 308.333345413208,
         "wires": [
@@ -14099,6 +14246,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1518.5,
         "y": 386,
         "wires": [
@@ -14181,6 +14329,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1011.2498931884766,
         "y": 899.7222814559937,
         "wires": [
@@ -14430,6 +14579,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 712.2222290039062,
         "y": 1254.444317817688,
         "wires": [
@@ -15038,6 +15188,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1350.5555555555554,
         "y": 1484.4444444444443,
         "wires": [
@@ -15068,6 +15219,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 585.4545288085938,
         "y": 490.9090881347656,
         "wires": [
@@ -15097,6 +15249,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1526.6666564941406,
         "y": 458.571439743042,
         "wires": [
@@ -15213,6 +15366,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1016,
         "y": 982,
         "wires": [
@@ -15319,6 +15473,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1028,
         "y": 1026,
         "wires": [
@@ -15342,6 +15497,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1184.5,
         "y": 1027,
         "wires": [
@@ -15520,6 +15676,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 917.5,
         "y": 288,
         "wires": [
@@ -15810,6 +15967,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 604.5,
         "y": 723,
         "wires": [
@@ -15841,6 +15999,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 242,
         "y": 692,
         "wires": [
@@ -15861,6 +16020,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 147.5,
         "y": 657,
         "wires": [
@@ -15884,6 +16044,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 271.5,
         "y": 656,
         "wires": [
@@ -15946,6 +16107,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1276,
         "y": 754.22216796875,
         "wires": [
@@ -15964,6 +16126,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1294.494873046875,
         "y": 789.0908203125,
         "wires": [
@@ -16123,6 +16286,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2123,
         "y": 686,
         "wires": [
@@ -16140,6 +16304,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2094,
         "y": 648,
         "wires": [
@@ -16563,6 +16728,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1793,
         "y": 1344,
         "wires": [
@@ -16641,6 +16807,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 191.16666412353516,
         "y": 265,
         "wires": [
@@ -16672,6 +16839,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 218.99999745686853,
         "y": 318.6666666666667,
         "wires": [
@@ -16729,6 +16897,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 210,
         "y": 388,
         "wires": [
@@ -16760,6 +16929,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1255.0000228881836,
         "y": 873.7500133514404,
         "wires": [
@@ -16778,6 +16948,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1278.4948959350586,
         "y": 907.3686656951904,
         "wires": [
@@ -16827,6 +16998,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 232.5,
         "y": 737.5000114440918,
         "wires": [
@@ -16896,6 +17068,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1862.5000305175781,
         "y": 925.000014025718,
         "wires": [
@@ -16913,6 +17086,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1835.0000305175781,
         "y": 976.2500143051147,
         "wires": [
@@ -16983,6 +17157,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1350.5,
         "y": 794,
         "wires": [
@@ -17187,6 +17362,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 513,
         "y": 50,
         "wires": [
@@ -17299,6 +17475,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 321,
         "y": 881,
         "wires": [
@@ -17317,6 +17494,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 610,
         "y": 780,
         "wires": [
@@ -17348,6 +17526,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 316,
         "y": 841,
         "wires": [
@@ -17377,6 +17556,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 619,
         "y": 822,
         "wires": [
@@ -17408,6 +17588,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 619,
         "y": 858,
         "wires": [
@@ -17621,6 +17802,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 291.25003814697266,
         "y": 1447.083270072937,
         "wires": [
@@ -17795,6 +17977,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 303.75000762939453,
         "y": 1238.7500171661377,
         "wires": [
@@ -18076,6 +18259,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 269,
         "y": 1642,
         "wires": [
@@ -18266,6 +18450,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1250,
         "y": 940,
         "wires": [
@@ -18283,6 +18468,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1270,
         "y": 980,
         "wires": [
@@ -18383,6 +18569,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 214,
         "y": 1858,
         "wires": [
@@ -18833,6 +19020,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1070,
         "y": 981,
         "wires": [
@@ -18911,6 +19099,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 197,
         "y": 483,
         "wires": [
@@ -19215,6 +19404,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2152,
         "y": 237,
         "wires": [
@@ -19333,6 +19523,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1588.5,
         "y": 343,
         "wires": [
@@ -19465,6 +19656,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 520,
         "y": 20,
         "wires": [
@@ -19515,6 +19707,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 822.5,
         "y": 453,
         "wires": [
@@ -19535,6 +19728,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 330,
         "y": 780,
         "wires": [
@@ -19664,6 +19858,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 275.5,
         "y": 1056,
         "wires": [
@@ -19771,6 +19966,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 272,
         "y": 1110,
         "wires": [
@@ -19787,6 +19983,7 @@
         "topic": "ESP/TanqueAgua/Inicio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 316.5,
         "y": 444,
         "wires": [
@@ -20047,6 +20244,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 812.3016242980957,
         "y": 251.42858060201007,
         "wires": [
@@ -20243,6 +20441,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 504.5,
         "y": 34,
         "wires": [
@@ -20499,6 +20698,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 180,
         "y": 60,
         "wires": [
@@ -20527,8 +20727,7 @@
                 "177ff9bb.9c1ec6"
             ],
             [
-                "f0e6b30c.ec7dc",
-                "2771a2f3.2517ae"
+                "f0e6b30c.ec7dc"
             ],
             [
                 "cc8cf82a.118428",
@@ -20941,6 +21140,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 522.5,
         "y": 80,
         "wires": [
@@ -21112,6 +21312,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1130,
         "y": 70,
         "wires": [
@@ -21132,6 +21333,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 210,
         "y": 260,
         "wires": [
@@ -21153,6 +21355,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 346,
         "y": 146,
         "wires": [
@@ -21236,6 +21439,7 @@
         "topic": "ESP/TermoSolar/Crepuscular",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 260,
         "y": 600,
         "wires": [
@@ -21376,6 +21580,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 390,
         "y": 260,
         "wires": [
@@ -21441,6 +21646,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1160,
         "y": 160,
         "wires": [
@@ -21622,6 +21828,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1510,
         "y": 550,
         "wires": [
@@ -21639,6 +21846,7 @@
         "topic": "ESP/TermoSolar/Config",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1230,
         "y": 650,
         "wires": [
@@ -21671,6 +21879,7 @@
         "z": "17cadfaf.12d97",
         "name": "back datos termo",
         "filename": "/home/pi/BackUpNodeRed/DatosTermo.txt",
+        "filenameType": "str",
         "appendNewline": false,
         "createDir": false,
         "overwriteFile": "true",
@@ -21855,6 +22064,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1510,
         "y": 500,
         "wires": [
@@ -21887,6 +22097,7 @@
         "topic": "ESP/TermoSolar/pedido",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1380,
         "y": 730,
         "wires": [
@@ -21910,6 +22121,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1560,
         "y": 730,
         "wires": [
@@ -21992,6 +22204,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 240,
         "y": 220,
         "wires": [
@@ -22016,6 +22229,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 897,
         "y": 312,
         "wires": [
@@ -22051,6 +22265,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1110,
         "y": 120,
         "wires": [
@@ -22074,6 +22289,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 390,
         "y": 220,
         "wires": [
@@ -22093,6 +22309,7 @@
         "topic": "ESP/Lavadero/Presurizadora",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 1810,
         "y": 230,
         "wires": [
@@ -22169,6 +22386,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 210,
         "y": 180,
         "wires": [
@@ -22241,6 +22459,7 @@
         "topic": "ESP/Lavadero/AguaCaliente",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 325,
         "y": 114,
         "wires": [
@@ -22361,6 +22580,7 @@
         "topic": "ESP/Lavadero/AguaFria",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2000,
         "y": 400,
         "wires": [
@@ -22400,6 +22620,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 390,
         "y": 180,
         "wires": [
@@ -22670,6 +22891,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 228,
         "y": 20,
         "wires": [
@@ -22693,6 +22915,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 380,
         "y": 20,
         "wires": [
@@ -22759,6 +22982,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 304,
         "y": 80,
         "wires": [
@@ -22844,6 +23068,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 848.5,
         "y": 235,
         "wires": [
@@ -23048,6 +23273,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 200,
         "y": 1120,
         "wires": [
@@ -23064,6 +23290,7 @@
         "topic": "ESP/TermoSolar/Envio",
         "qos": "2",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 130,
         "y": 1040,
         "wires": [
@@ -23917,6 +24144,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 680,
         "y": 340,
         "wires": [
@@ -24220,6 +24448,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 530,
         "y": 80,
         "wires": [
@@ -24255,6 +24484,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1400,
         "y": 400,
         "wires": [
@@ -24289,6 +24519,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 140,
         "y": 400,
         "wires": [
@@ -24373,6 +24604,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 140,
         "y": 540,
         "wires": [
@@ -24543,6 +24775,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 210,
         "y": 1320,
         "wires": [
@@ -24632,6 +24865,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 1330,
         "y": 60,
         "wires": [
@@ -24652,6 +24886,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 130,
         "y": 700,
         "wires": [
@@ -24755,6 +24990,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 20,
         "wires": [
@@ -24810,6 +25046,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 60,
         "wires": [
@@ -24831,6 +25068,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 100,
         "wires": [
@@ -24851,6 +25089,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 140,
         "wires": [
@@ -24871,6 +25110,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 180,
         "wires": [
@@ -24891,6 +25131,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 830,
         "y": 220,
         "wires": [
@@ -24911,6 +25152,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 840,
         "y": 260,
         "wires": [
@@ -24931,6 +25173,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 840,
         "y": 300,
         "wires": [
@@ -25030,6 +25273,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 130,
         "y": 140,
         "wires": [
@@ -25064,6 +25308,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 120,
         "y": 180,
         "wires": [
@@ -25214,6 +25459,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 300,
         "y": 600,
         "wires": [
@@ -25237,6 +25483,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 300,
         "y": 640,
         "wires": [
@@ -25257,6 +25504,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 150,
         "y": 100,
         "wires": [
@@ -25318,6 +25566,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 100,
         "y": 220,
         "wires": [
@@ -25494,6 +25743,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 610,
         "y": 480,
         "wires": [
@@ -25799,6 +26049,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 2240,
         "y": 120,
         "wires": [
@@ -25877,6 +26128,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 240,
         "y": 620,
         "wires": [
@@ -25915,6 +26167,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1290,
         "y": 1020,
         "wires": [
@@ -25934,6 +26187,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 1300,
         "y": 1060,
         "wires": [
@@ -26316,6 +26570,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 420,
         "y": 140,
         "wires": [
@@ -26418,6 +26673,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 170,
         "y": 120,
         "wires": [
@@ -26438,6 +26694,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 180,
         "y": 160,
         "wires": [
@@ -26458,6 +26715,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 150,
         "y": 200,
         "wires": [
@@ -26478,6 +26736,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 140,
         "y": 280,
         "wires": [
@@ -26498,6 +26757,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 140,
         "y": 320,
         "wires": [
@@ -26518,6 +26778,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 140,
         "y": 360,
         "wires": [
@@ -26538,6 +26799,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 150,
         "y": 400,
         "wires": [
@@ -26558,6 +26820,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 150,
         "y": 440,
         "wires": [
@@ -26578,6 +26841,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 160,
         "y": 480,
         "wires": [
@@ -26598,6 +26862,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 170,
         "y": 560,
         "wires": [
@@ -26655,6 +26920,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 160,
         "y": 240,
         "wires": [
@@ -26678,6 +26944,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 860,
         "y": 100,
         "wires": [
@@ -26774,6 +27041,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 850,
         "y": 60,
         "wires": [
@@ -27287,6 +27555,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2700.484687805176,
         "y": 367.06058406829834,
         "wires": [
@@ -27306,6 +27575,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2663.111083984375,
         "y": 325.44441318511963,
         "wires": [
@@ -27329,6 +27599,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 350,
         "y": 20,
         "wires": [
@@ -27506,6 +27777,7 @@
         "nl": false,
         "rap": true,
         "rh": 0,
+        "inputs": 0,
         "x": 150,
         "y": 520,
         "wires": [
@@ -27560,6 +27832,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2760,
         "y": 500,
         "wires": [
@@ -27596,6 +27869,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 2787.373603820801,
         "y": 541.6161708831787,
         "wires": [
@@ -27736,6 +28010,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 120,
         "y": 480,
         "wires": [
@@ -27759,6 +28034,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 300,
         "y": 480,
         "wires": [
@@ -27778,6 +28054,7 @@
         "broker": "e779f8d6.7bc2c8",
         "nl": false,
         "rap": false,
+        "inputs": 0,
         "x": 230,
         "y": 780,
         "wires": [
@@ -27832,6 +28109,7 @@
         "qos": "2",
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
+        "inputs": 0,
         "x": 2340,
         "y": 560,
         "wires": [
@@ -27855,6 +28133,7 @@
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
+        "outputs": 1,
         "x": 2690,
         "y": 560,
         "wires": [
@@ -28006,6 +28285,205 @@
         "statusType": "auto",
         "x": 1870,
         "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "e3c3b81e56e85e05",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2f0e35eac08f4877",
+        "type": "inject",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "370ac1748a13b09e",
+                "7146bb396702a991"
+            ]
+        ]
+    },
+    {
+        "id": "370ac1748a13b09e",
+        "type": "http request",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://es.investing.com/equities/tesla-cedears",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "7b5af496b7165515",
+                "56caef33ea026691"
+            ]
+        ]
+    },
+    {
+        "id": "7b5af496b7165515",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "7146bb396702a991",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 2",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7ddcb670231cfd4d",
+        "type": "file",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "filename": "/home/pi/BackUpNodeRed/Cedears.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 830,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56caef33ea026691",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "function 1",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\nif (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    cadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"changePcr\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"_turnover\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    msg = { topic: \"CompTesla\", payload: compra };\n    node.send([msg, null]);\n    msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n}\n// return msg;\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 320,
+        "wires": [
+            [
+                "84a73fbac89d9b4f",
+                "927cf5fcd14fa782"
+            ],
+            [
+                "5a0adf15f4ed20fa",
+                "963063d6b669006d"
+            ]
+        ]
+    },
+    {
+        "id": "84a73fbac89d9b4f",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5a0adf15f4ed20fa",
+        "type": "blynk-ws-out-write",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "pin": "15",
+        "pinmode": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1100,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "927cf5fcd14fa782",
+        "type": "thingspeak42",
+        "z": "71fbfc8a.29b834",
+        "name": "66XIJL1M2RANNQ7O",
+        "delay": "1",
+        "topic1": "CompTesla",
+        "topic2": "",
+        "topic3": "",
+        "topic4": "",
+        "topic5": "",
+        "topic6": "",
+        "topic7": "",
+        "topic8": "",
+        "endpoint": "https://thingspeak.com",
+        "x": 1120,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "963063d6b669006d",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 380,
         "wires": []
     }
 ]
