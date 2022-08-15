@@ -13006,8 +13006,8 @@
         "y": 220,
         "wires": [
             [
-                "81271031.4023b",
-                "df2fd2a7.988b8"
+                "df2fd2a7.988b8",
+                "81271031.4023b"
             ],
             [
                 "87898891.bde368"
@@ -13037,7 +13037,7 @@
         "type": "debug",
         "z": "9c63fd61.9908c",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -13625,9 +13625,42 @@
         "y": 820,
         "wires": [
             [
-                "ec4b3f44.8373f"
+                "ec4b3f44.8373f",
+                "64255fe604bc5e81",
+                "1cc752b6d78210b7"
             ]
         ]
+    },
+    {
+        "id": "64255fe604bc5e81",
+        "type": "file",
+        "z": "9c63fd61.9908c",
+        "name": "back datos termo",
+        "filename": "/home/pi/BackUpNodeRed/resguardo.txt",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "x": 1610,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1cc752b6d78210b7",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1660,
+        "y": 860,
+        "wires": []
     },
     {
         "id": "1718f5e3.66efaa",
