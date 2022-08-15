@@ -133,14 +133,6 @@
         "info": ""
     },
     {
-        "id": "e3c3b81e56e85e05",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "f932890b.a73458",
         "type": "ui_base",
         "theme": {
@@ -13640,7 +13632,7 @@
         "appendNewline": false,
         "createDir": true,
         "overwriteFile": "true",
-        "x": 1610,
+        "x": 1630,
         "y": 820,
         "wires": [
             []
