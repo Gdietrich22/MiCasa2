@@ -1674,6 +1674,18 @@
         "type": "inject",
         "z": "17cadfaf.12d97",
         "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
         "repeat": "15",
         "crontab": "",
         "once": false,
@@ -12979,7 +12991,8 @@
         "y": 160,
         "wires": [
             [
-                "c0d014d5.a92f68"
+                "c0d014d5.a92f68",
+                "dcb86282e367774b"
             ]
         ]
     },
@@ -12988,7 +13001,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "var dato = 0;\n\n\nif (parseInt(msg.pin) === 80 || parseInt(msg.pin) === 201){global.set(\"estBombaPileta\", msg.payload);}\nif (parseInt(msg.pin) === 81){global.set(\"reflectorPatio\", msg.payload);}\nif (parseInt(msg.pin) === 82){global.set(\"luzDeck\", msg.payload);}\nif (parseInt(msg.pin) === 83){global.set(\"estLuzPileta\", msg.payload);}\nif (parseInt(msg.pin) === 84){global.set(\"reflectorDeck\", msg.payload);}\n\nif (msg.topic == \"ESP/Pileta/Envio\"){\n  dato = msg.payload.split(\"#\");\n  global.set(\"reflectorPatio\", dato[0]);\n  global.set(\"luzDeck\", dato[1]);\n  global.set(\"reflectorDeck\", dato[2]);\n  global.set(\"estLuzPileta\", dato[3]);\n  global.set(\"estBombaPileta\", parseInt(dato[4]));  \n  msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n  msg = {pin: 81, payload: global.get(\"reflectorPatio\")}; node.send([null, msg]);\n  msg = {pin: 82, payload: global.get(\"luzDeck\")}; node.send([null, msg]);\n  msg = {pin: 83, payload: global.get(\"estLuzPileta\")}; node.send([null, msg]);\n  msg = {pin: 84, payload: global.get(\"reflectorDeck\")}; node.send([null, msg]);\n  return;\n}\n\ndato = global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"reflectorDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\ndato = dato + global.get(\"estLuzPileta\") + \"#\";\ndato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\ndato = dato + global.get(\"PiletaR\") + \"#\";\ndato = dato + global.get(\"PiletaG\") + \"#\";\ndato = dato + global.get(\"PiletaB\") + \"#\";\ndato = dato + \"1#\";\ndato = dato + global.get(\"minRandomPileta\") + \"#\";\ndato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\ndato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "func": "var dato = 0;\n\n\nif (parseInt(msg.pin) === 80){global.set(\"estBombaPileta\", msg.payload);}\nif (parseInt(msg.pin) === 81){global.set(\"reflectorPatio\", msg.payload);}\nif (parseInt(msg.pin) === 82){global.set(\"luzDeck\", msg.payload);}\nif (parseInt(msg.pin) === 83){global.set(\"estLuzPileta\", msg.payload);}\nif (parseInt(msg.pin) === 84){global.set(\"reflectorDeck\", msg.payload);}\n\nif (parseInt(msg.pin) === 201){\n    global.set(\"estBombaPileta\", msg.payload);\n    msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n}\n\nif (msg.topic == \"ESP/Pileta/Envio\"){\n  dato = msg.payload.split(\"#\");\n  global.set(\"reflectorPatio\", dato[0]);\n  global.set(\"luzDeck\", dato[1]);\n  global.set(\"reflectorDeck\", dato[2]);\n  global.set(\"estLuzPileta\", dato[3]);\n  global.set(\"estBombaPileta\", parseInt(dato[4]));  \n  msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n  msg = {pin: 81, payload: global.get(\"reflectorPatio\")}; node.send([null, msg]);\n  msg = {pin: 82, payload: global.get(\"luzDeck\")}; node.send([null, msg]);\n  msg = {pin: 83, payload: global.get(\"estLuzPileta\")}; node.send([null, msg]);\n  msg = {pin: 84, payload: global.get(\"reflectorDeck\")}; node.send([null, msg]);\n  return;\n}\n\ndato = global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"reflectorDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\ndato = dato + global.get(\"estLuzPileta\") + \"#\";\ndato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\ndato = dato + global.get(\"PiletaR\") + \"#\";\ndato = dato + global.get(\"PiletaG\") + \"#\";\ndato = dato + global.get(\"PiletaB\") + \"#\";\ndato = dato + \"1#\";\ndato = dato + global.get(\"minRandomPileta\") + \"#\";\ndato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\ndato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -13652,6 +13665,22 @@
         "statusType": "auto",
         "x": 1660,
         "y": 860,
+        "wires": []
+    },
+    {
+        "id": "dcb86282e367774b",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2480,
+        "y": 160,
         "wires": []
     },
     {
