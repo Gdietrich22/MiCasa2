@@ -26255,7 +26255,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    cadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"changePcr\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"_turnover\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    msg = { topic: \"CompTesla\", payload: compra };\n    node.send([msg, null]);\n    msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    cadena = cadena.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"changePcr\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"_turnover\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var volumen = cadena.substring(0, cadena.indexOf(\"}\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    compra.replace(',', '.')\n    msg = { topic: \"CompTesla\", payload: compra };\n    node.send([msg, null]);\n    msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26364,7 +26364,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    msg = { topic: \"CompGoogle\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompGoogle\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26374,7 +26374,8 @@
         "y": 480,
         "wires": [
             [
-                "927cf5fcd14fa782"
+                "927cf5fcd14fa782",
+                "655d04ed209aead3"
             ],
             [
                 "1654923adb42a534",
@@ -26459,6 +26460,23 @@
                 "99eefb3b861ad601"
             ]
         ]
+    },
+    {
+        "id": "655d04ed209aead3",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 400,
+        "wires": []
     },
     {
         "id": "ea1cc8d4.05f188",
