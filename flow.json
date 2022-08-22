@@ -114,7 +114,7 @@
     {
         "id": "71fbfc8a.29b834",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Cedears",
         "disabled": false,
         "info": ""
     },
@@ -15869,9 +15869,7 @@
         "x": 408.6666259765625,
         "y": 479.00000953674316,
         "wires": [
-            [
-                "eb9007a.8c8bff8"
-            ]
+            []
         ]
     },
     {
@@ -16347,7 +16345,6 @@
         "y": 733.4285719735282,
         "wires": [
             [
-                "bb713a62.b0fdf8",
                 "db8d29a9.395938"
             ]
         ]
@@ -26293,7 +26290,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "15",
+        "pin": "120",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26313,7 +26310,7 @@
         "topic5": "CompMercadolibre",
         "topic6": "CompMSCI",
         "topic7": "CompVista",
-        "topic8": "",
+        "topic8": "CompSpotify",
         "endpoint": "https://thingspeak.com",
         "x": 1320,
         "y": 380,
@@ -26362,7 +26359,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompGoogle\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompGoogle\", payload: ultimoPrecio};\n    flow.set(\"por2\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26410,7 +26407,9 @@
                 "6dda8b889d7711f1",
                 "0150d37326678e16",
                 "dbebcb3fa5b1e293",
-                "36c9b3c3a8a9bab7"
+                "36c9b3c3a8a9bab7",
+                "a7dec11047a3a33c",
+                "f358d7d8734af4b4"
             ]
         ]
     },
@@ -26419,7 +26418,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "16",
+        "pin": "121",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26447,7 +26446,9 @@
                 "6dda8b889d7711f1",
                 "0150d37326678e16",
                 "dbebcb3fa5b1e293",
-                "36c9b3c3a8a9bab7"
+                "36c9b3c3a8a9bab7",
+                "a7dec11047a3a33c",
+                "f358d7d8734af4b4"
             ]
         ]
     },
@@ -26478,7 +26479,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompNvidia\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompNvidia\", payload: ultimoPrecio};\n    flow.set(\"por3\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26500,7 +26501,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "17",
+        "pin": "122",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26534,7 +26535,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompCoinBase\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompCoinBase\", payload: ultimoPrecio};\n    flow.set(\"por4\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26556,7 +26557,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "30",
+        "pin": "123",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26590,7 +26591,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompTesla\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    \n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.')\n    msg = { topic: \"CompTesla\", payload: ultimoPrecio};\n    flow.set(\"por1\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26634,7 +26635,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompMercadolibre\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompMercadolibre\", payload: ultimoPrecio};\n    flow.set(\"por5\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26696,7 +26697,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "31",
+        "pin": "124",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26730,7 +26731,7 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompMSCI\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompMSCI\", payload: ultimoPrecio};\n    flow.set(\"por6\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
@@ -26752,7 +26753,7 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "32",
+        "pin": "125",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
@@ -26773,8 +26774,8 @@
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 880,
-        "y": 680,
+        "x": 890,
+        "y": 800,
         "wires": [
             [
                 "0c8aa9363cac9bb2"
@@ -26786,14 +26787,14 @@
         "type": "function",
         "z": "71fbfc8a.29b834",
         "name": "function 1",
-        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"ultimo&quot\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"variacion&quot\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.')\n    msg = { topic: \"CompVista\", payload: ultimoPrecio};\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"ultimo&quot\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"variacion&quot\"));\n    cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\",\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompVista\", payload: ultimoPrecio};\n    flow.set(\"por8\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 1040,
-        "y": 680,
+        "y": 800,
         "wires": [
             [
                 "927cf5fcd14fa782"
@@ -26808,11 +26809,174 @@
         "type": "blynk-ws-out-write",
         "z": "71fbfc8a.29b834",
         "name": "",
-        "pin": "33",
+        "pin": "127",
+        "pinmode": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1260,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "a7dec11047a3a33c",
+        "type": "http request",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://iol.invertironline.com/titulo/cotizacion/BCBA/SPOT/SPOTIFY-TECHNOLOGY-S.A./",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 870,
+        "y": 680,
+        "wires": [
+            [
+                "88da030e26ff24f6"
+            ]
+        ]
+    },
+    {
+        "id": "88da030e26ff24f6",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "function 1",
+        "func": "var date = new Date();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar dia = date.getDay();\n\nvar cadena = msg.payload;\n\n\n// if (hh > 10 && hh < 17 && dia > 0 && dia < 6) {\n    // cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n\n    cadena = cadena.substring(cadena.indexOf(\"UltimoPrecio\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var ultimoPrecio = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n//tar\n    // cadena = cadena.substring(cadena.indexOf(\"VariacionPuntos\"));\n    cadena = cadena.substring(cadena.indexOf(\"tar\"));\n    cadena = cadena.substring(cadena.indexOf(\">\") + 1);\n    var por = cadena.substring(0, cadena.indexOf(\"<\"));\n    // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"instrumentId\"));\n    // cadena = cadena.substring(cadena.indexOf(\"bid\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var compra = cadena.substring(0, cadena.indexOf(\",\"));\n    // // cadena = cadena.substring(0, cadena.indexOf(\",\"));\n\n\n    // cadena = cadena.substring(cadena.indexOf(\"ask\"));\n    // cadena = cadena.substring(cadena.indexOf(\":\") + 1);\n    // var venta = cadena.substring(0, cadena.indexOf(\"}\"));\n\n    // msg.payload = cadena;//.substring(cadena.indexOf(\"changePercentDecimalPrecision\"));\n    // msg.payload = \"$\" + compra + \" - $\" + venta + \" (\" + por + \")%\";\n    //- V: \" + volumen;\n    // msg = { topic: \"temperaturaTermo\", payload: global.get(\"tempTermoFin\") }; node.send([msg, null, null]);\n    ultimoPrecio = ultimoPrecio.replace(',', '.');\n    por = por.replace(',', '.');\n    msg = { topic: \"CompSpotify\", payload: ultimoPrecio};\n    flow.set(\"por7\", por);\n    node.send([msg, null]);\n    msg.payload = \"$\" + ultimoPrecio + \" (\" + por + \")%\";//\" - $\" + venta + \" (\" + por + \")%\";\n    node.send([null, msg]);\n\n// }\n// return msg;\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 680,
+        "wires": [
+            [
+                "927cf5fcd14fa782"
+            ],
+            [
+                "c92f0a9d33b285c0"
+            ]
+        ]
+    },
+    {
+        "id": "c92f0a9d33b285c0",
+        "type": "blynk-ws-out-write",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "pin": "126",
         "pinmode": 0,
         "client": "2c18e412.5f5cbc",
         "x": 1260,
         "y": 700,
+        "wires": []
+    },
+    {
+        "id": "486da5589a7d5fb4",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "func": "var dato = 0;\nif (msg.pin == 150){\n    global.set(\"maximo\", parseFloat(msg.payload));\n    return;\n}\nvar pp = parseFloat(global.get(\"maximo\"));\n\nif (parseFloat(flow.get(\"por4\")) < -pp || parseFloat(flow.get(\"por4\")) > pp)dato++;\n\nif (dato != 0){\n    msg.payload = \"hay cedears para compra o venta\";\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 940,
+        "wires": [
+            [
+                "c757dd77dc4dbb92",
+                "3ff54edd232f709d"
+            ]
+        ]
+    },
+    {
+        "id": "f358d7d8734af4b4",
+        "type": "delay",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 940,
+        "wires": [
+            [
+                "486da5589a7d5fb4",
+                "913b867f9715f25f"
+            ]
+        ]
+    },
+    {
+        "id": "3ff54edd232f709d",
+        "type": "blynk-ws-out-notify",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "client": "2c18e412.5f5cbc",
+        "queue": false,
+        "rate": 1,
+        "x": 1050,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "2c53d15b1d6774cf",
+        "type": "blynk-ws-in-write",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "pin": "150",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 700,
+        "y": 880,
+        "wires": [
+            [
+                "486da5589a7d5fb4",
+                "c757dd77dc4dbb92"
+            ]
+        ]
+    },
+    {
+        "id": "c757dd77dc4dbb92",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "913b867f9715f25f",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 1000,
         "wires": []
     },
     {
