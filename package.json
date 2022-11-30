@@ -2,7 +2,13 @@
     "name": "MiCasa2",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-node-pi-gpio": "2.0.5",
+        "node-red-node-ping": "0.3.3",
+        "node-red-contrib-thingspeak42": "0.1.4",
+        "node-red-dashboard": "3.2.3",
+        "node-red-contrib-blynk-ws": "1.0.7"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flow.json",
