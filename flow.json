@@ -28780,8 +28780,8 @@
         "y": 20,
         "wires": [
             [
-                "fcfe1a44.557908",
-                "b95a8f92.42a45"
+                "b95a8f92.42a45",
+                "fcfe1a44.557908"
             ]
         ]
     },
@@ -29141,7 +29141,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "if (parseInt(msg.payload) === 1){\n    var cadena = \"\\nGastonTP:\\n\";\n    cadena +=       \"senalPatioLuz:   \" + global.get(\"senalPatioLuz\") + \"\\n\";\n    cadena +=       \"senalLavadero:   \" + global.get(\"senalLavadero\") + \"\\n\";    \n    cadena +=       \"senalCocina:     \" + global.get(\"senalCocina\") + \"\\n\";\n    cadena +=       \"senalBano:       \" + global.get(\"senalBano\") + \"\\n\";\n    cadena +=       \"senalLiving:     \" + global.get(\"senalLiving\") + \"\\n\";\n    cadena += \"\\nRep_TermoSolar:\\n\";\n    cadena +=       \"senalTanque:     \" + global.get(\"senalTanque\") + \"\\n\";\n    cadena +=       \"senalTermoSolar: \" + global.get(\"senalTermoSolar\") + \"\\n\";\n    cadena +=       \"senalEscaleras:  \" + global.get(\"senalEscaleras\") + \"\\n\"; \n    cadena +=       \"senalPorche:     \" + global.get(\"senalPorche\") + \"\\n\";\n    cadena +=       \"senalPileta:     \" + global.get(\"senalPileta\") + \"\\n\";\n    cadena +=       \"senalCaldera:    \" + global.get(\"senalCaldera\") + \"\\n\";\n    cadena +=       \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\n    msg.payload = cadena;\n    return msg\n}",
+        "func": "if (parseInt(msg.payload) === 1){\n    var cadena = \"\\nGastonTP:\\n\";\n    cadena += \"senalPatioLuz:   \" + global.get(\"senalPatioLuz\") + \"\\n\";\n    cadena += \"senalTanque:     \" + global.get(\"senalTanque\") + \"\\n\";\n    cadena += \"senalPorche:     \" + global.get(\"senalPorche\") + \"\\n\";\n    cadena += \"senalLavadero:   \" + global.get(\"senalLavadero\") + \"\\n\";   \n    cadena += \"senalTermoSolar: \" + global.get(\"senalTermoSolar\") + \"\\n\"; \n    cadena += \"senalPergolaAuto:\" + global.get(\"senalEscaleras\") + \"\\n\"; \n    cadena += \"senalCocina:     \" + global.get(\"senalCocina\") + \"\\n\";\n    cadena += \"senalBano:       \" + global.get(\"senalBano\") + \"\\n\";\n    cadena += \"senalLiving:     \" + global.get(\"senalLiving\") + \"\\n\";\n    cadena += \"senalPileta:     \" + global.get(\"senalPileta\") + \"\\n\\n\";\n    cadena += \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\n    msg.payload = cadena;\n    return msg\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -29391,7 +29391,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -29487,7 +29487,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -29535,7 +29535,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -29839,7 +29839,7 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "if (global.get(\"estado-TanqueAgua\") === undefined)global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined)global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined)global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined)global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined)global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined)global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined)global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined)global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\nif (global.get(\"estado-Cocina\") === undefined)global.set(\"estado-Cocina\", null);\n// if (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\n\nif (msg.payload == \"0\")return;\n// node.send(msg.payload);\nmsg.payload = \"\";\nvar i = 0;\nfor (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\nnode.send(msg);\n\nmsg = \"GastonTP:\\n\";\nmsg += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");\nmsg += \"Lav.    : \" + global.get(\"estado-Lavadero\");\nmsg += \"Cocina  : \" + global.get(\"estado-Cocina\");\nmsg += \"Bano    : \" + global.get(\"estado-Bano\");\nmsg += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");\nmsg += \"\\nRep_TermoSolar:\\n\";\nmsg +=  \"Tanque  : \" + global.get(\"estado-TanqueAgua\");\nmsg += \"Termo   : \" + global.get(\"estado-TermoSolar\");\nmsg += \"Escalera: \" + global.get(\"estado-Escaleras\");\nmsg += \"Porche  : \" + global.get(\"estado-Porche\");\nmsg += \"Deck    : \" + global.get(\"estado-estadoDeck\");\nmsg += \"Caldera : \" + global.get(\"estado-estadoCaldera\");\nmsg += \"\\n\";\n\nmsg = {topic: \"terminalBlynk\", payload: msg};\nnode.send(msg);",
+        "func": "if (global.get(\"estado-TanqueAgua\") === undefined)global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined)global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined)global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined)global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined)global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined)global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined)global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined)global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\nif (global.get(\"estado-Cocina\") === undefined)global.set(\"estado-Cocina\", null);\n// if (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\n\nif (msg.payload == \"0\")return;\n// node.send(msg.payload);\nmsg.payload = \"\";\nvar i = 0;\nfor (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\nnode.send(msg);\n\nmsg = \"GastonTP:\\n\";\nmsg += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");\nmsg += \"Tanque  : \" + global.get(\"estado-TanqueAgua\");\nmsg += \"Porche  : \" + global.get(\"estado-Porche\");\nmsg += \"Lav.    : \" + global.get(\"estado-Lavadero\");\nmsg += \"Termo   : \" + global.get(\"estado-TermoSolar\");\nmsg += \"PergAuto: \" + global.get(\"estado-Escaleras\");\nmsg += \"Cocina  : \" + global.get(\"estado-Cocina\");\nmsg += \"Bano    : \" + global.get(\"estado-Bano\");\nmsg += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");\nmsg += \"DeckPil : \" + global.get(\"estado-estadoDeck\");\nmsg += \"\\n\";\n\nmsg = {topic: \"terminalBlynk\", payload: msg};\nnode.send(msg);",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
