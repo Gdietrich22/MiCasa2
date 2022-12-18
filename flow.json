@@ -12694,7 +12694,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "if (msg.payload == \"1\") {\n    msg.payload = global.get(\"fechaCompleta\") + \" - Porton\\n\";\n    node.send([null, null, msg]);\n}\nmsg.payload = 1;\nnode.send([msg, null]);\nmsg.payload = 0;\nnode.send([null, msg]);\n",
+        "func": "// var msg = parseInt(msg.payload);\nif (parseInt(msg.payload) === 1) {\n    msg.payload = global.get(\"fechaCompleta\") + \" - Porton\\n\";\n    node.send([null, null, msg]);\n    msg.payload = 1; node.send([msg, null]);\n    msg.payload = 0; node.send([null, msg]);    \n}\n\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
