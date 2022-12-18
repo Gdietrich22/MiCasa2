@@ -14082,6 +14082,52 @@
         "wires": []
     },
     {
+        "id": "b52851252db8c9b0",
+        "type": "file",
+        "z": "9c63fd61.9908c",
+        "name": "borrar porton",
+        "filename": "/home/pi/BackUpNodeRed/porton.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "encoding": "none",
+        "x": 1210,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6d776c1c9b43c65",
+        "type": "inject",
+        "z": "9c63fd61.9908c",
+        "name": "borrar",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1070,
+        "y": 160,
+        "wires": [
+            [
+                "b52851252db8c9b0"
+            ]
+        ]
+    },
+    {
         "id": "1718f5e3.66efaa",
         "type": "mqtt out",
         "z": "a89e305a.c50bb",
