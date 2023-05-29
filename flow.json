@@ -5089,7 +5089,7 @@
         "type": "function",
         "z": "3ce5b54a.127d6a",
         "name": "",
-        "func": "// msg= {topic: \"nivTanque\", payload: global.get(\"nivTanque\")}; node.send(msg);\n// msg= {topic: \"tasaLlenado\", payload: parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)};\n// if (parseInt(global.get(\"llenarTanque\")) === 1){\n//     node.send(msg);\nvar nivel = parseInt(global.get(\"nivTanque\"));\nnivel = (nivel *100)/500;\n    msg = {pin: 33, payload: nivel + \"%\"}; node.send([null, msg]);\n    // msg = {pin: 22, payload: global.get(\"nivTanque\")}; node.send([null, msg]);\n    \n// }\n// if (parseInt(global.get(\"llenarTanque\")) === 0)global.set(\"tasaLlenadoTanque\", 0);\n\n\n\n",
+        "func": "// msg= {topic: \"nivTanque\", payload: global.get(\"nivTanque\")}; node.send(msg);\n// msg= {topic: \"tasaLlenado\", payload: parseFloat(global.get(\"tasaLlenadoTanque\")).toFixed(2)};\n// if (parseInt(global.get(\"llenarTanque\")) === 1){\n//     node.send(msg);\nvar nivel = parseInt(global.get(\"nivTanque\"));\nnivel = (nivel *100)/500;\n    msg = {pin: 33, payload: parseInt(nivel) + \"%\"}; node.send([null, msg]);\n    // msg = {pin: 22, payload: global.get(\"nivTanque\")}; node.send([null, msg]);\n    \n// }\n// if (parseInt(global.get(\"llenarTanque\")) === 0)global.set(\"tasaLlenadoTanque\", 0);\n\n\n\n",
         "outputs": 2,
         "noerr": 0,
         "initialize": "",
