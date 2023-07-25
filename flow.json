@@ -491,14 +491,23 @@
         "type": "inject",
         "z": "50119c6e.6ff584",
         "name": "",
-        "repeat": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
         "crontab": "",
-        "once": false,
+        "once": true,
         "onceDelay": 0.1,
         "topic": "tomarMedicion",
         "payload": "1",
         "payloadType": "str",
-        "x": 154.28571891784668,
+        "x": 164.28571891784668,
         "y": 86.19046211242676,
         "wires": [
             [
@@ -548,9 +557,7 @@
         "x": 164.2857265472412,
         "y": 122.85712432861322,
         "wires": [
-            [
-                "d1bdce06.cc5f9"
-            ]
+            []
         ]
     },
     {
@@ -598,7 +605,7 @@
         "type": "debug",
         "z": "50119c6e.6ff584",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -15934,555 +15941,303 @@
         ]
     },
     {
-        "id": "c4d6adc9.7d5d7",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "msg.payload = msg.payload.replace(\",\", \".\");\nglobal.set(\"MaximoVender\", parseFloat(msg.payload).toFixed(2));\nnode.status({text: \"MaximoVender:\" + global.get(\"MaximoVender\")});\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 460,
-        "y": 160,
-        "wires": [
-            [
-                "33996b47.4d3bc4"
-            ]
-        ]
-    },
-    {
-        "id": "b9c8c2ba.5fe5c",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "msg.payload = msg.payload.replace(\",\", \".\");\nglobal.set(\"MinimoVender\", parseFloat(msg.payload).toFixed(2));\nnode.status({text: \"MinimoVender:\" + global.get(\"MinimoVender\")});\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 459.9999694824219,
-        "y": 110.00000095367432,
-        "wires": [
-            [
-                "33996b47.4d3bc4"
-            ]
-        ]
-    },
-    {
-        "id": "57eb3056.92d7d",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "Patagonia",
-        "func": "var dolarCompra;\nvar dolarVenta;\nvar payload = msg.payload;\nvar compra;\nvar venta;\n\npayload = payload.substring(payload.indexOf(\"nbsp\")+5); compra = payload.substring(0, payload.indexOf(\"</td>\"));\npayload = payload.substring(payload.indexOf(\"nbsp\")+5); venta = payload.substring(0, payload.indexOf(\"</td>\"));\n\ncompra = compra.replace(\",\", \".\");\nventa = venta.replace(\",\", \".\");\n\ncompra = parseFloat(compra).toFixed(2);\nventa = parseFloat(venta).toFixed(2);\n\nmsg = {pin:65, payload: \"$ \"+compra + \"  --  \" + \"$ \" + venta};\nreturn msg",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 374.1666717529297,
-        "y": 466.1111316680908,
-        "wires": [
-            [
-                "21fc9b0b.e0f5b4",
-                "9f8c863a.5e4538"
-            ]
-        ]
-    },
-    {
-        "id": "5d42fd8.e980404",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "Dolar",
-        "func": "var dolarCompra;\nvar dolarVenta;\nvar payload = msg.payload;\nvar compra;\nvar venta;\ncontext.minimo = context.minimo || 0;\ncontext.maximo = context.maximo || 0;\ncontext.minimoVender = context.minimoVender || 0;\ncontext.maximoVender = context.maximoVender || 0;\ncontext.comprarDolares = context.comprarDolares || 0;\ncontext.comprarDolaresCaro = context.comprarDolaresCaro || 0;\nvar datos;\nvar date = new Date();\nvar frecuencia = 15;\nvar dia = date.getDay();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nif (hh===0 && mm===0 && ss===0){\n    context.minimo = 100;\n    context.maximo = 0;\n    context.inicio = 0;\n}\n\npayload = payload.substring(payload.indexOf(\"$\")+2); compra = payload.substring(0, payload.indexOf(\"</t\"));\npayload = payload.substring(payload.indexOf(\"<td>$\")+5); venta = payload.substring(0, payload.indexOf(\"</t\"));\n\nif (parseFloat(compra) === 0 || compra === undefined) return;\nif (parseFloat(venta) === 0 || venta === undefined) return;\n\ncompra = compra.replace(\",\", \".\");\nventa = venta.replace(\",\", \".\");\n\ncompra = parseFloat(compra).toFixed(2);\nventa = parseFloat(venta).toFixed(2);\n\nglobal.set(\"DolarOff\", compra);\n\nmsg = {pin: 55, payload: \"$ \"+compra + \"  --  \" + \"$ \" + venta}; node.send([null, null, null, msg]);\n// msg = {pin: 53, payload: compra}; node.send([null, null, null, msg]);\n// msg = {pin: 54, payload: venta}; node.send([null, null, null, msg]);\n\n\nmsg = {topic: \"DolarVenta\", payload: venta}; node.send([msg, null, null, null]);\nmsg = {topic: \"DolarCompra\", payload: compra}; node.send([msg, null, null, null]);\n\nif (parseFloat(global.get(\"MinimoVender\")) > parseFloat(compra) && parseFloat(context.minimoVender) != parseFloat(compra)){\n\tcontext.minimoVender = compra;\n    datos = \"Dolar muy bajo opcion a Vender, valor: \" + compra;//Dolar Bajo opcion a Comprar, valor: \n    msg = {payload: datos}; node.send([null, msg, null, null]);\n    msg = {topic: \"notifyBlynk\", payload: datos}; node.send([null, null, msg, null]);\t\n} \n\nif (parseFloat(global.get(\"MaximoVender\")) < parseFloat(compra) && parseFloat(context.maximoVender) != parseFloat(compra)){    //diferenciaCompraVenta\n    context.maximoVender = compra;\n    datos = \"Dolar Alto opcion a Vender, valor: \" + compra;//Dolar Bajo opcion a Comprar, valor: \n    msg = {payload: datos}; node.send([null, msg, null, null]);\n    msg = {topic: \"notifyBlynk\", payload: datos}; node.send([null, null, msg, null]);\n}\n// if (hh > 9 && hh < 17 && parseFloat(dato.libre) < parseFloat(context.maximo)){\n// if (parseFloat(global.get(\"compreA\")) + parseFloat(global.get(\"diferenciaCompraVenta\") < parseFloat(compra)){    // compre a 39.04\nif (parseFloat(global.get(\"MinimoComprar\")) > parseFloat(venta) && parseFloat(context.comprarDolares) != parseFloat(venta)){    // compre a 39.04    \n    context.comprarDolares = venta;\n    datos = \"Dolar Bajo opcion a Comprar, valor: \" + venta;\n    msg = {payload: datos}; node.send([null, msg, null, null]);\n    msg = {topic: \"notifyBlynk\", payload: datos}; node.send([null, null, msg, null]);\n}\n\nif (parseFloat(global.get(\"MaximoComprar\")) < parseFloat(venta) && parseFloat(context.comprarDolaresCaro) != parseFloat(venta)){    //diferenciaCompraVenta\n    context.comprarDolaresCaro = venta;\n    datos = \"Dolar Muy Alto tener en cuenta compra, valor: \" + venta;//Dolar Bajo opcion a Comprar, valor: \n    msg = {payload: datos}; node.send([null, msg, null, null]);\n    msg = {topic: \"notifyBlynk\", payload: datos}; node.send([null, null, msg, null]);\n}",
-        "outputs": 4,
-        "noerr": 0,
-        "x": 566.8689880371094,
-        "y": 302.8452727198601,
-        "wires": [
-            [
-                "a1a99fe7.8ba95",
-                "c73e087.839dbf8"
-            ],
-            [
-                "a3758cc8.3858d",
-                "5017e9e.15ea618"
-            ],
-            [
-                "6dfbb0bb.311c",
-                "a28eb446.155258"
-            ],
-            [
-                "2d7d44ee.9b478c",
-                "852f0223.43017"
-            ]
-        ]
-    },
-    {
-        "id": "a1a99fe7.8ba95",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 734.0117874145508,
-        "y": 289.98811119794846,
-        "wires": []
-    },
-    {
-        "id": "21fc9b0b.e0f5b4",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 522.2222442626953,
-        "y": 481.3888568878174,
-        "wires": []
-    },
-    {
-        "id": "a28eb446.155258",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 822.2500076293945,
-        "y": 179.75,
-        "wires": []
-    },
-    {
-        "id": "52e152e0.741aac",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "url": "https://blockchain.info/es/ticker",
-        "tls": "",
-        "x": 449.9166450500488,
-        "y": 406.17859333753586,
-        "wires": [
-            [
-                "38255feb.59b5f"
-            ]
-        ]
-    },
-    {
-        "id": "38255feb.59b5f",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "BTC",
-        "func": "var dato = JSON.parse(msg.payload);\n// dato = JSON.parse(dato);\n\nmsg = dato.USD;\nvar datos = msg.buy;\nmsg = {topic: \"BitCoinUSD\", payload: parseFloat(datos)};\nnode.send(msg);\ndatos = datos * global.get(\"DolarOff\");\nmsg = {topic: \"BitCoinPesos\", payload: parseFloat(datos)};\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 586.9166450500488,
-        "y": 406.17859333753586,
-        "wires": [
-            [
-                "c73e087.839dbf8"
-            ]
-        ]
-    },
-    {
-        "id": "61476039.17e6e",
-        "type": "delay",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "1",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "outputs": 1,
-        "x": 300.9166450500488,
-        "y": 403.17859333753586,
-        "wires": [
-            [
-                "52e152e0.741aac"
-            ]
-        ]
-    },
-    {
-        "id": "f018ada8.127b",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 414.44443702697754,
-        "y": 530.4166431427002,
-        "wires": []
-    },
-    {
-        "id": "6dfbb0bb.311c",
-        "type": "mqtt out",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "e779f8d6.7bc2c8",
-        "x": 762.4166412353516,
-        "y": 407.4285955429077,
-        "wires": []
-    },
-    {
-        "id": "f9da74a9.205d88",
+        "id": "acb93409bdfa033b",
         "type": "inject",
         "z": "e364a467.07a6a8",
         "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 123.27382278442383,
-        "y": 537.0833387374878,
-        "wires": [
-            [
-                "d0d49344.b5b8e"
-            ]
-        ]
-    },
-    {
-        "id": "d0d49344.b5b8e",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "url": "https://ebankpersonas.bancopatagonia.com.ar/eBanking/usuarios/cotizacionMonedaExtranjera.htm",
-        "tls": "",
-        "x": 201.6666717529297,
-        "y": 475.83330059051514,
-        "wires": [
-            [
-                "57eb3056.92d7d",
-                "f018ada8.127b"
-            ]
-        ]
-    },
-    {
-        "id": "ba05388f.9f1eb8",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 633.8690414428711,
-        "y": 200.4166914820671,
-        "wires": []
-    },
-    {
-        "id": "2db45f76.6b1ca",
-        "type": "inject",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "prueba",
-        "payload": "",
-        "payloadType": "date",
-        "x": 215.66665267944336,
-        "y": 334.1785936355591,
-        "wires": [
-            [
-                "373edcf3.9708a4"
-            ]
-        ]
-    },
-    {
-        "id": "ed2c54f5.4dc558",
-        "type": "inject",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "repeat": "1",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 131.8451919555664,
-        "y": 278.45241355895996,
-        "wires": [
-            [
-                "a0fa2226.36519"
-            ]
-        ]
-    },
-    {
-        "id": "a3758cc8.3858d",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 774.9166450500488,
-        "y": 364.17859333753586,
-        "wires": []
-    },
-    {
-        "id": "373edcf3.9708a4",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "url": "https://banco.santanderrio.com.ar/exec/cotizacion/index.jsp",
-        "tls": "",
-        "x": 424.0118713378906,
-        "y": 281.4166962504387,
-        "wires": [
-            [
-                "ba05388f.9f1eb8",
-                "5d42fd8.e980404",
-                "61476039.17e6e",
-                "d0d49344.b5b8e"
-            ]
-        ]
-    },
-    {
-        "id": "852f0223.43017",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "x": 764.7500076293945,
-        "y": 464.75,
-        "wires": []
-    },
-    {
-        "id": "a0fa2226.36519",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "root",
-        "func": "var date = new Date();\nvar frecuencia = 5;\nvar dia = date.getDay();\nvar hh = date.getHours();\nvar mm = date.getMinutes();\nvar ss = date.getSeconds();\nvar tiempo = mm % frecuencia;\nnode.status({text: hh + \":\" + mm + \":\" + ss + \" - \" + tiempo + \" - \" + dia});\nif (dia !== 0 && dia !== 6 && ss === 0 && tiempo === 0){\n\tif (hh > 9 && hh < 18) return msg;\n} \n// if (ss === 0 && tiempo === 0) return msg;\n//){//hh > 9 && hh < 17 && \n //   if (ss === 0 && tiempo === 0) return msg;\n    // if (ss === 0 && tiempo === 0) return msg;\n// }",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 270.4166374206543,
-        "y": 278.9285936355591,
-        "wires": [
-            [
-                "373edcf3.9708a4"
-            ]
-        ]
-    },
-    {
-        "id": "23a53a0d.bc6c56",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "msg.payload = msg.payload.replace(\",\", \".\");\nglobal.set(\"MinimoComprar\", parseFloat(msg.payload).toFixed(2));\nnode.status({text: \"MinimoComprar:\" + global.get(\"MinimoComprar\")});\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 449.47220611572266,
-        "y": 54.50000190734863,
-        "wires": [
-            [
-                "33996b47.4d3bc4"
-            ]
-        ]
-    },
-    {
-        "id": "ebfe9ed0.66ac1",
-        "type": "inject",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "prueba dolar",
-        "payloadType": "str",
-        "x": 578.2222442626953,
-        "y": 365.75000190734863,
-        "wires": [
-            [
-                "5017e9e.15ea618"
-            ]
-        ]
-    },
-    {
-        "id": "5017e9e.15ea618",
-        "type": "link out",
-        "z": "e364a467.07a6a8",
-        "name": "mailDolar",
-        "links": [
-            "294182fd.ac6bbe"
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
         ],
-        "x": 733.2222442626953,
-        "y": 325.75000190734863,
-        "wires": []
-    },
-    {
-        "id": "c73e087.839dbf8",
-        "type": "thingspeak42",
-        "z": "e364a467.07a6a8",
-        "name": "NBKVMGLFCL4MD6XC",
-        "delay": "5",
-        "topic1": "DolarVenta",
-        "topic2": "DolarCompra",
-        "topic3": "BitCoinUSD",
-        "topic4": "BitCoinPesos",
-        "topic5": "",
-        "topic6": "",
-        "topic7": "",
-        "topic8": "",
-        "endpoint": "https://thingspeak.com",
-        "x": 770,
-        "y": 250,
-        "wires": []
-    },
-    {
-        "id": "5fcc8075.23006",
-        "type": "inject",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "repeat": "",
+        "repeat": "120",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 603.5,
-        "y": 32,
+        "x": 130,
+        "y": 40,
         "wires": [
             [
-                "7663d2dd.d9b21c"
+                "64ab8b9d07b44008"
             ]
         ]
     },
     {
-        "id": "7663d2dd.d9b21c",
+        "id": "0f776d38882f55ed",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "AAPL",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/AAPL:NASDAQ?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 100,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "0c97a4a74f013963"
+            ]
+        ]
+    },
+    {
+        "id": "befa2ddc6dd03fcd",
         "type": "function",
         "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "node.status({text: \"MinimoComprar:\" + global.get(\"MinimoComprar\")});",
+        "name": "function 1",
+        "func": "context.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\n\nif (msg.payload == \"fin\") {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send(msg); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send(msg); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    return;\n}\n\nvar payload = msg.payload;\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 732.5,
-        "y": 69,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "6d084c4d.880404",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "msg.payload = msg.payload.replace(\",\", \".\");\nglobal.set(\"MaximoComprar\", parseFloat(msg.payload).toFixed(2));\nnode.status({text: \"MaximoComprar:\" + global.get(\"MaximoComprar\")});\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 410.1388473510742,
-        "y": 213.19444274902344,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 100,
         "wires": [
             [
-                "33996b47.4d3bc4"
+                "b1ca9e11ac725183",
+                "688fa15df5689086"
             ]
         ]
     },
     {
-        "id": "48fcd5d4.e9776c",
-        "type": "file",
-        "z": "e364a467.07a6a8",
-        "name": "IluminacionLiving",
-        "filename": "/home/pi/BackUp-Node-Red/dolar.txt",
-        "appendNewline": false,
-        "createDir": true,
-        "overwriteFile": "true",
-        "x": 776.6666622161865,
-        "y": 126.66666984558105,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "92de1d98.98ef1",
-        "type": "file in",
-        "z": "e364a467.07a6a8",
-        "name": "IluminacionLiving",
-        "filename": "/home/pi/BackUp-Node-Red/dolar.txt",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "x": 1166.6666259765625,
-        "y": 97.77777099609375,
-        "wires": [
-            [
-                "deab6409.34d778",
-                "b21ff3fd.2338d"
-            ]
-        ]
-    },
-    {
-        "id": "deab6409.34d778",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "var dato;\ndato = msg.payload.split(\"#\");\n\nglobal.set(\"MinimoComprar\",dato[0]); msg = {pin: 57, payload: dato[0]}; node.send(msg);\nglobal.set(\"MinimoVender\",dato[1]); msg = {pin: 58, payload: dato[1]}; node.send(msg);\nglobal.set(\"MaximoVender\",dato[2]); msg = {pin: 52, payload: dato[2]}; node.send(msg);\nglobal.set(\"MaximoComprar\",dato[3]); msg = {pin: 59, payload: dato[3]}; node.send(msg);\n\ndato = global.get(\"MinimoComprar\") + \"#\";\ndato += global.get(\"MinimoVender\") + \"#\";\ndato += global.get(\"MaximoVender\") + \"#\";\ndato += global.get(\"MaximoComprar\");  \n\nnode.status({text: dato})\n",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1343.1666259765625,
-        "y": 95.77777099609375,
-        "wires": [
-            [
-                "db11bc39.aa0a4"
-            ]
-        ]
-    },
-    {
-        "id": "b21ff3fd.2338d",
+        "id": "b1ca9e11ac725183",
         "type": "debug",
         "z": "e364a467.07a6a8",
-        "name": "",
-        "active": false,
+        "name": "debug 1",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1390,
-        "y": 160,
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 100,
         "wires": []
     },
     {
-        "id": "28f7991.baeae66",
+        "id": "0c97a4a74f013963",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "YPFD",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/YPFD:BCBA?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "bfb8f3211dde38d7",
+                "befa2ddc6dd03fcd"
+            ]
+        ]
+    },
+    {
+        "id": "bfb8f3211dde38d7",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "VIST",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/VIST:NYSE?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 180,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "1820f4bee058e0fc"
+            ]
+        ]
+    },
+    {
+        "id": "1820f4bee058e0fc",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "NVDA",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/NVDA:BCBA?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "f10804e94a6dd8f0"
+            ]
+        ]
+    },
+    {
+        "id": "f10804e94a6dd8f0",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "COIN",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/COIN:NASDAQ?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 260,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "10b2f1344884e6e2"
+            ]
+        ]
+    },
+    {
+        "id": "10b2f1344884e6e2",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "TSLA",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/TSLA:BCBA?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 300,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "128e46e89c923026"
+            ]
+        ]
+    },
+    {
+        "id": "128e46e89c923026",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "MSFT",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/MSFT:BCBA?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 340,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "6725ec3eb3d0551e"
+            ]
+        ]
+    },
+    {
+        "id": "6725ec3eb3d0551e",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "GOOGL",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/GOOGL:BCBA?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 320,
+        "y": 380,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd",
+                "d36ddf0206bfc165"
+            ]
+        ]
+    },
+    {
+        "id": "d742748aca9ce4bb",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "No Borrar Items Selector CEDEAR",
+        "func": "var label = [];\nlabel[0] = \"AAPL\";\nlabel[1] = \"YPFD\";\nlabel[2] = \"VIST\";\nlabel[3] = \"NVDA\";\nlabel[4] = \"COIN\";\nlabel[5] = \"TSLA\";\nlabel[6] = \"MSFT\";\nlabel[7] = \"GOOG\";\nlabel[8] = \"CVX\";\n// label[9] = \"Pil Casc\";\n// label[10] = \"Luz Bano\";\n// label[11] = \"Luz Espejo Bano\";\n// label[12] = \"Escaleras\";\n// label[13] = \"Refl Pergola\";\n// label[14] = \"Luces pergola\"\n// label[15] = \"Luces Pasada Auto\";\n// label[16] = \"Potencia Porche\";\n// label[17] = \"Potencia Dicroicas Porche\";\n// label[18] = \"Encendido Caldera\";\n// label[19] = \"Reflector Patio\";\n// label[20] = \"Luz Deck\";\n// label[21] = \"Reflector Deck\";\n// label[22] = \"Luz Pileta\";\n// label[23] = \"Bomba Pileta\";\n// label[24] = \"Riego Frente\";\n// label[25] = \"Riego Patio\";\n// label[26] = \"Luz Patio\";\n// label[27] = \"Luces ventanas\";\n// label[28] = \"Luces pilares\";\n// label[29] = \"Luz Esquinero Living\";\n// label[30] = \"Bomba Termo Solar\";\n// label[31] = \"Est Dia\";\n// label[20] = \"Reflector\";\n// label[20] = \"Reflector\";\n\nglobal.set(\"tikers\", label);\nmsg = {pin: 180, labels: label, payload: 1};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 240,
+        "wires": [
+            [
+                "2855fd7bb0fa17de"
+            ]
+        ]
+    },
+    {
+        "id": "6c6201b5378836f3",
         "type": "inject",
         "z": "e364a467.07a6a8",
-        "name": "",
+        "name": "No Borrar Items Selector configuracion",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
         "repeat": "",
         "crontab": "",
         "once": true,
@@ -16490,129 +16245,308 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 991.1666259765625,
-        "y": 97.77777099609375,
+        "x": 750,
+        "y": 200,
         "wires": [
             [
-                "92de1d98.98ef1"
+                "d742748aca9ce4bb"
             ]
         ]
     },
     {
-        "id": "33996b47.4d3bc4",
+        "id": "2855fd7bb0fa17de",
+        "type": "blynk-ws-out-set-property",
+        "z": "e364a467.07a6a8",
+        "name": "Pin v180",
+        "pin": 0,
+        "pinmode": "1",
+        "prop": "bycode",
+        "client": "2c18e412.5f5cbc",
+        "x": 680,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "aaad7a63a57c8220",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "180",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 520,
+        "y": 360,
+        "wires": [
+            [
+                "586c1efac8069312"
+            ]
+        ]
+    },
+    {
+        "id": "f3b20107f72fbefd",
+        "type": "inject",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 540,
+        "y": 540,
+        "wires": [
+            [
+                "17e66605c43ba9d4"
+            ]
+        ]
+    },
+    {
+        "id": "17e66605c43ba9d4",
         "type": "function",
         "z": "e364a467.07a6a8",
-        "name": "",
-        "func": "msg.payload = global.get(\"MinimoComprar\") + \"#\" + global.get(\"MinimoVender\") + \"#\" + global.get(\"MaximoVender\") + \"#\" + global.get(\"MaximoComprar\");\nreturn msg;",
+        "name": "function 8",
+        "func": "\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 616.1111111111111,
-        "y": 125.55555555555556,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 540,
         "wires": [
             [
-                "48fcd5d4.e9776c"
+                "1d7c2badc0458a44"
             ]
         ]
     },
     {
-        "id": "455e965f.effd68",
-        "type": "blynk-ws-in-write",
+        "id": "1d7c2badc0458a44",
+        "type": "debug",
         "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "58",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 252.4999771118164,
-        "y": 106.25000095367432,
-        "wires": [
-            [
-                "b9c8c2ba.5fe5c"
-            ]
-        ]
-    },
-    {
-        "id": "c0ac8ea4.256ab",
-        "type": "blynk-ws-in-write",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "52",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 252.50000762939453,
-        "y": 156.25,
-        "wires": [
-            [
-                "c4d6adc9.7d5d7"
-            ]
-        ]
-    },
-    {
-        "id": "8b4d983f.4cde68",
-        "type": "blynk-ws-in-write",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "57",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 248.2222442626953,
-        "y": 55.75000190734863,
-        "wires": [
-            [
-                "23a53a0d.bc6c56"
-            ]
-        ]
-    },
-    {
-        "id": "a68012d9.8ecc1",
-        "type": "blynk-ws-in-write",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "59",
-        "pin_all": 0,
-        "client": "2c18e412.5f5cbc",
-        "x": 208.88888549804688,
-        "y": 214.44444274902344,
-        "wires": [
-            [
-                "6d084c4d.880404"
-            ]
-        ]
-    },
-    {
-        "id": "9f8c863a.5e4538",
-        "type": "blynk-ws-out-write",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "65",
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 677.0833206176758,
-        "y": 561.5277709960938,
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "2d7d44ee.9b478c",
+        "id": "586c1efac8069312",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "function 9",
+        "func": "\nvar payload = parseFloat(msg.payload);\nvar pin = parseInt(msg.pin);\nif (pin === 180) {\n    flow.set(\"item\", parseInt(msg.payload) - 1);\n}\nvar item = global.get(\"tikers\")[flow.get(\"item\")];\n\nswitch (pin) {\n    case 180:\n        payload = \" Valor actual de \" + item + \": \" + global.get(\"valor\" + item) + \"\\n\";\n        msg = { pin: 181, payload: payload }; node.send(msg);\n        msg = { pin: 182, payload: \"Compre el \" + global.get(\"fechaCompra\" + item) + \" a: \" + global.get(\"valorCompra\" + item) }; node.send(msg);\n        msg = { pin: 183, payload: global.get(\"min\" + item) }; node.send(msg);\n        msg = { pin: 184, payload: global.get(\"max\" + item) }; node.send(msg);\n        msg = { pin: 185, payload: global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n        break;\n    case 182:\n        // msg.payload = payload; node.send(msg);\n        global.set(\"min\" + item, payload);\n        // msg = { pin: 181, payload: payload };\n        // msg.payload = item + \"--\" + payload;\n        return;\n    case 183:\n        global.set(\"max\" + item, payload);\n        // msg.payload = item + \"--\" + payload;\n        return;\n    case 184:\n        global.set(\"fechaCompra\" + item, \"Compre el \" + global.get(\"fechaQuinela\") + \" a: \");\n        global.set(\"valorCompra\" + item, payload);\n        return;\n}\n\n// if (parseFloat(valor) > parseFloat(global.get(\"max\" + tiker))){\n//     msg.payload = \"Opcion a venta de \"  + tiker;\n//     return msg;\n// }\n// if (parseFloat(valor) < parseFloat(global.get(\"min\" + tiker))) {\n//     msg.payload = \"Opcion a compra de \" + tiker;\n//     return msg;\n// }",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 400,
+        "wires": [
+            [
+                "5d0e1aeaa39f56df",
+                "d688c698034fd4c0"
+            ]
+        ]
+    },
+    {
+        "id": "5d0e1aeaa39f56df",
         "type": "blynk-ws-out-write",
         "z": "e364a467.07a6a8",
         "name": "",
-        "pin": "55",
+        "pin": "182",
         "pinmode": "1",
         "client": "2c18e412.5f5cbc",
-        "x": 806.5000076293945,
-        "y": 511.25,
+        "x": 890,
+        "y": 400,
         "wires": []
     },
     {
-        "id": "db11bc39.aa0a4",
-        "type": "blynk-ws-out-write",
+        "id": "80f29c445d92a0ea",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "function 10",
+        "func": "msg.payload = \"fin\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 540,
+        "wires": [
+            [
+                "befa2ddc6dd03fcd"
+            ]
+        ]
+    },
+    {
+        "id": "32b4b0e4a99a6e6a",
+        "type": "blynk-ws-in-write",
         "z": "e364a467.07a6a8",
         "name": "",
-        "pin": "0",
-        "pinmode": "1",
+        "pin": "182",
+        "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 1530,
-        "y": 80,
+        "x": 520,
+        "y": 400,
+        "wires": [
+            [
+                "586c1efac8069312",
+                "d688c698034fd4c0"
+            ]
+        ]
+    },
+    {
+        "id": "ffd1d26c43e04189",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "183",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 520,
+        "y": 440,
+        "wires": [
+            [
+                "586c1efac8069312"
+            ]
+        ]
+    },
+    {
+        "id": "688fa15df5689086",
+        "type": "blynk-ws-out-notify",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "client": "2c18e412.5f5cbc",
+        "queue": false,
+        "rate": 5,
+        "x": 690,
+        "y": 60,
         "wires": []
+    },
+    {
+        "id": "64ab8b9d07b44008",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "timer",
+        "func": "var date = new Date();\nvar hh = parseInt(date.getHours());\nvar mm = parseInt(date.getMinutes());\nvar dia = parseInt(date.getDay()); \n\nif (dia > 0 && dia < 7 && hh > 9 && hh < 18){\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 40,
+        "wires": [
+            [
+                "0f776d38882f55ed"
+            ]
+        ]
+    },
+    {
+        "id": "d36ddf0206bfc165",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "CVX",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/CVX:NYSE?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 310,
+        "y": 420,
+        "wires": [
+            [
+                "80f29c445d92a0ea",
+                "befa2ddc6dd03fcd"
+            ]
+        ]
+    },
+    {
+        "id": "992a2d4d231dee57",
+        "type": "inject",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "0f776d38882f55ed"
+            ]
+        ]
+    },
+    {
+        "id": "d688c698034fd4c0",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "6055a92ec97fa0f9",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "185",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 520,
+        "y": 480,
+        "wires": [
+            [
+                "586c1efac8069312",
+                "d688c698034fd4c0"
+            ]
+        ]
     },
     {
         "id": "cf934abb.45a8e8",
