@@ -605,7 +605,7 @@
         "type": "debug",
         "z": "50119c6e.6ff584",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -899,6 +899,70 @@
         "complete": "false",
         "x": 486,
         "y": 578,
+        "wires": []
+    },
+    {
+        "id": "6ab886881bddac07",
+        "type": "inject",
+        "z": "50119c6e.6ff584",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 980,
+        "y": 80,
+        "wires": [
+            [
+                "146fecdf47cb0802"
+            ]
+        ]
+    },
+    {
+        "id": "146fecdf47cb0802",
+        "type": "function",
+        "z": "50119c6e.6ff584",
+        "name": "function 14",
+        "func": "if (global.get(\"ponele\") == undefined) msg.payload = 1;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1070,
+        "y": 160,
+        "wires": [
+            [
+                "7088d5c7ebeb77c6"
+            ]
+        ]
+    },
+    {
+        "id": "7088d5c7ebeb77c6",
+        "type": "debug",
+        "z": "50119c6e.6ff584",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 140,
         "wires": []
     },
     {
@@ -15941,282 +16005,17 @@
         ]
     },
     {
-        "id": "acb93409bdfa033b",
-        "type": "inject",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "120",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 130,
-        "y": 40,
-        "wires": [
-            [
-                "64ab8b9d07b44008"
-            ]
-        ]
-    },
-    {
-        "id": "0f776d38882f55ed",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "AAPL",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/AAPL:NASDAQ?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 100,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "0c97a4a74f013963"
-            ]
-        ]
-    },
-    {
-        "id": "befa2ddc6dd03fcd",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "function 1",
-        "func": "context.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\n\nif (msg.payload == \"fin\") {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send(msg); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send(msg); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    return;\n}\n\nvar payload = msg.payload;\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 100,
-        "wires": [
-            [
-                "b1ca9e11ac725183",
-                "688fa15df5689086"
-            ]
-        ]
-    },
-    {
-        "id": "b1ca9e11ac725183",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 660,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "0c97a4a74f013963",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "YPFD",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/YPFD:BCBA?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 140,
-        "wires": [
-            [
-                "bfb8f3211dde38d7",
-                "befa2ddc6dd03fcd"
-            ]
-        ]
-    },
-    {
-        "id": "bfb8f3211dde38d7",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "VIST",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/VIST:NYSE?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 180,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "1820f4bee058e0fc"
-            ]
-        ]
-    },
-    {
-        "id": "1820f4bee058e0fc",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "NVDA",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/NVDA:BCBA?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 220,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "f10804e94a6dd8f0"
-            ]
-        ]
-    },
-    {
-        "id": "f10804e94a6dd8f0",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "COIN",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/COIN:NASDAQ?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 260,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "10b2f1344884e6e2"
-            ]
-        ]
-    },
-    {
-        "id": "10b2f1344884e6e2",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "TSLA",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/TSLA:BCBA?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 300,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "128e46e89c923026"
-            ]
-        ]
-    },
-    {
-        "id": "128e46e89c923026",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "MSFT",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/MSFT:BCBA?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 310,
-        "y": 340,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "6725ec3eb3d0551e"
-            ]
-        ]
-    },
-    {
-        "id": "6725ec3eb3d0551e",
-        "type": "http request",
-        "z": "e364a467.07a6a8",
-        "name": "GOOGL",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/GOOGL:BCBA?hl=es",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 320,
-        "y": 380,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd",
-                "d36ddf0206bfc165"
-            ]
-        ]
-    },
-    {
         "id": "d742748aca9ce4bb",
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "No Borrar Items Selector CEDEAR",
-        "func": "var label = [];\nlabel[0] = \"AAPL\";\nlabel[1] = \"YPFD\";\nlabel[2] = \"VIST\";\nlabel[3] = \"NVDA\";\nlabel[4] = \"COIN\";\nlabel[5] = \"TSLA\";\nlabel[6] = \"MSFT\";\nlabel[7] = \"GOOG\";\nlabel[8] = \"CVX\";\n// label[9] = \"Pil Casc\";\n// label[10] = \"Luz Bano\";\n// label[11] = \"Luz Espejo Bano\";\n// label[12] = \"Escaleras\";\n// label[13] = \"Refl Pergola\";\n// label[14] = \"Luces pergola\"\n// label[15] = \"Luces Pasada Auto\";\n// label[16] = \"Potencia Porche\";\n// label[17] = \"Potencia Dicroicas Porche\";\n// label[18] = \"Encendido Caldera\";\n// label[19] = \"Reflector Patio\";\n// label[20] = \"Luz Deck\";\n// label[21] = \"Reflector Deck\";\n// label[22] = \"Luz Pileta\";\n// label[23] = \"Bomba Pileta\";\n// label[24] = \"Riego Frente\";\n// label[25] = \"Riego Patio\";\n// label[26] = \"Luz Patio\";\n// label[27] = \"Luces ventanas\";\n// label[28] = \"Luces pilares\";\n// label[29] = \"Luz Esquinero Living\";\n// label[30] = \"Bomba Termo Solar\";\n// label[31] = \"Est Dia\";\n// label[20] = \"Reflector\";\n// label[20] = \"Reflector\";\n\nglobal.set(\"tikers\", label);\nmsg = {pin: 180, labels: label, payload: 1};\nreturn msg;",
+        "func": "var label = [];\nlabel[0] = \"AAPL\";\nlabel[1] = \"YPFD\";\nlabel[2] = \"VIST\";\nlabel[3] = \"NVDA\";\nlabel[4] = \"COIN\";\nlabel[5] = \"TSLA\";\nlabel[6] = \"MSFT\";\nlabel[7] = \"GOOGL\";\nlabel[8] = \"CVX\";\n// label[9] = \"Pil Casc\";\n// label[10] = \"Luz Bano\";\n// label[11] = \"Luz Espejo Bano\";\n// label[12] = \"Escaleras\";\n// label[13] = \"Refl Pergola\";\n// label[14] = \"Luces pergola\"\n// label[15] = \"Luces Pasada Auto\";\n// label[16] = \"Potencia Porche\";\n// label[17] = \"Potencia Dicroicas Porche\";\n// label[18] = \"Encendido Caldera\";\n// label[19] = \"Reflector Patio\";\n// label[20] = \"Luz Deck\";\n// label[21] = \"Reflector Deck\";\n// label[22] = \"Luz Pileta\";\n// label[23] = \"Bomba Pileta\";\n// label[24] = \"Riego Frente\";\n// label[25] = \"Riego Patio\";\n// label[26] = \"Luz Patio\";\n// label[27] = \"Luces ventanas\";\n// label[28] = \"Luces pilares\";\n// label[29] = \"Luz Esquinero Living\";\n// label[30] = \"Bomba Termo Solar\";\n// label[31] = \"Est Dia\";\n// label[20] = \"Reflector\";\n// label[20] = \"Reflector\";\n\nglobal.set(\"tikers\", label);\nmsg = {pin: 180, labels: label, payload: 1};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 740,
+        "x": 880,
         "y": 240,
         "wires": [
             [
@@ -16245,7 +16044,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 750,
+        "x": 890,
         "y": 200,
         "wires": [
             [
@@ -16262,7 +16061,7 @@
         "pinmode": "1",
         "prop": "bycode",
         "client": "2c18e412.5f5cbc",
-        "x": 680,
+        "x": 820,
         "y": 280,
         "wires": []
     },
@@ -16274,8 +16073,8 @@
         "pin": "180",
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 520,
-        "y": 360,
+        "x": 140,
+        "y": 300,
         "wires": [
             [
                 "586c1efac8069312"
@@ -16303,8 +16102,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 540,
-        "y": 540,
+        "x": 140,
+        "y": 80,
         "wires": [
             [
                 "17e66605c43ba9d4"
@@ -16316,14 +16115,14 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 8",
-        "func": "\nreturn msg;",
+        "func": "var ced = global.get(\"tikers\");\n// var label = global.get(\"tikers\");\n// var largo = label.length;\nmsg.payload = ced; node.send(msg);\n\n// label[largo] = \"FIN\";\n// msg.payload = label; node.send(msg);\n\n// msg.payload = ced; node.send(msg);\n// var ced = global.get(\"tikers\").length;\n// msg.payload = ced; node.send(msg);",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 680,
-        "y": 540,
+        "x": 280,
+        "y": 80,
         "wires": [
             [
                 "1d7c2badc0458a44"
@@ -16342,8 +16141,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 820,
-        "y": 540,
+        "x": 420,
+        "y": 80,
         "wires": []
     },
     {
@@ -16351,14 +16150,14 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 9",
-        "func": "var payload = parseFloat(msg.payload);\nvar pin = parseInt(msg.pin);\nif (pin === 180) {\n    flow.set(\"item\", parseInt(msg.payload) - 1);\n}\nvar item = global.get(\"tikers\")[flow.get(\"item\")];\n\nswitch (pin) {\n    case 180:\n        payload = \" Valor actual de \" + item + \": \" + global.get(\"valor\" + item) + \"\\n\";\n        msg = { pin: 181, payload: payload }; node.send(msg);\n        var valor1 = global.get(\"valor\" + item) - global.get(\"valorCompra\" + item);\n        var valor2 = ((global.get(\"valor\" + item) * 100) / global.get(\"valorCompra\" + item)) - 100;\n        valor1 = parseFloat(valor1).toFixed(2);\n        valor2 = parseFloat(valor2).toFixed(2);\n        msg = { pin: 182, payload: \"Compre el \" + global.get(\"fechaCompra\" + item) + \" a:   \" + global.get(\"valorCompra\" + item) + \"   (\" + valor1 + \"  ||  \" + valor2 + \"%)\" }; node.send(msg);\n        msg = { pin: 183, payload: global.get(\"min\" + item) }; node.send(msg);\n        msg = { pin: 184, payload: global.get(\"max\" + item) }; node.send(msg);\n        msg = { pin: 185, payload: global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n        break;\n    case 182:\n        global.set(\"min\" + item, payload);\n        return;\n    case 183:\n        global.set(\"max\" + item, payload);\n        return;\n    case 185:\n        global.set(\"fechaCompra\" + item, global.get(\"fechaQuinela\"));\n        global.set(\"valorCompra\" + item, payload);\n        msg = { pin: 182, payload: \"Compre el \" + global.get(\"fechaCompra\" + item) + \" a: \" + global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n}\n\n// if (parseFloat(valor) > parseFloat(global.get(\"max\" + tiker))){\n//     msg.payload = \"Opcion a venta de \"  + tiker;\n//     return msg;\n// }\n// if (parseFloat(valor) < parseFloat(global.get(\"min\" + tiker))) {\n//     msg.payload = \"Opcion a compra de \" + tiker;\n//     return msg;\n// }",
+        "func": "var payload = parseFloat(msg.payload);\nvar pin = parseInt(msg.pin);\nif (pin === 180) {\n    flow.set(\"item\", parseInt(msg.payload) - 1);\n}\nvar item = global.get(\"tikers\")[flow.get(\"item\")];\n\nswitch (pin) {\n    case 180:\n        payload = \" Valor actual de \" + item + \": \" + global.get(\"valor\" + item) + \"\\n\";\n        msg = { pin: 181, payload: payload }; node.send(msg);\n        if (global.get(\"valorCompra\" + item) > 0) {\n            var valor1 = global.get(\"valor\" + item) - global.get(\"valorCompra\" + item);\n            var valor2 = ((global.get(\"valor\" + item) * 100) / global.get(\"valorCompra\" + item)) - 100;\n            valor1 = parseFloat(valor1).toFixed(2);\n            valor2 = parseFloat(valor2).toFixed(2);\n            msg = { pin: 182, payload: \"Comp. el \" + global.get(\"fechaCompra\" + item) + \" a:   \" + global.get(\"valorCompra\" + item) + \"   (\" + valor1 + \" || \" + valor2 + \"%)\" }; node.send(msg);\n        }\n        if (global.get(\"valorCompra\" + item) == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n            global.set(\"valorCompra\" + item, 0);\n            msg = { pin: 182, payload: \"Sin compra\" }; node.send(msg);\n        }\n        msg = { pin: 183, payload: global.get(\"min\" + item) }; node.send(msg);\n        msg = { pin: 184, payload: global.get(\"max\" + item) }; node.send(msg);\n        msg = { pin: 185, payload: global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n        break;\n    case 183:\n        global.set(\"min\" + item, payload);\n        return;\n    case 184:\n        global.set(\"max\" + item, payload);\n        return;\n    case 185:\n        global.set(\"fechaCompra\" + item, global.get(\"fechaQuinela\"));\n        global.set(\"valorCompra\" + item, payload);\n        if (global.get(\"valorCompra\") == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n        }\n        msg = { pin: 182, payload: \"Comp. el \" + global.get(\"fechaCompra\" + item) + \" a: \" + global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n}\n\n// if (parseFloat(valor) > parseFloat(global.get(\"max\" + tiker))){\n//     msg.payload = \"Opcion a venta de \"  + tiker;\n//     return msg;\n// }\n// if (parseFloat(valor) < parseFloat(global.get(\"min\" + tiker))) {\n//     msg.payload = \"Opcion a compra de \" + tiker;\n//     return msg;\n// }",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 720,
-        "y": 400,
+        "x": 340,
+        "y": 340,
         "wires": [
             [
                 "5d0e1aeaa39f56df",
@@ -16374,39 +16173,20 @@
         "pin": "182",
         "pinmode": "1",
         "client": "2c18e412.5f5cbc",
-        "x": 890,
-        "y": 400,
+        "x": 510,
+        "y": 340,
         "wires": []
-    },
-    {
-        "id": "80f29c445d92a0ea",
-        "type": "function",
-        "z": "e364a467.07a6a8",
-        "name": "function 10",
-        "func": "msg.payload = \"fin\";\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 310,
-        "y": 540,
-        "wires": [
-            [
-                "befa2ddc6dd03fcd"
-            ]
-        ]
     },
     {
         "id": "32b4b0e4a99a6e6a",
         "type": "blynk-ws-in-write",
         "z": "e364a467.07a6a8",
         "name": "",
-        "pin": "182",
+        "pin": "183",
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 520,
-        "y": 400,
+        "x": 140,
+        "y": 340,
         "wires": [
             [
                 "586c1efac8069312",
@@ -16419,11 +16199,11 @@
         "type": "blynk-ws-in-write",
         "z": "e364a467.07a6a8",
         "name": "",
-        "pin": "183",
+        "pin": "184",
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 520,
-        "y": 440,
+        "x": 140,
+        "y": 380,
         "wires": [
             [
                 "586c1efac8069312"
@@ -16431,63 +16211,209 @@
         ]
     },
     {
-        "id": "688fa15df5689086",
-        "type": "blynk-ws-out-notify",
+        "id": "d688c698034fd4c0",
+        "type": "debug",
         "z": "e364a467.07a6a8",
-        "name": "",
-        "client": "2c18e412.5f5cbc",
-        "queue": false,
-        "rate": 5,
-        "x": 690,
-        "y": 60,
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 400,
         "wires": []
     },
     {
-        "id": "64ab8b9d07b44008",
+        "id": "6055a92ec97fa0f9",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "185",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 140,
+        "y": 420,
+        "wires": [
+            [
+                "586c1efac8069312",
+                "d688c698034fd4c0"
+            ]
+        ]
+    },
+    {
+        "id": "b6be8cd6960c8609",
         "type": "function",
         "z": "e364a467.07a6a8",
-        "name": "timer",
-        "func": "var date = new Date();\nvar hh = parseInt(date.getHours());\nvar mm = parseInt(date.getMinutes());\nvar dia = parseInt(date.getDay()); \n\nif (dia > 0 && dia < 7 && hh > 9 && hh < 18){\n    return msg;\n}",
+        "name": "function 11",
+        "func": "var dir = msg.payload;\nvar ced = dir.substring(dir.indexOf(\"quote\") + 6);\nced = ced.substring(0, ced.indexOf(\":\"));\n\nvar label = global.get(\"tikers\");\nvar i = 0;\nfor (i = 0; i < label.length; i++) {    \n    msg.payload = label[i];\n    // node.send(msg);\n    if (label[i] == ced) return;\n}\nlabel[i] = ced;\nglobal.set(\"tikers\", label);\nmsg = {pin: 180, labels: label, payload: 1 }; node.send(msg);\n// if (context.item == 0) {\n    msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" };\n    node.send(msg);\n    global.set(\"min\" + ced, 0);\n    global.set(\"max\" + ced, 0);\n    global.set(\"valorCompra\" + ced, 0);\n    global.set(\"fechaCompra\" + ced, 0);\nreturn;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
-        "y": 40,
+        "x": 350,
+        "y": 520,
         "wires": [
             [
-                "0f776d38882f55ed"
+                "fe7559a941ac3bf2",
+                "1064d3351ceeaa66"
             ]
         ]
     },
     {
-        "id": "d36ddf0206bfc165",
+        "id": "fe7559a941ac3bf2",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "3fa5eab60f8ace2d",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "function 12",
+        "func": "context.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\n\nif (msg.payload == \"fin\") {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send(msg); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send(msg); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    return;\n}\n\nvar payload = msg.payload;\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5e327c5fc07366d1",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "function 13",
+        "func": "\ncontext.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\ncontext.item = context.item || 0;\n\nvar date = new Date();\nvar hh = parseInt(date.getHours());\nvar mm = parseInt(date.getMinutes());\nvar dia = parseInt(date.getDay());\n\nif (dia > 0 && dia < 7 && hh > 9 && hh < 18 || msg.payload == \"prueba\") {\n    if (context.item == 0) {\n        var item = global.get(\"tikers\")[context.item];\n        msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n        context.item++;\n        return [null, null, msg];\n    }\n}\n\nvar payload = msg.payload;\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\n// msg.payload = valor; node.send([null, msg, null]);\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (global.get(\"min\" + tiker) == undefined) global.set(\"min\" + tiker, 0);\nif (global.get(\"max\" + tiker) == undefined) global.set(\"max\" + tiker, 0);\nif (global.get(\"valorCompra\" + tiker) == undefined) global.set(\"valorCompra\" + tiker, 0);\nif (global.get(\"fechaCompra\" + tiker) == undefined) global.set(\"fechaCompra\" + tiker, 0);\n\nglobal.set(\"valorCompra\" + item, payload);\n\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n\nif (context.item == 1) { msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" }; node.send([null, msg, null]); }\nif (global.get(\"valorCompra\" + tiker) > 0) {\n    var ganPesos = global.get(\"valor\" + tiker) - global.get(\"valorCompra\" + tiker);\n    var porPesos = ((global.get(\"valor\" + tiker) * 100) / global.get(\"valorCompra\" + tiker)) - 100\n    msg = { pin: 190, payload: tiker + \":  \" + global.get(\"valor\" + tiker) + \"  (\" + ganPesos + \" || \" + porPesos.toFixed(2) + \"%)\\n\" };\n    node.send([null, msg, null]);\n}\n\n\nif (context.item < global.get(\"tikers\").length - 1) {\n    var item = global.get(\"tikers\")[context.item];\n    msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n    context.item++;\n    return [null, null, msg];\n}\n\nif (context.item < global.get(\"tikers\").length) {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send([msg, null]); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send([msg, null]); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    context.item = 0;\n    return;\n}\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "0a548db9f9951f7a"
+            ],
+            [
+                "5bccc8ca9615eec6"
+            ],
+            [
+                "26ef9c0d16ee5aa4"
+            ]
+        ]
+    },
+    {
+        "id": "0c4329922dd95c57",
+        "type": "inject",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "inicio",
+        "payloadType": "str",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "5e327c5fc07366d1"
+            ]
+        ]
+    },
+    {
+        "id": "26ef9c0d16ee5aa4",
         "type": "http request",
         "z": "e364a467.07a6a8",
-        "name": "CVX",
+        "name": "",
         "method": "GET",
         "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://www.google.com/finance/quote/CVX:NYSE?hl=es",
-        "tls": "",
+        "paytoqs": false,
+        "url": "",
         "persist": false,
-        "proxy": "",
         "insecureHTTPParser": false,
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 310,
-        "y": 420,
+        "x": 270,
+        "y": 260,
         "wires": [
             [
-                "80f29c445d92a0ea",
-                "befa2ddc6dd03fcd"
+                "5e327c5fc07366d1"
             ]
         ]
     },
     {
-        "id": "992a2d4d231dee57",
+        "id": "5bccc8ca9615eec6",
+        "type": "blynk-ws-out-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "0",
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 490,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "96e6c8884ef61ebf",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "190",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "b6be8cd6960c8609"
+            ]
+        ]
+    },
+    {
+        "id": "1064d3351ceeaa66",
+        "type": "blynk-ws-out-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "0",
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 550,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "75c7415377e3a457",
         "type": "inject",
         "z": "e364a467.07a6a8",
         "name": "",
@@ -16505,48 +16431,27 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 100,
-        "y": 100,
+        "payload": "medir",
+        "payloadType": "str",
+        "x": 110,
+        "y": 200,
         "wires": [
             [
-                "0f776d38882f55ed"
+                "5e327c5fc07366d1"
             ]
         ]
     },
     {
-        "id": "d688c698034fd4c0",
-        "type": "debug",
-        "z": "e364a467.07a6a8",
-        "name": "debug 19",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 840,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "6055a92ec97fa0f9",
-        "type": "blynk-ws-in-write",
+        "id": "0a548db9f9951f7a",
+        "type": "blynk-ws-out-notify",
         "z": "e364a467.07a6a8",
         "name": "",
-        "pin": "185",
-        "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 520,
-        "y": 480,
-        "wires": [
-            [
-                "586c1efac8069312",
-                "d688c698034fd4c0"
-            ]
-        ]
+        "queue": false,
+        "rate": 5,
+        "x": 450,
+        "y": 140,
+        "wires": []
     },
     {
         "id": "cf934abb.45a8e8",
