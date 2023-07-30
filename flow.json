@@ -16019,7 +16019,8 @@
         "y": 240,
         "wires": [
             [
-                "2855fd7bb0fa17de"
+                "2855fd7bb0fa17de",
+                "2b01dc1c7512fffc"
             ]
         ]
     },
@@ -16115,7 +16116,7 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 8",
-        "func": "var ced = global.get(\"tikers\");\n// var label = global.get(\"tikers\");\n// var largo = label.length;\nmsg.payload = ced; node.send(msg);\n\n// label[largo] = \"FIN\";\n// msg.payload = label; node.send(msg);\n\n// msg.payload = ced; node.send(msg);\n// var ced = global.get(\"tikers\").length;\n// msg.payload = ced; node.send(msg);",
+        "func": "var ced = global.get(\"contAMD\");\n// var label = global.get(\"tikers\");\n// var largo = label.length;\nmsg.payload = parseFloat(ced); node.send(msg);\n\n// label[largo] = \"FIN\";\n// msg.payload = label; node.send(msg);\n\n// msg.payload = ced; node.send(msg);\n// var ced = global.get(\"tikers\").length;\n// msg.payload = ced; node.send(msg);",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -16150,7 +16151,7 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 9",
-        "func": "var payload = parseFloat(msg.payload);\nvar pin = parseInt(msg.pin);\nif (pin === 180) {\n    flow.set(\"item\", parseInt(msg.payload) - 1);\n}\nvar item = global.get(\"tikers\")[flow.get(\"item\")];\n\nswitch (pin) {\n    case 180:\n        payload = \" Valor actual de \" + item + \": \" + global.get(\"valor\" + item) + \"\\n\";\n        msg = { pin: 181, payload: payload }; node.send(msg);\n        if (global.get(\"valorCompra\" + item) > 0) {\n            var valor1 = global.get(\"valor\" + item) - global.get(\"valorCompra\" + item);\n            var valor2 = ((global.get(\"valor\" + item) * 100) / global.get(\"valorCompra\" + item)) - 100;\n            valor1 = parseFloat(valor1).toFixed(2);\n            valor2 = parseFloat(valor2).toFixed(2);\n            msg = { pin: 182, payload: \"Comp. el \" + global.get(\"fechaCompra\" + item) + \" a:   \" + global.get(\"valorCompra\" + item) + \"   (\" + valor1 + \" || \" + valor2 + \"%)\" }; node.send(msg);\n        }\n        if (global.get(\"valorCompra\" + item) == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n            global.set(\"valorCompra\" + item, 0);\n            msg = { pin: 182, payload: \"Sin compra\" }; node.send(msg);\n        }\n        msg = { pin: 183, payload: global.get(\"min\" + item) }; node.send(msg);\n        msg = { pin: 184, payload: global.get(\"max\" + item) }; node.send(msg);\n        msg = { pin: 185, payload: global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n        break;\n    case 183:\n        global.set(\"min\" + item, payload);\n        return;\n    case 184:\n        global.set(\"max\" + item, payload);\n        return;\n    case 185:\n        global.set(\"fechaCompra\" + item, global.get(\"fechaQuinela\"));\n        global.set(\"valorCompra\" + item, payload);\n        if (global.get(\"valorCompra\") == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n        }\n        msg = { pin: 182, payload: \"Comp. el \" + global.get(\"fechaCompra\" + item) + \" a: \" + global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n}\n\n// if (parseFloat(valor) > parseFloat(global.get(\"max\" + tiker))){\n//     msg.payload = \"Opcion a venta de \"  + tiker;\n//     return msg;\n// }\n// if (parseFloat(valor) < parseFloat(global.get(\"min\" + tiker))) {\n//     msg.payload = \"Opcion a compra de \" + tiker;\n//     return msg;\n// }",
+        "func": "var payload = parseFloat(msg.payload);\nvar pin = parseInt(msg.pin);\nif (pin === 180) {\n    flow.set(\"item\", parseInt(msg.payload) - 1);\n}\nvar item = global.get(\"tikers\")[flow.get(\"item\")];\n\nswitch (pin) {\n    case 180:\n        payload = \" Valor actual de \" + item + \": \" + global.get(\"valor\" + item) + \"\\n\";\n        msg = { pin: 181, payload: payload }; node.send(msg);\n        msg = { pin: 186, payload: global.get(\"por\" + item) }; node.send(msg);\n        msg = { pin: 187, payload: global.get(\"cont\" + item) }; node.send(msg);\n        if (global.get(\"valorCompra\" + item) > 0) {\n            var valor1 = global.get(\"valor\" + item) - global.get(\"valorCompra\" + item);\n            var valor2 = ((global.get(\"valor\" + item) * 100) / global.get(\"valorCompra\" + item)) - 100;\n            valor1 = parseFloat(valor1).toFixed(1);\n            valor2 = parseFloat(valor2).toFixed(1);\n            msg = { pin: 182, payload: \"Comp. \" + global.get(\"fechaCompra\" + item) + \" a:   \" + global.get(\"valorCompra\" + item) + \"   (\" + valor1 + \" || \" + valor2 + \"%)\" }; node.send(msg);\n        }\n        if (global.get(\"valorCompra\" + item) == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n            global.set(\"valorCompra\" + item, 0);\n            msg = { pin: 182, payload: \"Sin compra\" }; node.send(msg);\n        }\n        msg = { pin: 183, payload: global.get(\"min\" + item) }; node.send(msg);\n        msg = { pin: 184, payload: global.get(\"max\" + item) }; node.send(msg);\n        msg = { pin: 185, payload: global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n        break;\n    case 183:\n        global.set(\"min\" + item, payload);\n        return;\n    case 184:\n        global.set(\"max\" + item, payload);\n        return;\n    case 185:\n        global.set(\"fechaCompra\" + item, global.get(\"fechaQuinela\"));\n        global.set(\"valorCompra\" + item, payload);\n        if (global.get(\"valorCompra\") == 0) {\n            global.set(\"min\" + item, 0);\n            global.set(\"max\" + item, 0);\n            global.set(\"fechaCompra\" + item, 0);\n        }\n        msg = { pin: 182, payload: \"Comp. el \" + global.get(\"fechaCompra\" + item) + \" a: \" + global.get(\"valorCompra\" + item) }; node.send(msg);\n        return;\n    case 186:\n        global.set(\"por\" + item, payload);\n    case 187:\n        global.set(\"cont\" + item, payload);\n}\n\n// if (parseFloat(valor) > parseFloat(global.get(\"max\" + tiker))){\n//     msg.payload = \"Opcion a venta de \"  + tiker;\n//     return msg;\n// }\n// if (parseFloat(valor) < parseFloat(global.get(\"min\" + tiker))) {\n//     msg.payload = \"Opcion a compra de \" + tiker;\n//     return msg;\n// }",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -16248,18 +16249,18 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 11",
-        "func": "var dir = msg.payload;\nvar ced = dir.substring(dir.indexOf(\"quote\") + 6);\nced = ced.substring(0, ced.indexOf(\":\"));\n\nvar label = global.get(\"tikers\");\nvar i = 0;\nfor (i = 0; i < label.length; i++) {    \n    msg.payload = label[i];\n    // node.send(msg);\n    if (label[i] == ced) return;\n}\nlabel[i] = ced;\nglobal.set(\"tikers\", label);\nmsg = {pin: 180, labels: label, payload: 1 }; node.send(msg);\n// if (context.item == 0) {\n    msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" };\n    node.send(msg);\n    global.set(\"min\" + ced, 0);\n    global.set(\"max\" + ced, 0);\n    global.set(\"valorCompra\" + ced, 0);\n    global.set(\"fechaCompra\" + ced, 0);\nreturn;\n\n",
+        "func": "var dir = msg.payload;\nvar ced = dir.substring(dir.indexOf(\"quote\") + 6);\nced = ced.substring(0, ced.indexOf(\":\"));\n\nvar label = global.get(\"tikers\");\nvar i = 0;\nfor (i = 0; i < label.length; i++) {    \n    msg.payload = label[i];\n    // node.send(msg);\n    if (label[i] == ced) return;\n}\nlabel[i] = ced;\n// msg.payload = ced; node.send(msg);\nglobal.set(\"tikers\", label);\nmsg = { pin: 180, labels: label, payload: 1 };\n// if (context.item == 0) {\n    // msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" };\n    // node.send(msg);\n    global.set(\"min\" + ced, 0);\n    global.set(\"max\" + ced, 0);\n    global.set(\"valorCompra\" + ced, 0);\n    global.set(\"fechaCompra\" + ced, 0);\n    global.set(\"por\" + ced, 0);\nreturn msg;\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 520,
+        "x": 590,
+        "y": 500,
         "wires": [
             [
                 "fe7559a941ac3bf2",
-                "1064d3351ceeaa66"
+                "aa2767e6a2c9de2e"
             ]
         ]
     },
@@ -16272,11 +16273,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 520,
-        "y": 480,
+        "x": 760,
+        "y": 460,
         "wires": []
     },
     {
@@ -16301,7 +16303,7 @@
         "type": "function",
         "z": "e364a467.07a6a8",
         "name": "function 13",
-        "func": "\ncontext.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\ncontext.item = context.item || 0;\n\nvar date = new Date();\nvar hh = parseInt(date.getHours());\nvar mm = parseInt(date.getMinutes());\nvar dia = parseInt(date.getDay());\n\nif (dia > 0 && dia < 7 && hh > 9 && hh < 18 || msg.payload == \"prueba\") {\n    if (context.item == 0) {\n        var item = global.get(\"tikers\")[context.item];\n        msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n        context.item++;\n        return [null, null, msg];\n    }\n}\n\nvar payload = msg.payload;\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\n// msg.payload = valor; node.send([null, msg, null]);\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (global.get(\"min\" + tiker) == undefined) global.set(\"min\" + tiker, 0);\nif (global.get(\"max\" + tiker) == undefined) global.set(\"max\" + tiker, 0);\nif (global.get(\"valorCompra\" + tiker) == undefined) global.set(\"valorCompra\" + tiker, 0);\nif (global.get(\"fechaCompra\" + tiker) == undefined) global.set(\"fechaCompra\" + tiker, 0);\n\nglobal.set(\"valorCompra\" + item, payload);\n\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n\nif (context.item == 1) { msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" }; node.send([null, msg, null]); }\nif (global.get(\"valorCompra\" + tiker) > 0) {\n    var ganPesos = global.get(\"valor\" + tiker) - global.get(\"valorCompra\" + tiker);\n    var porPesos = ((global.get(\"valor\" + tiker) * 100) / global.get(\"valorCompra\" + tiker)) - 100\n    msg = { pin: 190, payload: tiker + \":  \" + global.get(\"valor\" + tiker) + \"  (\" + ganPesos + \" || \" + porPesos.toFixed(2) + \"%)\\n\" };\n    node.send([null, msg, null]);\n}\n\n\nif (context.item < global.get(\"tikers\").length - 1) {\n    var item = global.get(\"tikers\")[context.item];\n    msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n    context.item++;\n    return [null, null, msg];\n}\n\nif (context.item < global.get(\"tikers\").length) {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send([msg, null]); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send([msg, null]); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    context.item = 0;\n    return;\n}\n",
+        "func": "\ncontext.opcionesCompra = context.opcionesCompra || \"\";\ncontext.opcionesVenta = context.opcionesVenta || \"\";\ncontext.item = context.item || 0;\n\nvar date = new Date();\nvar hh = parseInt(date.getHours());\nvar mm = parseInt(date.getMinutes());\nvar dia = parseInt(date.getDay());\n\nif (dia > 0 && dia < 7 && hh > 9 && hh < 18 || msg.payload == \"prueba\") {\n    if (context.item == 0) {\n        var item = global.get(\"tikers\")[context.item];\n        msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n        context.item++;\n        return [null, null, msg];\n    }\n}\n\nvar payload = msg.payload;\n\nvar por = payload.substring(payload.indexOf(\"hash: '4'\"));\npor = por.substring(por.indexOf(\"ARS\")); por = por.substring(por.indexOf(\",\") + 1);\npor = por.substring(por.indexOf(\",\") + 1); por = por.substring(por.indexOf(\",\") + 1);\npor = parseFloat(por.substring(0, por.indexOf(\",\"))).toFixed(2);\n// global.set(\"prueba\", por);\n\npayload = payload.substring(payload.indexOf(\"quote\") + 6);\nvar tiker = payload.substring(0, payload.indexOf(\":\"));\n\nvar valor = payload.substring(payload.indexOf(\"data-last-price=\") + 17);\nvalor = parseFloat(valor.substring(0, valor.indexOf(\"data\") - 2));\n\n// msg.payload = por; node.send([null, msg, null]);\n\nglobal.set(\"valor\" + tiker, valor);\n// msg.payload = \"valor de \" + tiker + \": \" + valor; node.send(msg);\n\nif (global.get(\"min\" + tiker) == undefined) global.set(\"min\" + tiker, 0);\nif (global.get(\"max\" + tiker) == undefined) global.set(\"max\" + tiker, 0);\nif (global.get(\"valorCompra\" + tiker) == undefined) global.set(\"valorCompra\" + tiker, 0);\nif (global.get(\"fechaCompra\" + tiker) == undefined) global.set(\"fechaCompra\" + tiker, 0);\n\nglobal.set(\"valorCompra\" + item, payload);\n\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) > parseFloat(global.get(\"max\" + tiker))) {\n    context.opcionesVenta += tiker + \" max: \" + parseFloat(global.get(\"max\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\nif (parseFloat(global.get(\"valorCompra\" + tiker)) != 0 && parseFloat(global.get(\"valor\" + tiker)) < parseFloat(global.get(\"min\" + tiker))) {\n    context.opcionesCompra += tiker + \" min: \" + parseFloat(global.get(\"min\" + tiker)) + \": valor: \" + parseFloat(global.get(\"valor\" + tiker)) + \"\\n\";\n}\n// msg.payload = global.get(\"cont\" + tiker); node.send([null, msg, null]);\n\nif (global.get(\"cont\" + tiker) == 1) {\n    msg.payload = parseFloat(global.get(\"por\" + tiker)) + \"-\" + parseFloat(por); node.send([null, msg, null]);\n    if (parseFloat(global.get(\"por\" + tiker)) > parseFloat(por)) {\n        context.opcionesVenta += tiker + \" aumento el \" + por + \"%\\n\";\n    }\n    // if (parseFloat(global.get(\"por\" + tiker)) < parseFloat(por)) {\n    //     context.opcionesVenta += tiker + \" bajo el \" + por + \"%\\n\";\n    // }\n}\n\n\nif (context.item == 1) { msg = { pin: 190, payload: \"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\" }; node.send([null, msg, null]); }\nif (global.get(\"valorCompra\" + tiker) > 0) {\n    var ganPesos = global.get(\"valor\" + tiker) - global.get(\"valorCompra\" + tiker);\n    var porPesos = ((global.get(\"valor\" + tiker) * 100) / global.get(\"valorCompra\" + tiker)) - 100\n    msg = { pin: 190, payload: tiker + \":  \" + global.get(\"valor\" + tiker) + \"  (\" + ganPesos.toFixed(2) + \" || \" + porPesos.toFixed(2) + \"%\" + \" || \" + por + \"%)\\n\" };\n    node.send([null, msg, null]);\n}\n\n\nif (context.item < global.get(\"tikers\").length - 0) {\n    var item = global.get(\"tikers\")[context.item];\n    msg.url = \"https://www.google.com/finance/quote/\" + item + \":BCBA\"\n    context.item++;\n    return [null, null, msg];\n}\n\nif (context.item == global.get(\"tikers\").length) {\n    msg.payload = \"\";\n    if (context.opcionesVenta != \"\") { msg.payload = \"Hay opciones a venta:\\n\" + context.opcionesVenta; node.send([msg, null]); }\n    if (context.opcionesCompra != \"\") { msg.payload = \"Hay opciones a compra:\\n\" + context.opcionesCompra; node.send([msg, null]); }\n    context.opcionesVenta = \"\";\n    context.opcionesCompra = \"\";\n    context.item = 0;\n    return;\n}\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -16311,13 +16313,16 @@
         "y": 180,
         "wires": [
             [
-                "0a548db9f9951f7a"
+                "0a548db9f9951f7a",
+                "1d7c2badc0458a44"
             ],
             [
-                "5bccc8ca9615eec6"
+                "5bccc8ca9615eec6",
+                "301580d664a48c02"
             ],
             [
-                "26ef9c0d16ee5aa4"
+                "26ef9c0d16ee5aa4",
+                "2e99ac5eca3ac221"
             ]
         ]
     },
@@ -16392,25 +16397,14 @@
         "pin": "190",
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
-        "x": 140,
-        "y": 520,
+        "x": 380,
+        "y": 500,
         "wires": [
             [
-                "b6be8cd6960c8609"
+                "b6be8cd6960c8609",
+                "9e5a83bedcfb38e8"
             ]
         ]
-    },
-    {
-        "id": "1064d3351ceeaa66",
-        "type": "blynk-ws-out-write",
-        "z": "e364a467.07a6a8",
-        "name": "",
-        "pin": "0",
-        "pinmode": "1",
-        "client": "2c18e412.5f5cbc",
-        "x": 550,
-        "y": 520,
-        "wires": []
     },
     {
         "id": "75c7415377e3a457",
@@ -16452,6 +16446,232 @@
         "x": 450,
         "y": 140,
         "wires": []
+    },
+    {
+        "id": "9e5a83bedcfb38e8",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "369e49e472ec538f",
+        "type": "inject",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "https://www.google.com/finance/quote/AMD:BCBA?hl=es",
+        "payloadType": "str",
+        "x": 350,
+        "y": 540,
+        "wires": [
+            [
+                "b6be8cd6960c8609"
+            ]
+        ]
+    },
+    {
+        "id": "2b01dc1c7512fffc",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 28",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "aa2767e6a2c9de2e",
+        "type": "blynk-ws-out-set-property",
+        "z": "e364a467.07a6a8",
+        "name": "Pin v180",
+        "pin": 0,
+        "pinmode": "1",
+        "prop": "bycode",
+        "client": "2c18e412.5f5cbc",
+        "x": 760,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "2e99ac5eca3ac221",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 29",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "url",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "301580d664a48c02",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 30",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ec0cb045ee9d77d3",
+        "type": "inject",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "props": [
+            {
+                "p": "url",
+                "v": "https://www.google.com/finance/quote/AMD:BCBA?hl=es",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 40,
+        "wires": [
+            [
+                "6c0207e195599168"
+            ]
+        ]
+    },
+    {
+        "id": "e444b08f4ddaa249",
+        "type": "function",
+        "z": "e364a467.07a6a8",
+        "name": "function 15",
+        "func": "var payload = msg.payload;\nvar por = payload.substring(payload.indexOf(\"hash: '4'\")); \npor = por.substring(por.indexOf(\"ARS\")); \npor = por.substring(por.indexOf(\",\")+1);\npor = por.substring(por.indexOf(\",\")+1);\npor = por.substring(por.indexOf(\",\")+1);\npor = parseFloat(por.substring(0, por.indexOf(\",\"))).toFixed(2);\n\n\nmsg.payload = por;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 40,
+        "wires": [
+            [
+                "ca580aca7e0da741"
+            ]
+        ]
+    },
+    {
+        "id": "ca580aca7e0da741",
+        "type": "debug",
+        "z": "e364a467.07a6a8",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "6c0207e195599168",
+        "type": "http request",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 40,
+        "wires": [
+            [
+                "e444b08f4ddaa249"
+            ]
+        ]
+    },
+    {
+        "id": "843ff11a2d258747",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "186",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 140,
+        "y": 460,
+        "wires": [
+            [
+                "586c1efac8069312"
+            ]
+        ]
+    },
+    {
+        "id": "d603e744b8c34a3a",
+        "type": "blynk-ws-in-write",
+        "z": "e364a467.07a6a8",
+        "name": "",
+        "pin": "187",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 140,
+        "y": 500,
+        "wires": [
+            [
+                "586c1efac8069312"
+            ]
+        ]
     },
     {
         "id": "cf934abb.45a8e8",
