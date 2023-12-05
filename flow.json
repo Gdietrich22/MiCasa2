@@ -10535,7 +10535,7 @@
         "type": "debug",
         "z": "9c63fd61.9908c",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -10822,8 +10822,8 @@
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
         "inputs": 0,
-        "x": 917.5,
-        "y": 288,
+        "x": 1852,
+        "y": 801,
         "wires": [
             [
                 "208e4c51.d36044"
@@ -10840,8 +10840,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1095.5,
-        "y": 287,
+        "x": 2030,
+        "y": 800,
         "wires": []
     },
     {
@@ -11097,7 +11097,7 @@
         "type": "debug",
         "z": "9c63fd61.9908c",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -11382,8 +11382,8 @@
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
         "inputs": 0,
-        "x": 1310,
-        "y": 520,
+        "x": 1270,
+        "y": 780,
         "wires": [
             [
                 "cb36afed.561df"
@@ -11400,8 +11400,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1538,
-        "y": 506,
+        "x": 1498,
+        "y": 766,
         "wires": []
     },
     {
@@ -12547,8 +12547,8 @@
         "datatype": "auto",
         "broker": "e779f8d6.7bc2c8",
         "inputs": 0,
-        "x": 1588.5,
-        "y": 343,
+        "x": 1710,
+        "y": 660,
         "wires": [
             [
                 "5c6f2be7.e8a204",
@@ -12564,8 +12564,8 @@
         "func": "var valor = global.get(\"tipoRiego\");\nvar date = new Date();\nmsg.payload = valor;\nnode.send(msg);\nnode.status({text: valor});\nif (parseInt(valor) === 0){\n            global.set(\"riegoFrente\", 0);\n            global.set(\"riegoPatio\", 0);\n        }\n        if (parseInt(valor) === 1){\n            global.set(\"riegoFrente\", 1);\n            global.set(\"riegoPatio\", 0);\n            valor  = parseInt(date.getTime()) + (parseInt(global.get(\"tiempoRiegoFrente\")) * 1000 * 60);\n            global.set(\"dateRiegoFrente\", valor);\n        }\n        if (parseInt(valor) === 2){\n            global.set(\"riegoPatio\", 1);\n            global.set(\"riegoFrente\", 0);\n            valor  = parseInt(date.getTime()) + (parseInt(global.get(\"tiempoRiegoPatio\")) * 1000 * 60);\n            global.set(\"dateRiegoPatio\", valor);            \n        }        \n        \nmsg.payload = date.getTime() + \" -- \" +   valor;     \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1741.5,
-        "y": 419,
+        "x": 1901.5,
+        "y": 679,
         "wires": [
             [
                 "4878bb6.9184b44"
@@ -12584,8 +12584,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1551.5,
-        "y": 470,
+        "x": 1740,
+        "y": 700,
         "wires": [
             [
                 "5c6f2be7.e8a204"
@@ -12602,8 +12602,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1901.5,
-        "y": 405,
+        "x": 2050,
+        "y": 680,
         "wires": []
     },
     {
@@ -12616,8 +12616,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 1870.5,
-        "y": 316,
+        "x": 1970,
+        "y": 640,
         "wires": []
     },
     {
@@ -12632,8 +12632,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1780,
-        "y": 480,
+        "x": 1860,
+        "y": 760,
         "wires": [
             [
                 "7ac72f25.7c5f"
@@ -12648,8 +12648,8 @@
         "func": "msg.payload = global.get(\"tipoRiego\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1920,
-        "y": 480,
+        "x": 2000,
+        "y": 760,
         "wires": [
             [
                 "4e1489b0.6922d8"
@@ -12666,8 +12666,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 2070,
-        "y": 480,
+        "x": 2150,
+        "y": 760,
         "wires": []
     },
     {
@@ -12947,14 +12947,14 @@
         "id": "cdaf9f0b.107a2",
         "type": "rpi-gpio out",
         "z": "9c63fd61.9908c",
-        "name": "",
+        "name": "rele 4 P15",
         "pin": "22",
         "set": "",
         "level": "0",
         "freq": "",
         "out": "out",
         "bcm": true,
-        "x": 1480,
+        "x": 1490,
         "y": 60,
         "wires": []
     },
@@ -12963,7 +12963,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "// var msg = parseInt(msg.payload);\nif (parseInt(msg.payload) === 1) {\n    msg.payload = global.get(\"fechaCompleta\") + \" - Porton\\n\";\n    node.send([null, null, msg]);\n    msg.payload = 1; node.send([msg, null]);\n    msg.payload = 0; node.send([null, msg]);    \n}\n\n",
+        "func": "// var msg = parseInt(msg.payload);\nif (parseInt(msg.payload) === 1) {\n    msg.payload = global.get(\"fechaCompleta\") + \" - Porton\\n\";\n    node.send([null, null, msg]);\n    msg.payload = 0; node.send([msg, null]);\n    msg.payload = 1; node.send([null, msg]);    \n}\n\n",
         "outputs": 3,
         "noerr": 0,
         "initialize": "",
@@ -14003,8 +14003,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1170,
-        "y": 360,
+        "x": 1210,
+        "y": 440,
         "wires": [
             [
                 "4a3b67633af74655"
@@ -14020,8 +14020,8 @@
         "pinmode": "1",
         "prop": "bycode",
         "client": "2c18e412.5f5cbc",
-        "x": 1160,
-        "y": 440,
+        "x": 1200,
+        "y": 520,
         "wires": []
     },
     {
@@ -14035,8 +14035,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1170,
-        "y": 400,
+        "x": 1210,
+        "y": 480,
         "wires": [
             [
                 "d98addefa0e49237",
@@ -14057,8 +14057,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1360,
-        "y": 440,
+        "x": 1400,
+        "y": 520,
         "wires": []
     },
     {
@@ -14083,7 +14083,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 1940,
-        "y": 660,
+        "y": 840,
         "wires": [
             [
                 "f4cd6ae8564a7c64"
@@ -14101,8 +14101,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2120,
-        "y": 660,
+        "x": 2080,
+        "y": 840,
         "wires": [
             [
                 "b2c58be8c19d972a",
@@ -14122,8 +14122,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2340,
-        "y": 640,
+        "x": 2240,
+        "y": 820,
         "wires": []
     },
     {
@@ -14136,8 +14136,8 @@
         "appendNewline": false,
         "createDir": true,
         "overwriteFile": "true",
-        "x": 2230,
-        "y": 720,
+        "x": 2270,
+        "y": 860,
         "wires": [
             []
         ]
@@ -14153,8 +14153,8 @@
         "chunk": false,
         "sendError": false,
         "allProps": false,
-        "x": 2140,
-        "y": 860,
+        "x": 2080,
+        "y": 940,
         "wires": [
             [
                 "6b21e7447cc5f017",
@@ -14183,8 +14183,8 @@
         "topic": "",
         "payload": "1",
         "payloadType": "str",
-        "x": 1926,
-        "y": 860,
+        "x": 1866,
+        "y": 940,
         "wires": [
             [
                 "d5fc1c0e7a69e656"
@@ -14201,8 +14201,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 2390,
-        "y": 860,
+        "x": 2330,
+        "y": 940,
         "wires": []
     },
     {
@@ -14216,8 +14216,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2320,
-        "y": 940,
+        "x": 2080,
+        "y": 980,
         "wires": [
             [
                 "0e2cb141a142a383",
@@ -14240,8 +14240,8 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 2490,
-        "y": 900,
+        "x": 2290,
+        "y": 980,
         "wires": []
     },
     {
@@ -14254,8 +14254,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 2390,
-        "y": 800,
+        "x": 2330,
+        "y": 900,
         "wires": []
     },
     {
@@ -14417,15 +14417,15 @@
         "id": "6e306c921daddfcf",
         "type": "rpi-gpio out",
         "z": "9c63fd61.9908c",
-        "name": "",
+        "name": "rele 3 P13",
         "pin": "27",
         "set": "",
         "level": "0",
         "freq": "",
         "out": "out",
         "bcm": true,
-        "x": 2040,
-        "y": 40,
+        "x": 1470,
+        "y": 220,
         "wires": []
     },
     {
@@ -14449,8 +14449,8 @@
         "topic": "",
         "payload": "1",
         "payloadType": "str",
-        "x": 1790,
-        "y": 220,
+        "x": 2330,
+        "y": 620,
         "wires": [
             [
                 "6e0afaf668d500ad"
@@ -14461,15 +14461,15 @@
         "id": "6e0afaf668d500ad",
         "type": "rpi-gpio out",
         "z": "9c63fd61.9908c",
-        "name": "",
+        "name": "rele 1",
         "pin": "4",
         "set": "",
         "level": "0",
         "freq": "",
         "out": "out",
         "bcm": true,
-        "x": 1950,
-        "y": 240,
+        "x": 2490,
+        "y": 640,
         "wires": []
     },
     {
@@ -14493,8 +14493,8 @@
         "topic": "",
         "payload": "0",
         "payloadType": "str",
-        "x": 1790,
-        "y": 260,
+        "x": 2330,
+        "y": 660,
         "wires": [
             [
                 "6e0afaf668d500ad"
@@ -14506,7 +14506,7 @@
         "type": "mqtt in",
         "z": "9c63fd61.9908c",
         "name": "",
-        "topic": "reset/router",
+        "topic": "reset/arduinos",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "e779f8d6.7bc2c8",
@@ -14514,8 +14514,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 1630,
-        "y": 40,
+        "x": 1050,
+        "y": 220,
         "wires": [
             [
                 "c2b9d8e53a796acb"
@@ -14533,8 +14533,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1850,
-        "y": 20,
+        "x": 1270,
+        "y": 200,
         "wires": [
             [
                 "da558b449f94bc1e",
@@ -14553,8 +14553,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1910,
-        "y": 60,
+        "x": 1330,
+        "y": 240,
         "wires": [
             [
                 "6e306c921daddfcf"
@@ -14578,45 +14578,11 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1790,
-        "y": 60,
+        "x": 1210,
+        "y": 240,
         "wires": [
             [
                 "c33df60478a334f9"
-            ]
-        ]
-    },
-    {
-        "id": "bfb4b2b614ad79f2",
-        "type": "rpi-gpio out",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "pin": "17",
-        "set": "",
-        "level": "0",
-        "freq": "",
-        "out": "out",
-        "bcm": true,
-        "x": 2040,
-        "y": 120,
-        "wires": []
-    },
-    {
-        "id": "c31e2b4af781f2b5",
-        "type": "function",
-        "z": "9c63fd61.9908c",
-        "name": "1",
-        "func": "msg.payload = 1;\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1910,
-        "y": 140,
-        "wires": [
-            [
-                "bfb4b2b614ad79f2"
             ]
         ]
     },
@@ -14625,8 +14591,8 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "0",
-        "func": "msg.payload = 0;\nreturn msg;",
-        "outputs": 1,
+        "func": "if (msg.topic == \"alarma/estado\"){\n    msg = {topic: \"rele2\", payload: global.get(\"estadoAlarma\")}; node.send([msg, null]);\n    // msg = {topic: \"rele2\", global.get(\"estadoAlarma\") }; node.send([msg, null]);\n    msg = {pin: 4, payload: global.get(\"estadoAlarma\")}; node.send([null, msg]);\n}\n\nif (msg.pin == 4){\n    global.set(\"estadoAlarma\", msg.payload);\n    msg = {topic: \"rele2\", payload: global.get(\"estadoAlarma\") }; node.send([msg, null]);\n}\n\nif (msg.pin == 5) {\n    if (msg.payload == 0){\n        msg = {pin: 4, payload: 0}; node.send([null, msg]);\n    }\n    global.set(\"estadoAlarma\", msg.payload);\n    // msg = { topic: \"rele2\", payload: global.get(\"estadoAlarma\") }; node.send([msg, null]);\n    global.set(\"disparoAlarma\", msg.payload);\n    msg = {topic: \"rele1\", payload: global.get(\"disparoAlarma\") }; node.send([msg, null]);\n}",
+        "outputs": 2,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -14635,33 +14601,10 @@
         "y": 100,
         "wires": [
             [
-                "9b42d19632bf9f95",
-                "bfb4b2b614ad79f2"
-            ]
-        ]
-    },
-    {
-        "id": "9b42d19632bf9f95",
-        "type": "delay",
-        "z": "9c63fd61.9908c",
-        "name": "5 seg",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1790,
-        "y": 140,
-        "wires": [
+                "deaccb3b4eb5d07f"
+            ],
             [
-                "c31e2b4af781f2b5"
+                "274043d0bb1824d5"
             ]
         ]
     },
@@ -14670,7 +14613,7 @@
         "type": "mqtt in",
         "z": "9c63fd61.9908c",
         "name": "",
-        "topic": "reset/arduinos",
+        "topic": "alarma/estado",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "e779f8d6.7bc2c8",
@@ -14678,8 +14621,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 1630,
-        "y": 120,
+        "x": 1670,
+        "y": 60,
         "wires": [
             [
                 "4c68c90b98721796"
@@ -14707,8 +14650,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1640,
-        "y": 80,
+        "x": 1060,
+        "y": 260,
         "wires": [
             [
                 "c2b9d8e53a796acb"
@@ -14736,11 +14679,354 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1640,
-        "y": 160,
+        "x": 1680,
+        "y": 20,
         "wires": [
             [
                 "4c68c90b98721796"
+            ]
+        ]
+    },
+    {
+        "id": "c227f6ae2283a668",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "luz alarma",
+        "pin": "4",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1680,
+        "y": 100,
+        "wires": [
+            [
+                "4c68c90b98721796"
+            ]
+        ]
+    },
+    {
+        "id": "deaccb3b4eb5d07f",
+        "type": "mqtt out",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 2010,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "274043d0bb1824d5",
+        "type": "blynk-ws-out-write",
+        "z": "9c63fd61.9908c",
+        "name": "salida",
+        "pin": "0",
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 2010,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "78046d0b502ca853",
+        "type": "rpi-gpio out",
+        "z": "9c63fd61.9908c",
+        "d": true,
+        "name": "rele 1 P7",
+        "pin": "4",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 2040,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7769fe0a9666df40",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "rele2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1650,
+        "y": 200,
+        "wires": [
+            [
+                "526c231d793fb5cd"
+            ]
+        ]
+    },
+    {
+        "id": "526c231d793fb5cd",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "fcn",
+        "func": "if (parseInt(global.get(\"estadoAlarma\")) == 1) {\n    msg.payload = 0; node.send([msg, null, null]);\n    msg.payload = 0; node.send([null, msg, null]);\n    msg = {delay: 300, payload: 1}; return([null, null, msg]);\n}\nif (parseInt(global.get(\"estadoAlarma\")) == 0) {\n    msg.payload = 1; node.send([msg, null, null]);\n    msg.payload = 0; node.send([null, msg, null]);\n    msg = { delay: 2000, payload: 1 }; return ([null, null, msg]);\n}",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1770,
+        "y": 200,
+        "wires": [
+            [
+                "b4147a8f90a7851a",
+                "e44ce803382f55ac"
+            ],
+            [
+                "8db8dc0c77555c8e",
+                "78046d0b502ca853"
+            ],
+            [
+                "425350a2adfa8077",
+                "78046d0b502ca853"
+            ]
+        ]
+    },
+    {
+        "id": "e58955f1768bd711",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "fcn",
+        "func": "if (parseInt(global.get(\"disparoAlarma\")) == 1){\n    msg.payload = 0; node.send([null, msg]);\n    msg.payload = 0; node.send([msg, null]); \n}\n\nif (parseInt(global.get(\"disparoAlarma\")) == 0){\n    msg.payload = 1; node.send([null, msg]);\n    msg.payload = 1; node.send([msg, null]);\n}\n\n",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1770,
+        "y": 340,
+        "wires": [
+            [
+                "c630c6b6d19e3efc",
+                "78046d0b502ca853"
+            ],
+            [
+                "7e38cf40c002df1e"
+            ]
+        ]
+    },
+    {
+        "id": "1f8a252e71736fc2",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "rele1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "e779f8d6.7bc2c8",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1650,
+        "y": 340,
+        "wires": [
+            [
+                "e58955f1768bd711"
+            ]
+        ]
+    },
+    {
+        "id": "e44ce803382f55ac",
+        "type": "rpi-gpio out",
+        "z": "9c63fd61.9908c",
+        "d": true,
+        "name": "rele 2 P11",
+        "pin": "17",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 2040,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "b4147a8f90a7851a",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "sal rele led",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1990,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c630c6b6d19e3efc",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "sal rele sirena",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2020,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "425350a2adfa8077",
+        "type": "delay",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "1000",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1760,
+        "y": 260,
+        "wires": [
+            [
+                "aadf151de8b71ea1"
+            ]
+        ]
+    },
+    {
+        "id": "c8a4e97ae6b237bc",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "disparo alarma",
+        "pin": "5",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 1660,
+        "y": 140,
+        "wires": [
+            [
+                "4c68c90b98721796"
+            ]
+        ]
+    },
+    {
+        "id": "8db8dc0c77555c8e",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "sal rele sirena",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2000,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "aadf151de8b71ea1",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "sal rele sirena",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2040,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "48aa87697fd25dc3",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "sal rele led",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2030,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "92d5c3924f942315",
+        "type": "delay",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1650,
+        "y": 400,
+        "wires": [
+            [
+                "7e38cf40c002df1e"
+            ]
+        ]
+    },
+    {
+        "id": "7e38cf40c002df1e",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "function 18",
+        "func": "if (parseInt(global.get(\"disparoAlarma\")) == 1) {\n    if (msg.payload == 1){msg.payload = 0; return msg;}\n    if (msg.payload == 0) { msg.payload = 1; return msg; }\n}\nif (parseInt(global.get(\"disparoAlarma\")) == 1) {\n    if (msg.payload == 1) { msg.payload = 0; return msg; }\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 400,
+        "wires": [
+            [
+                "48aa87697fd25dc3",
+                "92d5c3924f942315",
+                "e44ce803382f55ac"
             ]
         ]
     },
@@ -20082,7 +20368,7 @@
         "type": "function",
         "z": "7ac92c99.66ea94",
         "name": "Penreder (Nuevo)",
-        "func": "var payload = msg.payload;\nvar estado = msg.estado;\n\n// if (!payload.includes(\"living\")) return;\n\nif (payload.includes(\"luces\") || payload.includes(\"luz\")){\n\n    // if (payload.includes(\"apaga\") || payload.includes(\"apagar\")){\n        if (payload.includes(\"apaga\") || payload.includes(\"apagar\") || payload.includes(\"todas\")){\n            global.set(\"estLuzCocina\", 0); global.set(\"estLucesBarraCocina\", 0); \n            msg = {topic: \"ESP/Cocina/Inicio\", payload: \"1\"}; node.send(msg);\n\n            global.set(\"luzPatio\", 0);\n            global.set(\"autoLuzPatio\", 0);\n            msg = { topic: \"ESP/TermoSolar/Inicio\", payload: \"1\"}; node.send(msg);\n\n            global.set(\"lucesPilares\", 0);\n            global.set(\"modoLucesPilares\", 0);\n            msg = {topic: \"ESP/pilares/Inicio\", payload: 1}; node.send(msg);            \n\n            global.set(\"estPalioLuz\", 0);\n            global.set(\"estLuzCascada\", 0);\n            global.set(\"estTopeCascada\", 0); \n            global.set(\"estMitadCascada\", 0);\n            global.set(\"estPiletaCascada\", 0);\n            msg = {topic: \"PatioLuz/Inicio\", payload: 2}; node.send(msg);  \n\n            global.set(\"reflectorPatio\", 0);\n            global.set(\"luzDeck\", 0);\n            global.set(\"reflectorDeck\", 0);\n            global.set(\"estLuzPileta\", 0);     \n            msg = {topic: \"ESP/Pileta/Inicio\", payload: \"1\"}; node.send(msg);       \n               \n            global.set(\"luzAlacenaLavadero\", 0); global.set(\"luzLavadero\", 0); \n            msg = {topic: \"google/Lavadero\", payload: \"1\"}; node.send(msg);\n\n            global.set(\"estLuzBano\", 0); global.set(\"estLuzEspejo\", 0); \n            msg = {topic: \"google/Baño\", payload: \"1\"}; node.send(msg);\n\n            global.set(\"estLiving\", 0); global.set(\"estIsla\", 0); global.set(\"estCielorrazo\", 0); global.set(\"estIslaRGB\", 0); \n            global.set(\"modoLucesVentanas\", 0); global.set(\"lucesVentanas\", 0);\n            // msg = {topic: \"google/Living\", payload: \"estLiving= \" + global.get(\"estLiving\")}; node.send(msg);\n            msg = {topic: \"ESP/living/Iluminacion/Inicio\", payload: 1}; node.send(msg);\n\n            return;\n        }\n    // }\n\n    if (payload.includes(\"lavadero\") || payload.includes(\"Lavadero\")){\n        if (payload.includes(\"alacena\")){\n            global.set(\"luzAlacenaLavadero\", parseInt(estado));\n            msg = {topic: \"google/Lavadero\", payload: \"1\"};\n            // msg = {pin: 35, payload: estado}; node.send([null, msg]);\n            // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: estado}; //node.send(msg);    \n            return msg;\n        }             \n        // msg = {pin: 36, payload: estado}; node.send([null, msg]);\n        global.set(\"luzLavadero\", parseInt(estado));\n        // if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n        msg = {topic: \"google/Lavadero\", payload: \"1\"};\n        // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: estado}; //node.send(msg);   \n        return msg;\n    }      \n\n    if (payload.includes(\"baño\") || payload.includes(\"Baño\")){\n        if (payload.includes(\"ducha\") || payload.includes(\"Ducha\")){\n            global.set(\"modoDucha\", 0);\n            global.set(\"pedidoDucha\", parseInt(estado));\n            msg = {topic: \"google/Baño\", payload: \"1\"};\n            return msg;\n        }             \n        global.set(\"luzBano\", parseInt(estado));\n        msg = {topic: \"google/Baño\", payload: \"1\"}; \n        return msg;\n    }     \n\n    if (payload.includes(\"living\")){\n        if (payload.includes(\"isla\")){\n            global.set(\"estIsla\", estado);\n            msg = {topic: \"google/Living\", payload: \"estIsla= \" + global.get(\"estIsla\")};\n            return msg;\n        }\n        if (payload.includes(\"cielo raso\")){\n            global.set(\"estCielorrazo\", estado);\n            msg = {topic: \"google/Living\", payload: \"estCielorrazo= \" + global.get(\"estCielorrazo\")};\n            return msg;\n        }\n        if (payload.includes(\"rgb\")){\n            global.set(\"estIslaRGB\", estado);\n            msg = {topic: \"google/Living\", payload: \"estIslaRGB= \" + global.get(\"estIslaRGB\")};\n            return msg;\n        }\n    }\n        global.set(\"estLiving\", estado); \n        global.set(\"estIsla\", estado);\n        global.set(\"estCielorrazo\", estado);\n        global.set(\"estIslaRGB\", estado);\n        msg = {topic: \"google/Living\", payload: \"estLiving= \" + global.get(\"estLiving\")};\n        return msg;}\n\nif (payload.includes(\"bomba\") && payload.includes(\"centrifuga\") || payload.includes(\"centrífuga\")){\n    global.set(\"bombaPozo\", msg.estado);\n    msg = {topic: \"google/Lavadero\", payload: \"luzLavadero= \" + global.get(\"luzLavadero\")};\n    // msg = {topic: \"google/Tanque\", payload: msg.estado};\n    return msg; \n}",
+        "func": "var payload = msg.payload;\nvar estado = msg.estado;\n\n// if (!payload.includes(\"living\")) return;\n\nif (payload.includes(\"luces\") || payload.includes(\"luz\")) {\n\n    // if (payload.includes(\"apaga\") || payload.includes(\"apagar\")){\n    if (payload.includes(\"apaga\") || payload.includes(\"apagar\") || payload.includes(\"todas\")) {\n        global.set(\"estLuzCocina\", 0); global.set(\"estLucesBarraCocina\", 0);\n        msg = { topic: \"ESP/Cocina/Inicio\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"estadoAlarma\", 1);\n        msg = { topic: \"alarma/activar\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"luzPatio\", 0);\n        global.set(\"autoLuzPatio\", 0);\n        msg = { topic: \"ESP/TermoSolar/Inicio\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"lucesPilares\", 0);\n        global.set(\"modoLucesPilares\", 0);\n        msg = { topic: \"ESP/pilares/Inicio\", payload: 1 }; node.send(msg);\n\n        global.set(\"estPalioLuz\", 0);\n        global.set(\"estLuzCascada\", 0);\n        global.set(\"estTopeCascada\", 0);\n        global.set(\"estMitadCascada\", 0);\n        global.set(\"estPiletaCascada\", 0);\n        msg = { topic: \"PatioLuz/Inicio\", payload: 2 }; node.send(msg);\n\n        global.set(\"reflectorPatio\", 0);\n        global.set(\"luzDeck\", 0);\n        global.set(\"reflectorDeck\", 0);\n        global.set(\"estLuzPileta\", 0);\n        msg = { topic: \"ESP/Pileta/Inicio\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"luzAlacenaLavadero\", 0); global.set(\"luzLavadero\", 0);\n        msg = { topic: \"google/Lavadero\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"estLuzBano\", 0); global.set(\"estLuzEspejo\", 0);\n        msg = { topic: \"google/Baño\", payload: \"1\" }; node.send(msg);\n\n        global.set(\"estLiving\", 0); global.set(\"estIsla\", 0); global.set(\"estCielorrazo\", 0); global.set(\"estIslaRGB\", 0);\n        global.set(\"modoLucesVentanas\", 0); global.set(\"lucesVentanas\", 0);\n        // msg = {topic: \"google/Living\", payload: \"estLiving= \" + global.get(\"estLiving\")}; node.send(msg);\n        msg = { topic: \"ESP/living/Iluminacion/Inicio\", payload: 1 }; node.send(msg);\n\n        return;\n    }\n    // }\n\n    if (payload.includes(\"lavadero\") || payload.includes(\"Lavadero\")) {\n        if (payload.includes(\"alacena\")) {\n            global.set(\"luzAlacenaLavadero\", parseInt(estado));\n            msg = { topic: \"google/Lavadero\", payload: \"1\" };\n            // msg = {pin: 35, payload: estado}; node.send([null, msg]);\n            // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele0\", payload: estado}; //node.send(msg);    \n            return msg;\n        }\n        // msg = {pin: 36, payload: estado}; node.send([null, msg]);\n        global.set(\"luzLavadero\", parseInt(estado));\n        // if (global.get(\"luzLavadero\") === 0)global.set(\"luzAlacenaLavadero\", 0); \n        msg = { topic: \"google/Lavadero\", payload: \"1\" };\n        // msg = {topic: \"ESP/Lavadero/Bombas/Estado/Rele1\", payload: estado}; //node.send(msg);   \n        return msg;\n    }\n\n    if (payload.includes(\"baño\") || payload.includes(\"Baño\")) {\n        if (payload.includes(\"ducha\") || payload.includes(\"Ducha\")) {\n            global.set(\"modoDucha\", 0);\n            global.set(\"pedidoDucha\", parseInt(estado));\n            msg = { topic: \"google/Baño\", payload: \"1\" };\n            return msg;\n        }\n        global.set(\"luzBano\", parseInt(estado));\n        msg = { topic: \"google/Baño\", payload: \"1\" };\n        return msg;\n    }\n\n    if (payload.includes(\"living\")) {\n        if (payload.includes(\"isla\")) {\n            global.set(\"estIsla\", estado);\n            msg = { topic: \"google/Living\", payload: \"estIsla= \" + global.get(\"estIsla\") };\n            return msg;\n        }\n        if (payload.includes(\"cielo raso\")) {\n            global.set(\"estCielorrazo\", estado);\n            msg = { topic: \"google/Living\", payload: \"estCielorrazo= \" + global.get(\"estCielorrazo\") };\n            return msg;\n        }\n        if (payload.includes(\"rgb\")) {\n            global.set(\"estIslaRGB\", estado);\n            msg = { topic: \"google/Living\", payload: \"estIslaRGB= \" + global.get(\"estIslaRGB\") };\n            return msg;\n        }\n    }\n    global.set(\"estLiving\", estado);\n    global.set(\"estIsla\", estado);\n    global.set(\"estCielorrazo\", estado);\n    global.set(\"estIslaRGB\", estado);\n    msg = { topic: \"google/Living\", payload: \"estLiving= \" + global.get(\"estLiving\") };\n    return msg;\n}\n\nif (payload.includes(\"bomba\") && payload.includes(\"centrifuga\") || payload.includes(\"centrífuga\")) {\n    global.set(\"bombaPozo\", msg.estado);\n    msg = { topic: \"google/Lavadero\", payload: \"luzLavadero= \" + global.get(\"luzLavadero\") };\n    // msg = {topic: \"google/Tanque\", payload: msg.estado};\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
