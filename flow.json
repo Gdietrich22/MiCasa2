@@ -180,7 +180,7 @@
         "type": "blynk-ws-client",
         "name": "wss://127.0.0.1:9443/websockets",
         "path": "wss://127.0.0.1:9443/websockets",
-        "key": "E9vIHvmatD15zfgH-ghoBiJOntY1hz34",
+        "key": "MWEREhATDoUCNja5y8KQIxL4Z76OpqDB",
         "dbg_all": true,
         "dbg_read": false,
         "dbg_write": false,
@@ -779,7 +779,7 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 430,
+        "x": 450,
         "y": 40,
         "wires": []
     },
@@ -9314,9 +9314,7 @@
         "type": "link out",
         "z": "950c1426.ff4008",
         "name": "inluminacionBano",
-        "links": [
-            "3bc6660d.c1368a"
-        ],
+        "links": [],
         "x": 705,
         "y": 290,
         "wires": []
@@ -10852,7 +10850,6 @@
         "z": "9c63fd61.9908c",
         "name": "configTeclas",
         "links": [
-            "75cc688a.19a5e8",
             "a7eebb16.de23f8"
         ],
         "x": 425,
@@ -14847,7 +14844,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 240,
-        "y": 400,
+        "y": 380,
         "wires": [
             [
                 "78364cb0.17f444",
@@ -14881,7 +14878,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 240,
-        "y": 480,
+        "y": 500,
         "wires": [
             [
                 "78364cb0.17f444"
@@ -14897,7 +14894,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 260,
-        "y": 360,
+        "y": 320,
         "wires": [
             [
                 "78364cb0.17f444"
@@ -14913,7 +14910,7 @@
         "pin_all": 0,
         "client": "2c18e412.5f5cbc",
         "x": 250,
-        "y": 520,
+        "y": 560,
         "wires": [
             [
                 "78364cb0.17f444"
@@ -15653,8 +15650,7 @@
         "z": "a89e305a.c50bb",
         "name": "iluminacionLiving",
         "links": [
-            "81fe7338.07458",
-            "f8163bcc.da6ee8"
+            "81fe7338.07458"
         ],
         "x": 775,
         "y": 250,
