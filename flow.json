@@ -15298,6 +15298,149 @@
         ]
     },
     {
+        "id": "d451b75e2f090bcd",
+        "type": "inject",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1800",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 2810,
+        "y": 160,
+        "wires": [
+            [
+                "bd96baf03583895c",
+                "955d4f737496fe92"
+            ]
+        ]
+    },
+    {
+        "id": "bd96baf03583895c",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "func": "var dato = 0;\nvar hh = new Date().getHours();\n\nif (hh >= 7 && hh <= 19 && global.get(\"estBombaPileta\") === 0)global.set(\"estBombaPileta\", 1);\n\n        dato = global.get(\"reflectorPatio\") + \"#\";\n        dato = dato + global.get(\"luzDeck\") + \"#\";\n        dato = dato + global.get(\"reflectorDeck\") + \"#\";\n        dato = dato + global.get(\"estBombaPileta\") + \"#\";\n        dato = dato + global.get(\"estLuzPileta\") + \"#\";\n        dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n        dato = dato + global.get(\"PiletaR\") + \"#\";\n        dato = dato + global.get(\"PiletaG\") + \"#\";\n        dato = dato + global.get(\"PiletaB\") + \"#\";\n        dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n        dato = dato + global.get(\"minRandomPileta\") + \"#\";\n        dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2980,
+        "y": 160,
+        "wires": [
+            [
+                "d61093188f5dbf0c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "881ac3eef07d4e15",
+        "type": "mqtt out",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "15d926b1.b6d9d9",
+        "x": 3170,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "996ce97f5625d517",
+        "type": "blynk-ws-out-write",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pin": 0,
+        "pinmode": "1",
+        "client": "2c18e412.5f5cbc",
+        "x": 3130,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d61093188f5dbf0c",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 40",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3280,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "3391afff817ac372",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "func": "var dato = 0;\nvar hh = new Date().getHours();\n\nif (global.get(\"estBombaPileta\") === 1)global.set(\"estBombaPileta\", 0);\n// global.set(\"estBombaPileta\", 0);\n// if (global.get(\"estBombaPileta\") ===1){\n//         global.set(\"estBombaPileta\", 0);}\n//         else{\n//         global.set(\"estBombaPileta\", 1);        \n//         }\n\n\n        dato = global.get(\"reflectorPatio\") + \"#\";\n        dato = dato + global.get(\"luzDeck\") + \"#\";\n        dato = dato + global.get(\"reflectorDeck\") + \"#\";\n        dato = dato + global.get(\"estBombaPileta\") + \"#\";\n        dato = dato + global.get(\"estLuzPileta\") + \"#\";\n        dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n        dato = dato + global.get(\"PiletaR\") + \"#\";\n        dato = dato + global.get(\"PiletaG\") + \"#\";\n        dato = dato + global.get(\"PiletaB\") + \"#\";\n        dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n        dato = dato + global.get(\"minRandomPileta\") + \"#\";\n        dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3060,
+        "y": 220,
+        "wires": [
+            [
+                "d61093188f5dbf0c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "955d4f737496fe92",
+        "type": "delay",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 2850,
+        "y": 220,
+        "wires": [
+            [
+                "3391afff817ac372"
+            ]
+        ]
+    },
+    {
         "id": "1718f5e3.66efaa",
         "type": "mqtt out",
         "z": "a89e305a.c50bb",
@@ -26090,6 +26233,134 @@
         "wires": []
     },
     {
+        "id": "41af4393a1d5abbf",
+        "type": "http request",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://www.google.com/finance/quote/RGTX:NASDAQ?hl=es",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 970,
+        "y": 1100,
+        "wires": [
+            [
+                "64e2d1faef7095a6"
+            ]
+        ]
+    },
+    {
+        "id": "1ea2745542a625a2",
+        "type": "inject",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 790,
+        "y": 1100,
+        "wires": [
+            [
+                "41af4393a1d5abbf"
+            ]
+        ]
+    },
+    {
+        "id": "2d05239d3a6f7b8e",
+        "type": "debug",
+        "z": "71fbfc8a.29b834",
+        "name": "debug 39",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "64e2d1faef7095a6",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "function 21",
+        "func": "const regex = /AF_initDataCallback\\(\\{key: 'ds:2', hash: '4', data:\\[\\[\\[\\[\"\\/g\\/11m75ccqm0\",\\[\"RGTX\",\"NASDAQ\"\\],\"Defiance Daily Target 2X Long RGTI ETF\",5,\"USD\",\\[([0-9]+(?:\\.[0-9]+)?)/;\n\nconst match = msg.payload.match(regex);\n\nif (match) {\n    const valor = parseFloat(match[1]);\n    msg.payload = Number(valor.toFixed(2)); // redondea y guarda el número final\n} else {\n    msg.payload = null; // o algún valor por defecto si no encontró coincidencia\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1170,
+        "y": 1100,
+        "wires": [
+            [
+                "2d05239d3a6f7b8e",
+                "bb229a21cd575b4f"
+            ]
+        ]
+    },
+    {
+        "id": "bb229a21cd575b4f",
+        "type": "function",
+        "z": "71fbfc8a.29b834",
+        "name": "function 22",
+        "func": "var dato = parseFloat(msg.payload);\nif (dato > 166){\n    msg.payload = \"subio RGTX\"\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 1220,
+        "wires": [
+            [
+                "9a3c36d4433b5b7d"
+            ]
+        ]
+    },
+    {
+        "id": "9a3c36d4433b5b7d",
+        "type": "mqtt out",
+        "z": "71fbfc8a.29b834",
+        "name": "",
+        "topic": "terminalBlynk",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e779f8d6.7bc2c8",
+        "x": 1120,
+        "y": 1220,
+        "wires": []
+    },
+    {
         "id": "ea1cc8d4.05f188",
         "type": "mqtt in",
         "z": "32babd6a.df2b12",
@@ -27159,7 +27430,7 @@
         "correl": "",
         "expiry": "",
         "broker": "15d926b1.b6d9d9",
-        "x": 510,
+        "x": 570,
         "y": 20,
         "wires": []
     },
@@ -27815,7 +28086,7 @@
         "type": "debug",
         "z": "fed3306.30c1fd",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -28014,7 +28285,7 @@
         "randomUnits": "seconds",
         "drop": false,
         "outputs": 1,
-        "x": 350,
+        "x": 390,
         "y": 20,
         "wires": [
             [
@@ -28199,8 +28470,9 @@
         "type": "function",
         "z": "fed3306.30c1fd",
         "name": "",
-        "func": "if (global.get(\"estado-TanqueAgua\") === undefined) global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined) global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined) global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined) global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined) global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined) global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined) global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined) global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined) global.set(\"estado-estadoDeck\", null);\nif (global.get(\"estado-Cocina\") === undefined) global.set(\"estado-Cocina\", null);\n// if (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\nif (msg.payload == \"0\") return;\n\nif (parseInt(msg.payload) === 1) {\n    var cadena = \"\\nGastonTP:\\n\";\n    cadena += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");\n    cadena += \"          \" + global.get(\"senalPatioLuz\") + \"\\n\\n\";\n    cadena += \"Tanque  : \" + global.get(\"estado-TanqueAgua\");\n    cadena += \"          \" + global.get(\"senalTanque\") + \"\\n\\n\";\n    cadena += \"Porche  : \" + global.get(\"estado-Porche\");\n    cadena += \"          \" + global.get(\"senalPorche\") + \"\\n\\n\";\n    cadena += \"Lav.    : \" + global.get(\"estado-Lavadero\");\n    cadena += \"          \" + global.get(\"senalLavadero\") + \"\\n\\n\";\n    cadena += \"Termo   : \" + global.get(\"estado-TermoSolar\");\n    cadena += \"          \" + global.get(\"senalTermoSolar\") + \"\\n\\n\";\n    cadena += \"PergAuto: \" + global.get(\"estado-Escaleras\");\n    cadena += \"          \" + global.get(\"senalEscaleras\") + \"\\n\\n\";\n    cadena += \"Cocina  : \" + global.get(\"estado-Cocina\");\n    cadena += \"          \" + global.get(\"senalCocina\") + \"\\n\\n\";\n    cadena += \"Bano    : \" + global.get(\"estado-Bano\");\n    cadena += \"          \" + global.get(\"senalBano\") + \"\\n\\n\";\n    cadena += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");\n    cadena += \"          \" + global.get(\"senalLiving\") + \"\\n\\n\";\n    cadena += \"DeckPil : \" + global.get(\"estado-estadoDeck\");\n    cadena += \"          \" + global.get(\"senalPileta\") + \"\\n\\n\";\n    // cadena += \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\n    msg.payload = cadena;\n    return msg\n}\n\n// msg.payload = \"\";\n// var i = 0;\n// for (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\n// node.send(msg);\n\n// msg = \"GastonTP:\\n\";\n\n\n\n\n// msg += \"\\n\";\n\n// msg = {topic: \"terminalBlynk\", payload: msg};\n// node.send(msg);",
+        "func": "if (global.get(\"estado-TanqueAgua\") === undefined) global.set(\"estado-TanqueAgua\", null);\nif (global.get(\"estado-Lavadero\") === undefined) global.set(\"estado-Lavadero\", null);\nif (global.get(\"estado-IluminacionLiving\") === undefined) global.set(\"estado-IluminacionLiving\", null);\nif (global.get(\"estado-TermoSolar\") === undefined) global.set(\"estado-TermoSolar\", null);\nif (global.get(\"estado-Bano\") === undefined) global.set(\"estado-Bano\", null);\nif (global.get(\"estado-PatioLuz\") === undefined) global.set(\"estado-PatioLuz\", null);\nif (global.get(\"estado-Escaleras\") === undefined) global.set(\"estado-Escaleras\", null);\nif (global.get(\"estado-Porche\") === undefined) global.set(\"estado-Porche\", null);\nif (global.get(\"estado-estadoDeck\") === undefined) global.set(\"estado-estadoDeck\", null);\nif (global.get(\"estado-Cocina\") === undefined) global.set(\"estado-Cocina\", null);\n// if (global.get(\"estado-estadoDeck\") === undefined)global.set(\"estado-estadoDeck\", null);\nif (msg.payload == \"0\") return;\n\nif (parseInt(msg.payload) === 1) {\n    var cadena = \"\\nGastonTP:\\n\";\n    cadena += \"PatioLuz: \" + global.get(\"estado-PatioLuz\");\n    cadena += \"          \" + global.get(\"senalPatioLuz\") + \"\\n\\n\";\n    // cadena += \"Tanque  : \" + global.get(\"estado-TanqueAgua\");\n    // cadena += \"          \" + global.get(\"senalTanque\") + \"\\n\\n\";\n    cadena += \"Porche  : \" + global.get(\"estado-Porche\");\n    cadena += \"          \" + global.get(\"senalPorche\") + \"\\n\\n\";\n    cadena += \"Lav.    : \" + global.get(\"estado-Lavadero\");\n    cadena += \"          \" + global.get(\"senalLavadero\") + \"\\n\\n\";\n    cadena += \"Termo   : \" + global.get(\"estado-TermoSolar\");\n    cadena += \"          \" + global.get(\"senalTermoSolar\") + \"\\n\\n\";\n    cadena += \"PergAuto: \" + global.get(\"estado-Escaleras\");\n    cadena += \"          \" + global.get(\"senalEscaleras\") + \"\\n\\n\";\n    cadena += \"Cocina  : \" + global.get(\"estado-Cocina\");\n    cadena += \"          \" + global.get(\"senalCocina\") + \"\\n\\n\";\n    cadena += \"Bano    : \" + global.get(\"estado-Bano\");\n    cadena += \"          \" + global.get(\"senalBano\") + \"\\n\\n\";\n    cadena += \"Liv.    : \" + global.get(\"estado-IluminacionLiving\");\n    cadena += \"          \" + global.get(\"senalLiving\") + \"\\n\\n\";\n    cadena += \"DeckPil : \" + global.get(\"estado-estadoDeck\");\n    cadena += \"          \" + global.get(\"senalPileta\") + \"\\n\\n\";\n    // cadena += \"senalPruebaMQTT: \" + global.get(\"pruebaMQTT\") + \"\\n\";\n    msg.payload = cadena;\n    return msg\n}\n\n// msg.payload = \"\";\n// var i = 0;\n// for (i = 0; i < 13; i++) {msg = {topic: \"terminalBlynk\", payload: \"\\n\"};}\n// node.send(msg);\n\n// msg = \"GastonTP:\\n\";\n\n\n\n\n// msg += \"\\n\";\n\n// msg = {topic: \"terminalBlynk\", payload: msg};\n// node.send(msg);",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
