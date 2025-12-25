@@ -13380,7 +13380,7 @@
         "type": "debug",
         "z": "9c63fd61.9908c",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -13388,7 +13388,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 2530,
-        "y": 120,
+        "y": 100,
         "wires": []
     },
     {
@@ -13559,7 +13559,8 @@
         "y": 560,
         "wires": [
             [
-                "829742c6.24de9"
+                "829742c6.24de9",
+                "01e7a54460d94956"
             ]
         ]
     },
@@ -15311,7 +15312,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "1800",
+        "repeat": "1",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
@@ -15322,8 +15323,7 @@
         "y": 160,
         "wires": [
             [
-                "bd96baf03583895c",
-                "955d4f737496fe92"
+                "bd96baf03583895c"
             ]
         ]
     },
@@ -15332,7 +15332,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "var dato = 0;\nvar hh = new Date().getHours();\n\nif (hh >= 7 && hh <= 19 && global.get(\"estBombaPileta\") === 0)global.set(\"estBombaPileta\", 1);\n\n        dato = global.get(\"reflectorPatio\") + \"#\";\n        dato = dato + global.get(\"luzDeck\") + \"#\";\n        dato = dato + global.get(\"reflectorDeck\") + \"#\";\n        dato = dato + global.get(\"estBombaPileta\") + \"#\";\n        dato = dato + global.get(\"estLuzPileta\") + \"#\";\n        dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n        dato = dato + global.get(\"PiletaR\") + \"#\";\n        dato = dato + global.get(\"PiletaG\") + \"#\";\n        dato = dato + global.get(\"PiletaB\") + \"#\";\n        dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n        dato = dato + global.get(\"minRandomPileta\") + \"#\";\n        dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "func": "var dato = 15;\nvar hh = new Date().getHours();\nvar mm = new Date().getMinutes();\n// mm = 30;\n\nif (hh >= 9 && hh <= 18) {\n    if (global.get(\"estBombaPileta\") == 0) {\n        if (mm % dato == 0) {\n            global.set(\"estBombaPileta\", 1);\n            dato = global.get(\"reflectorPatio\") + \"#\";\n            dato = dato + global.get(\"luzDeck\") + \"#\";\n            dato = dato + global.get(\"reflectorDeck\") + \"#\";\n            dato = dato + global.get(\"estBombaPileta\") + \"#\";\n            dato = dato + global.get(\"estLuzPileta\") + \"#\";\n            dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n            dato = dato + global.get(\"PiletaR\") + \"#\";\n            dato = dato + global.get(\"PiletaG\") + \"#\";\n            dato = dato + global.get(\"PiletaB\") + \"#\";\n            dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n            dato = dato + global.get(\"minRandomPileta\") + \"#\";\n            dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n            dato = dato + \"30#400\";// + global.get(\"maxTeclas\");\n            msg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\n            node.send([msg, null]);    \n            msg = { topic: \"terminalBlynk\", payload: hh + \":\" + mm + \"  prendo auto bomba pileta\\n\" }; //\n            node.send([msg, null]);   \n            msg = { topic: \"\", delay: global.get(\"tiempoBombaPileta\") * 60 * 1000, payload: 0}; //\n            node.send([null, msg]);\n                      \n            \n\n        }\n    }\n}",
         "outputs": 2,
         "timeout": "",
         "noerr": 0,
@@ -15343,9 +15343,13 @@
         "y": 160,
         "wires": [
             [
-                "d61093188f5dbf0c"
+                "d61093188f5dbf0c",
+                "881ac3eef07d4e15"
             ],
-            []
+            [
+                "955d4f737496fe92",
+                "57240473a7e09e07"
+            ]
         ]
     },
     {
@@ -15362,7 +15366,7 @@
         "correl": "",
         "expiry": "",
         "broker": "15d926b1.b6d9d9",
-        "x": 3170,
+        "x": 3290,
         "y": 140,
         "wires": []
     },
@@ -15390,8 +15394,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 3280,
-        "y": 200,
+        "x": 3140,
+        "y": 120,
         "wires": []
     },
     {
@@ -15399,7 +15403,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "var dato = 0;\nvar hh = new Date().getHours();\n\nif (global.get(\"estBombaPileta\") === 1)global.set(\"estBombaPileta\", 0);\n// global.set(\"estBombaPileta\", 0);\n// if (global.get(\"estBombaPileta\") ===1){\n//         global.set(\"estBombaPileta\", 0);}\n//         else{\n//         global.set(\"estBombaPileta\", 1);        \n//         }\n\n\n        dato = global.get(\"reflectorPatio\") + \"#\";\n        dato = dato + global.get(\"luzDeck\") + \"#\";\n        dato = dato + global.get(\"reflectorDeck\") + \"#\";\n        dato = dato + global.get(\"estBombaPileta\") + \"#\";\n        dato = dato + global.get(\"estLuzPileta\") + \"#\";\n        dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n        dato = dato + global.get(\"PiletaR\") + \"#\";\n        dato = dato + global.get(\"PiletaG\") + \"#\";\n        dato = dato + global.get(\"PiletaB\") + \"#\";\n        dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n        dato = dato + global.get(\"minRandomPileta\") + \"#\";\n        dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "func": "var dato = 0;\nvar hh = new Date().getHours();\nvar mm = new Date().getMinutes();\n\nif (global.get(\"estBombaPileta\") == 1)global.set(\"estBombaPileta\", 0);\n        dato = global.get(\"reflectorPatio\") + \"#\";\n        dato = dato + global.get(\"luzDeck\") + \"#\";\n        dato = dato + global.get(\"reflectorDeck\") + \"#\";\n        dato = dato + global.get(\"estBombaPileta\") + \"#\";\n        dato = dato + global.get(\"estLuzPileta\") + \"#\";\n        dato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\n        dato = dato + global.get(\"PiletaR\") + \"#\";\n        dato = dato + global.get(\"PiletaG\") + \"#\";\n        dato = dato + global.get(\"PiletaB\") + \"#\";\n        dato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\n        dato = dato + global.get(\"minRandomPileta\") + \"#\";\n        dato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\nmsg = { topic: \"terminalBlynk\", payload: hh + \":\" + mm + \"  apago auto bomba pileta\\n\" }; //\nnode.send([msg, null]);",
         "outputs": 2,
         "timeout": "",
         "noerr": 0,
@@ -15410,7 +15414,8 @@
         "y": 220,
         "wires": [
             [
-                "d61093188f5dbf0c"
+                "dceea2b73db52a94",
+                "881ac3eef07d4e15"
             ],
             []
         ]
@@ -15420,8 +15425,8 @@
         "type": "delay",
         "z": "9c63fd61.9908c",
         "name": "",
-        "pauseType": "delay",
-        "timeout": "10",
+        "pauseType": "delayv",
+        "timeout": "5",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -15432,13 +15437,378 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 2850,
-        "y": 220,
+        "x": 2860,
+        "y": 240,
+        "wires": [
+            [
+                "0c2bf14139f0421d",
+                "3391afff817ac372"
+            ]
+        ]
+    },
+    {
+        "id": "6ceafe9881d52afe",
+        "type": "blynk-ws-in-write",
+        "z": "9c63fd61.9908c",
+        "name": "Tempo bomba",
+        "pin": "51",
+        "pin_all": 0,
+        "client": "2c18e412.5f5cbc",
+        "x": 2730,
+        "y": 80,
+        "wires": [
+            [
+                "9c9d2e249a2af155"
+            ]
+        ]
+    },
+    {
+        "id": "9c9d2e249a2af155",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "function 23",
+        "func": "global.set(\"tiempoBombaPileta\", msg.payload);\n msg = { topic: \"\", delay: parseInt(global.get(\"tiempoBombaPileta\")), payload: 1}; //\n// msg.delay = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2930,
+        "y": 80,
+        "wires": [
+            [
+                "955d4f737496fe92",
+                "f0b19a1afe297855"
+            ]
+        ]
+    },
+    {
+        "id": "f0b19a1afe297855",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 41",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "dceea2b73db52a94",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 42",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3220,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4889fde061639db0",
+        "type": "inject",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 2860,
+        "y": 300,
         "wires": [
             [
                 "3391afff817ac372"
             ]
         ]
+    },
+    {
+        "id": "0c2bf14139f0421d",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 43",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3100,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "57240473a7e09e07",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 44",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3260,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "56115e229b6f8f40",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "func": "msg = {topic: \"\", delay: global.get(\"tiempoBombaPileta\") * 60 * 1000, payload: 0}; //\nnode.send([msg, msg]);\n",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3240,
+        "y": 400,
+        "wires": [
+            [
+                "e892427eb601ceda",
+                "151572370988efb4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "0ce72776c2685faf",
+        "type": "inject",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 3040,
+        "y": 400,
+        "wires": [
+            [
+                "56115e229b6f8f40"
+            ]
+        ]
+    },
+    {
+        "id": "e892427eb601ceda",
+        "type": "delay",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pauseType": "delayv",
+        "timeout": "5",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 3400,
+        "y": 380,
+        "wires": [
+            [
+                "2d3fae42521f697a"
+            ]
+        ]
+    },
+    {
+        "id": "2d3fae42521f697a",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 45",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3580,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "151572370988efb4",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 46",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3540,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "01e7a54460d94956",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 47",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2680,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "0e11778bf38db529",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "ESP/Pileta/Inicio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "15d926b1.b6d9d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 2480,
+        "y": 720,
+        "wires": [
+            [
+                "2b9a1ddc1377c062"
+            ]
+        ]
+    },
+    {
+        "id": "2b9a1ddc1377c062",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 48",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2720,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "ffd68a621874c8d3",
+        "type": "mqtt in",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "topic": "ESP/Pileta/Envio",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "15d926b1.b6d9d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 2960,
+        "y": 500,
+        "wires": [
+            [
+                "e105a6e9b086b564"
+            ]
+        ]
+    },
+    {
+        "id": "e105a6e9b086b564",
+        "type": "function",
+        "z": "9c63fd61.9908c",
+        "name": "function 24",
+        "func": "var dato = msg.payload;\ndato = msg.payload.split(\"#\");\nmsg.payload = \"Caj:\" + parseFloat(dato[1]).toFixed(1) + \"ºC     Pil:\" + parseFloat(dato[2]).toFixed(1) + \"ºC      Ret:\" + parseFloat(dato[1].trim()).toFixed(1) + \"ºC\" ;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 3170,
+        "y": 520,
+        "wires": [
+            [
+                "9c14e5fe57431bb1",
+                "5c5d9ca1a616c2d9"
+            ]
+        ]
+    },
+    {
+        "id": "9c14e5fe57431bb1",
+        "type": "debug",
+        "z": "9c63fd61.9908c",
+        "name": "debug 49",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 3420,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "5c5d9ca1a616c2d9",
+        "type": "blynk-ws-out-write",
+        "z": "9c63fd61.9908c",
+        "name": "",
+        "pin": "110",
+        "pinmode": "0",
+        "client": "2c18e412.5f5cbc",
+        "x": 3420,
+        "y": 540,
+        "wires": []
     },
     {
         "id": "1718f5e3.66efaa",
