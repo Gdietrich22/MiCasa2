@@ -180,7 +180,7 @@
         "type": "blynk-ws-client",
         "name": "wss://127.0.0.1:9443/websockets",
         "path": "wss://127.0.0.1:9443/websockets",
-        "key": "6REUt4z1ZB-YRKDaQ9mMipTt2xu9_8UR",
+        "key": "4HwxhTokoBVP52L2jP53S6G7vh70bJMO",
         "dbg_all": true,
         "dbg_read": false,
         "dbg_write": false,
@@ -12543,8 +12543,8 @@
         "format": "utf8",
         "chunk": false,
         "sendError": false,
-        "x": 1345,
-        "y": 891,
+        "x": 1340,
+        "y": 920,
         "wires": [
             [
                 "ec4b3f44.8373f",
