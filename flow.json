@@ -12999,7 +12999,7 @@
         "type": "function",
         "z": "9c63fd61.9908c",
         "name": "",
-        "func": "var dato = 0;\n\nlet tempMaxCajones = global.get(\"tempMaxCajones\");\nlet difTempCajones = global.get(\"difTempCajones\");\nlet tempCajones = global.get(\"tempCajones\");\nlet tempPil = global.get(\"tempPil\");\nlet AutoBombaPileta = global.get(\"AutoBombaPileta\");\nlet estBombaPileta = global.get(\"estBombaPileta\");\nlet tempRet = global.get(\"tempRet\");\nlet Dia = global.get(\"Dia\");\n\n\n// Si alguna no existe, es null o NaN,\n// guardarla GLOBALMENTE con valor 0\n\nif (tempMaxCajones === undefined || tempMaxCajones === null || Number.isNaN(tempMaxCajones))\n  global.set(\"tempMaxCajones\", 55);\n\nif (difTempCajones === undefined || difTempCajones === null || Number.isNaN(difTempCajones))\n  global.set(\"difTempCajones\", 4);\n\nif (AutoBombaPileta === undefined || AutoBombaPileta === null || Number.isNaN(AutoBombaPileta))\n  global.set(\"AutoBombaPileta\", 1);\n\nif (estBombaPileta === undefined || estBombaPileta === null || Number.isNaN(estBombaPileta))\n  global.set(\"estBombaPileta\", 0);\n\nif (Dia === undefined || Dia === null || Number.isNaN(Dia))\n  global.set(\"Dia\", 0);\n\n\n// ======================================================\n// 2. VOLVER A LEER LAS VARIABLES YA CORREGIDAS\n// ======================================================\n\ntempMaxCajones = global.get(\"tempMaxCajones\");\ndifTempCajones = global.get(\"difTempCajones\");\ntempCajones = global.get(\"tempCajones\");\ntempPil = global.get(\"tempPil\");\nAutoBombaPileta = global.get(\"AutoBombaPileta\");\nestBombaPileta = global.get(\"estBombaPileta\");\ntempRet = global.get(\"tempRet\");\nDia = global.get(\"Dia\");\n\n\nif (parseInt(msg.pin) === 80){global.set(\"estBombaPileta\", msg.payload);}\nif (parseInt(msg.pin) === 81){global.set(\"reflectorPatio\", msg.payload);}\nif (parseInt(msg.pin) === 82){global.set(\"luzDeck\", msg.payload);}\nif (parseInt(msg.pin) === 83){global.set(\"estLuzPileta\", msg.payload);}\nif (parseInt(msg.pin) === 84){global.set(\"reflectorDeck\", msg.payload);}\n\nif (parseInt(msg.pin) === 201){\n    global.set(\"AutoBombaPileta\", msg.payload);\n    if(msg.payload == 0){\n      global.set(\"estBombaPileta\", 0);\n      msg = { pin: 80, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n    }\n    global.set(\"estBombaPileta\", msg.payload);\n    msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n}\n\nif (msg.topic == \"ESP/Pileta/Envio\"){\n  dato = msg.payload.split(\"#\");\n\n  if (dato[0] = \"temp\"){\n    global.set(\"tempCajones\", parseFloat(dato[1]).toFixed(1));\n    global.set(\"tempPil\", parseFloat(dato[2]).toFixed(1));\n    global.set(\"tempRet\", parseFloat(dato[3]).toFixed(1));\n  // Si no es de día o el automático está desactivado,\n  // apagar la bomba\n  if (Dia == 0 || AutoBombaPileta == 0) {\n      estBombaPileta = 0;\n  } else {\n      // Estamos de día y el automático está habilitado\n      // BOMBA APAGADA -> evaluar encendido\n      if (estBombaPileta == 0) {\n          if (tempMaxCajones < tempCajones) {\n              estBombaPileta = 1;\n          }\n      }\n      // BOMBA ENCENDIDA -> evaluar apagado\n      else if (estBombaPileta == 1) {\n\n          if ((tempRet - tempPil) < difTempCajones) {\n              estBombaPileta = 0;\n          }\n      }\n  }\n    // Guardar estado\n    global.set(\"estBombaPileta\", estBombaPileta);\n    msg = { pin: 80, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n  }  else {\n  global.set(\"reflectorPatio\", dato[0]);\n  global.set(\"luzDeck\", dato[1]);\n  global.set(\"reflectorDeck\", dato[2]);\n  global.set(\"estLuzPileta\", dato[3]);\n  global.set(\"estBombaPileta\", parseInt(dato[4]));  \n  msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n  msg = {pin: 81, payload: global.get(\"reflectorPatio\")}; node.send([null, msg]);\n  msg = {pin: 82, payload: global.get(\"luzDeck\")}; node.send([null, msg]);\n  msg = {pin: 83, payload: global.get(\"estLuzPileta\")}; node.send([null, msg]);\n  msg = {pin: 84, payload: global.get(\"reflectorDeck\")}; node.send([null, msg]);\n  return;\n  }\n}\n\ndato = global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"reflectorDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\ndato = dato + global.get(\"estLuzPileta\") + \"#\";\ndato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\ndato = dato + global.get(\"PiletaR\") + \"#\";\ndato = dato + global.get(\"PiletaG\") + \"#\";\ndato = dato + global.get(\"PiletaB\") + \"#\";\ndato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\ndato = dato + global.get(\"minRandomPileta\") + \"#\";\ndato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
+        "func": "var dato = 0;\n\nlet tempMaxCajones = global.get(\"tempMaxCajones\");\nlet difTempCajones = global.get(\"difTempCajones\");\nlet tempCajones = global.get(\"tempCajones\");\nlet tempPil = global.get(\"tempPil\");\nlet AutoBombaPileta = global.get(\"AutoBombaPileta\");\nlet estBombaPileta = global.get(\"estBombaPileta\");\nlet tempRet = global.get(\"tempRet\");\nlet Dia = global.get(\"Dia\");\n\n\n// Si alguna no existe, es null o NaN,\n// guardarla GLOBALMENTE con valor 0\n\nif (tempMaxCajones === undefined || tempMaxCajones === null || Number.isNaN(tempMaxCajones))\n  global.set(\"tempMaxCajones\", 55);\n\nif (difTempCajones === undefined || difTempCajones === null || Number.isNaN(difTempCajones))\n  global.set(\"difTempCajones\", 4);\n\nif (AutoBombaPileta === undefined || AutoBombaPileta === null || Number.isNaN(AutoBombaPileta))\n  global.set(\"AutoBombaPileta\", 1);\n\nif (estBombaPileta === undefined || estBombaPileta === null || Number.isNaN(estBombaPileta))\n  global.set(\"estBombaPileta\", 0);\n\nif (Dia === undefined || Dia === null || Number.isNaN(Dia))\n  global.set(\"Dia\", 0);\n\n\n// ======================================================\n// 2. VOLVER A LEER LAS VARIABLES YA CORREGIDAS\n// ======================================================\n\ntempMaxCajones = global.get(\"tempMaxCajones\");\ndifTempCajones = global.get(\"difTempCajones\");\ntempCajones = global.get(\"tempCajones\");\ntempPil = global.get(\"tempPil\");\nAutoBombaPileta = global.get(\"AutoBombaPileta\");\nestBombaPileta = global.get(\"estBombaPileta\");\ntempRet = global.get(\"tempRet\");\nDia = global.get(\"Dia\");\n\n\nif (parseInt(msg.pin) === 80){global.set(\"estBombaPileta\", msg.payload);}\nif (parseInt(msg.pin) === 81){global.set(\"reflectorPatio\", msg.payload);}\nif (parseInt(msg.pin) === 82){global.set(\"luzDeck\", msg.payload);}\nif (parseInt(msg.pin) === 83){global.set(\"estLuzPileta\", msg.payload);}\nif (parseInt(msg.pin) === 84){global.set(\"reflectorDeck\", msg.payload);}\n\nif (parseInt(msg.pin) === 201){\n    global.set(\"AutoBombaPileta\", msg.payload);\n    if(msg.payload == 0){\n      global.set(\"estBombaPileta\", 0);\n      msg = { pin: 80, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n    }\n    global.set(\"estBombaPileta\", msg.payload);\n    msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n}\n\nif (msg.topic == \"ESP/Pileta/Envio\"){\n  dato = msg.payload.split(\"#\");\n\n  if (dato[0] = \"temp\"){\n    global.set(\"tempCajones\", parseFloat(dato[1]).toFixed(1));\n    global.set(\"tempPil\", parseFloat(dato[2]).toFixed(1));\n    global.set(\"tempRet\", parseFloat(dato[3]).toFixed(1));\n\n    msg.payload = \"Caj:\" + parseFloat(dato[1]).toFixed(1) + \"ºC     Pil:\" + parseFloat(dato[2]).toFixed(1) + \"ºC      Ret:\" + parseFloat(dato[3]).toFixed(1) + \"ºC\" ;\n    msg = { pin: 110, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n    msg.payload = \"Ext:  \" + global.get(\"tempExterior\") + \"ºC       Termo:  \" + global.get(\"tempTermoFin\") + \"ºC\";\n    msg = { pin: 111, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n\n  // Si no es de día o el automático está desactivado,\n  // apagar la bomba\n  if (Dia == 0 || AutoBombaPileta == 0) {\n      estBombaPileta = 0;\n  } else {\n      // Estamos de día y el automático está habilitado\n      // BOMBA APAGADA -> evaluar encendido\n      if (estBombaPileta == 0) {\n          if (tempMaxCajones < tempCajones) {\n              estBombaPileta = 1;\n          }\n      }\n      // BOMBA ENCENDIDA -> evaluar apagado\n      else if (estBombaPileta == 1) {\n\n          if ((tempRet - tempPil) < difTempCajones) {\n              estBombaPileta = 0;\n          }\n      }\n  }\n    // Guardar estado\n    global.set(\"estBombaPileta\", estBombaPileta);\n    msg = { pin: 80, payload: global.get(\"estBombaPileta\") }; node.send([null, msg]);\n  }  else {\n  global.set(\"reflectorPatio\", dato[0]);\n  global.set(\"luzDeck\", dato[1]);\n  global.set(\"reflectorDeck\", dato[2]);\n  global.set(\"estLuzPileta\", dato[3]);\n  global.set(\"estBombaPileta\", parseInt(dato[4]));  \n  msg = {pin: 80, payload: global.get(\"estBombaPileta\")}; node.send([null, msg]);\n  msg = {pin: 81, payload: global.get(\"reflectorPatio\")}; node.send([null, msg]);\n  msg = {pin: 82, payload: global.get(\"luzDeck\")}; node.send([null, msg]);\n  msg = {pin: 83, payload: global.get(\"estLuzPileta\")}; node.send([null, msg]);\n  msg = {pin: 84, payload: global.get(\"reflectorDeck\")}; node.send([null, msg]);\n  return;\n  }\n}\n\ndato = global.get(\"reflectorPatio\") + \"#\";\ndato = dato + global.get(\"luzDeck\") + \"#\";\ndato = dato + global.get(\"reflectorDeck\") + \"#\";\ndato = dato + global.get(\"estBombaPileta\") + \"#\";\ndato = dato + global.get(\"estLuzPileta\") + \"#\";\ndato = dato + global.get(\"modoLucesRGBPileta\") + \"#\";\ndato = dato + global.get(\"PiletaR\") + \"#\";\ndato = dato + global.get(\"PiletaG\") + \"#\";\ndato = dato + global.get(\"PiletaB\") + \"#\";\ndato = dato + global.get(\"delayIncrementosPileta\") + \"#\";\ndato = dato + global.get(\"minRandomPileta\") + \"#\";\ndato = dato + global.get(\"maxRandomPileta\") + \"#\";\n\n// dato = dato + global.get(\"minTeclas\") + \"#\" + global.get(\"maxTeclas\");\ndato = dato + \"30#400\";// + global.get(\"maxTeclas\");\nmsg = {topic: \"ESP/Pileta/Recibo\", payload: dato}; //\nnode.send([msg, null]);\n        \n        \nreturn ",
         "outputs": 2,
         "timeout": "",
         "noerr": 0,
@@ -13524,52 +13524,6 @@
         ]
     },
     {
-        "id": "2a4d380fb3578457",
-        "type": "inject",
-        "z": "9c63fd61.9908c",
-        "name": "delayIncrementosPileta",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "250",
-        "payloadType": "num",
-        "x": 2540,
-        "y": 500,
-        "wires": [
-            [
-                "dfab946a29481fb2"
-            ]
-        ]
-    },
-    {
-        "id": "dfab946a29481fb2",
-        "type": "function",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "func": "global.set(\"delayIncrementosPileta\", msg.payload);\nreturn msg",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 2760,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "5e447f110d88491a",
         "type": "function",
         "z": "9c63fd61.9908c",
@@ -13638,8 +13592,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 1210,
-        "y": 440,
+        "x": 1050,
+        "y": 380,
         "wires": [
             [
                 "4a3b67633af74655"
@@ -13658,8 +13612,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1210,
-        "y": 480,
+        "x": 1050,
+        "y": 420,
         "wires": [
             [
                 "d98addefa0e49237",
@@ -13680,8 +13634,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1400,
-        "y": 520,
+        "x": 1240,
+        "y": 460,
         "wires": []
     },
     {
@@ -14579,8 +14533,8 @@
         "pinmode": "1",
         "prop": "bycode",
         "client": "2c18e412.5f5cbc",
-        "x": 1200,
-        "y": 520,
+        "x": 1040,
+        "y": 460,
         "wires": []
     },
     {
@@ -15355,115 +15309,6 @@
         "wires": []
     },
     {
-        "id": "56115e229b6f8f40",
-        "type": "function",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "func": "msg = {topic: \"\", delay: global.get(\"tiempoBombaPileta\") * 60 * 1000, payload: 0}; //\nnode.send([msg, msg]);\n",
-        "outputs": 2,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 3240,
-        "y": 400,
-        "wires": [
-            [
-                "e892427eb601ceda",
-                "151572370988efb4"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "0ce72776c2685faf",
-        "type": "inject",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 3040,
-        "y": 400,
-        "wires": [
-            [
-                "56115e229b6f8f40"
-            ]
-        ]
-    },
-    {
-        "id": "e892427eb601ceda",
-        "type": "delay",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "pauseType": "delayv",
-        "timeout": "5",
-        "timeoutUnits": "minutes",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 3400,
-        "y": 380,
-        "wires": [
-            [
-                "2d3fae42521f697a"
-            ]
-        ]
-    },
-    {
-        "id": "2d3fae42521f697a",
-        "type": "debug",
-        "z": "9c63fd61.9908c",
-        "name": "debug 45",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3580,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "151572370988efb4",
-        "type": "debug",
-        "z": "9c63fd61.9908c",
-        "name": "debug 46",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3540,
-        "y": 280,
-        "wires": []
-    },
-    {
         "id": "01e7a54460d94956",
         "type": "debug",
         "z": "9c63fd61.9908c",
@@ -15480,114 +15325,6 @@
         "wires": []
     },
     {
-        "id": "0e11778bf38db529",
-        "type": "mqtt in",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "topic": "ESP/Pileta/Inicio",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "15d926b1.b6d9d9",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 2480,
-        "y": 720,
-        "wires": [
-            [
-                "2b9a1ddc1377c062"
-            ]
-        ]
-    },
-    {
-        "id": "2b9a1ddc1377c062",
-        "type": "debug",
-        "z": "9c63fd61.9908c",
-        "name": "debug 48",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 2720,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "ffd68a621874c8d3",
-        "type": "mqtt in",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "topic": "ESP/Pileta/Envio",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "15d926b1.b6d9d9",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 2960,
-        "y": 500,
-        "wires": [
-            [
-                "e105a6e9b086b564",
-                "81b39c7ed9ede095"
-            ]
-        ]
-    },
-    {
-        "id": "e105a6e9b086b564",
-        "type": "function",
-        "z": "9c63fd61.9908c",
-        "name": "function 24",
-        "func": "var dato = msg.payload;\ndato = msg.payload.split(\"#\");\n\n\nmsg.payload = \"Caj:\" + parseFloat(dato[1]).toFixed(1) + \"ºC     Pil:\" + parseFloat(dato[2]).toFixed(1) + \"ºC      Ret:\" + parseFloat(dato[3]).toFixed(1) + \"ºC\" ;\n//parseFloat(dato[1].trim()).toFixed(1) + \"ºC\" ;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 3170,
-        "y": 520,
-        "wires": [
-            [
-                "9c14e5fe57431bb1",
-                "5c5d9ca1a616c2d9"
-            ]
-        ]
-    },
-    {
-        "id": "9c14e5fe57431bb1",
-        "type": "debug",
-        "z": "9c63fd61.9908c",
-        "name": "debug 49",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3420,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "5c5d9ca1a616c2d9",
-        "type": "blynk-ws-out-write",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "pin": "110",
-        "pinmode": "0",
-        "client": "2c18e412.5f5cbc",
-        "x": 3420,
-        "y": 540,
-        "wires": []
-    },
-    {
         "id": "1cbefd76e752805b",
         "type": "debug",
         "z": "9c63fd61.9908c",
@@ -15601,55 +15338,6 @@
         "statusType": "auto",
         "x": 2710,
         "y": 300,
-        "wires": []
-    },
-    {
-        "id": "81b39c7ed9ede095",
-        "type": "function",
-        "z": "9c63fd61.9908c",
-        "name": "function 7",
-        "func": "var dato = msg.payload;\ndato = msg.payload.split(\"#\");\nmsg.payload = \"Ext:  \" + global.get(\"tempExterior\") + \"ºC       Termo:  \" + global.get(\"tempTermoFin\") + \"ºC\";\nreturn msg;\n\n\n\n\n// msg = { pin: 112, payload: global.get(\"tempExterior\") }; node.send([null, null, msg]);\n// msg = { pin: 113, payload: global.get(\"tempTermoFin\") + \"ºC\" }; node.send([null, null, msg]);",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 3180,
-        "y": 600,
-        "wires": [
-            [
-                "37a027cc3c4ce6d0",
-                "0fe5f97f8ebc0c87"
-            ]
-        ]
-    },
-    {
-        "id": "37a027cc3c4ce6d0",
-        "type": "blynk-ws-out-write",
-        "z": "9c63fd61.9908c",
-        "name": "",
-        "pin": "111",
-        "pinmode": "0",
-        "client": "2c18e412.5f5cbc",
-        "x": 3420,
-        "y": 600,
-        "wires": []
-    },
-    {
-        "id": "0fe5f97f8ebc0c87",
-        "type": "debug",
-        "z": "9c63fd61.9908c",
-        "name": "debug 1",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 3400,
-        "y": 660,
         "wires": []
     },
     {
